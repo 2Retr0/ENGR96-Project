@@ -10,20 +10,23 @@ public class PlayerController : MonoBehaviour
     private float movementX;
     private float movementY;
     public Animator animator;
-    public GameObject gun;
+    public GameObject gunInBack;
+    public GameObject gunInHand;
     private bool aim = false;
-    Transform gunTransform;
+    private Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
-        gunTransform = gun.transform;
+        gunInBack.SetActive(true);
+        gunInHand.SetActive(false);
+        rb = GetComponent <Rigidbody>(); 
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
-        transform.Translate(movement * movementSpeed * Time.deltaTime, Space.World);
+        rb.MovePosition(transform.position + movement * movementSpeed * Time.deltaTime * 0.5f);
         OnRotation();
 
         // Animation
@@ -50,12 +53,16 @@ public class PlayerController : MonoBehaviour
         {
             // RifleAim
             aim = true;
+            gunInBack.SetActive(false);
+            gunInHand.SetActive(true);
             animator.SetBool("Aim", true);
         }
         else if (Input.GetKeyUp(KeyCode.Mouse1) && aim)
         {
             // exit RifleAim
             aim = false;
+            gunInBack.SetActive(true);
+            gunInHand.SetActive(false);
             animator.SetBool("Aim", false);
         }
     }
