@@ -13,6 +13,7 @@ namespace Code.Scripts.Enemy
         [SerializeField] private float arcAngle = 45f;
 
         private Mesh mesh;
+        private Material material;
         private float rayCount;
         private float arcAngleDelta;
 
@@ -22,12 +23,19 @@ namespace Code.Scripts.Enemy
             mesh = GetComponent<MeshFilter>().mesh = new Mesh();
             rayCount = (int) (range * (arcAngle * Mathf.Deg2Rad) / ArcLengthDelta);
             arcAngleDelta = arcAngle / rayCount;
+
+            // Ensure the range property for the material shader is the same range of the vision cone
+            material = GetComponent<Renderer>().material;
+            material.SetFloat("_Range", range);
         }
 
         // Update is called once per frame
         void FixedUpdate()
         {
             DrawMesh(transform);
+
+            // Update material shader position
+            material.SetVector("_Position", transform.position);
         }
 
         private void DrawMesh(Transform t)
