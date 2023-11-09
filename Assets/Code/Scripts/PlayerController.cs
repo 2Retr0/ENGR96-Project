@@ -23,10 +23,10 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         Vector3 movement = new Vector3(movementX, 0.0f, movementY);
-        rb.MovePosition(transform.position + movement * movementSpeed * Time.deltaTime * 0.5f);
+        rb.MovePosition(transform.position + movement * movementSpeed * Time.deltaTime * 5.0f);
         OnRotation();
 
         // Animation
@@ -57,7 +57,8 @@ public class PlayerController : MonoBehaviour
             gunInHand.SetActive(true);
             animator.SetBool("Aim", true);
         }
-        else if (Input.GetKeyUp(KeyCode.Mouse1) && aim)
+
+        if (Input.GetKeyUp(KeyCode.Mouse1) && aim)
         {
             // exit RifleAim
             aim = false;
