@@ -9,11 +9,12 @@ namespace Code.Scripts.Enemy
         private const float ArcLengthDelta = 0.5f;
         private const float Epsilon = 1e-4f;
 
-        [SerializeField] private float range = 5f;
-        [SerializeField] private float arcAngle = 45f;
-
         private Mesh mesh;
         private Material material;
+        private VisionConeController controller;
+
+        public float range;
+        public float arcAngle;
         private float rayCount;
         private float arcAngleDelta;
 
@@ -21,6 +22,11 @@ namespace Code.Scripts.Enemy
         void Start()
         {
             mesh = GetComponent<MeshFilter>().mesh = new Mesh();
+
+            controller = GetComponent<VisionConeController>();
+            range = controller.range;
+            arcAngle = controller.arcAngle;
+
             rayCount = (int) (range * (arcAngle * Mathf.Deg2Rad) / ArcLengthDelta);
             arcAngleDelta = arcAngle / rayCount;
 
@@ -34,8 +40,9 @@ namespace Code.Scripts.Enemy
         {
             DrawMesh(transform);
 
-            // Update material shader position
+            // Update material shader properties
             material.SetVector("_Position", transform.position);
+            material.SetFloat("_Progress", controller.DetectionProgress);
         }
 
         private void DrawMesh(Transform t)
@@ -62,6 +69,7 @@ namespace Code.Scripts.Enemy
             var prevCastDirection = castDirection;
 
             var hasPrevHit = false;
+            var hasHitPlayer = false;
             var edgeHitDistance = 0f;
 
             for (var i = 0; i < rayCount; ++i)
@@ -102,7 +110,13 @@ namespace Code.Scripts.Enemy
                 // Update previous value trackers
                 hasPrevHit = hasHit;
                 prevCastDirection = castDirection;
+
+                // Check if player was hit
+                if (hasHit && hit.transform.CompareTag("Player"))
+                    hasHitPlayer = true;
             }
+
+            controller.UpdateDetectionProgress(hasHitPlayer);
             return vertices.ToArray();
         }
 

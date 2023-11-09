@@ -1,9 +1,11 @@
 Shader "Unlit/VisionCone" {
     Properties
     {
-		_Color ("Color", Color) = (1, 1, 1, 1)
+		_Color0 ("Undetected Color", Color) = (0.5, 0.93, 0.5, 0.65)
+    	_Color1 ("Detected Color", Color) = (1.0, 0.06, 0.06, 0.65)
     	_Position ("Position", Vector) = (0, 0, 0)
-    	_Range ("Range", Float) = 5
+    	_Range ("Range", Float) = 5.0
+    	_Progress ("Detection Progress", Float) = 0.0
     }
 
     SubShader
@@ -33,10 +35,14 @@ Shader "Unlit/VisionCone" {
 	            	float4 world_pos : TEXCOORD0;
 	            };
 
+				static const float start_offset = 1.3f;
+
 	            // --- Import Properties ---
-	            float4 _Color;
+	            float4 _Color0;
+	            float4 _Color1;
 	            float4 _Position;
 	            float _Range;
+	            float _Progress;
 
 	            frag_data vert(const vert_data vert_data)
 	            {
@@ -51,11 +57,20 @@ Shader "Unlit/VisionCone" {
 	            // SV_TARGET semantic tells Unity that we're outputting a fixed4 to be rendered.
 	            fixed4 frag(const frag_data frag_data) : SV_Target
 	            {
-		            const float dist = distance(frag_data.world_pos, _Position) / _Range;
-	            	_Color.w *= 1.f - dist * dist; // Taper off vision cone alpha
-	            	_Color.w *= step(0.2f, dist);  // Start vision cone after certain distance from actor
+		            const float dist = distance(frag_data.world_pos, _Position);
+	            	const float dist_norm = dist / _Range;
+					const float progress = lerp(start_offset / _Range, 1.f, _Progress);
+	            	const bool alerted = _Progress >= 1.0f;
 
-					return _Color;
+	            	_Color0.w *= 1.f - dist_norm * dist_norm; // Taper off vision cone alpha
+	            	_Color0.w *= alerted ? 1.15f : 1.f;       // Increase alpha if alerted
+	            	_Color0.w *= step(start_offset, dist);    // Start vision cone after certain distance from actor
+
+	            	_Color1 *= alerted ? 1.f : cos(dist * 50.f) * 0.05f + 0.9f; // Add 'strips' to detection portion of cone
+	            	_Color1.w = _Color0.w;
+
+	            	// Mix detection and undetected parts of cone together.
+					return step(dist_norm, progress) * _Color1 + step(progress, dist_norm) * _Color0;
 	            }
             ENDCG
         }
