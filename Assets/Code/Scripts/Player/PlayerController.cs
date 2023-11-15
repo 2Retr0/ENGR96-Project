@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
         {
             // Walk
             movementSpeed = 5;
+            
             animator.SetFloat("Speed", 5);
         }
         else if (Input.GetKey(KeyCode.LeftShift))
@@ -49,16 +50,27 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Speed", 10);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && !aim)
+        if (Input.GetKey(KeyCode.Mouse1) && !aim)
         {
             // RifleAim
             aim = true;
             gunInBack.SetActive(false);
             gunInHand.SetActive(true);
             animator.SetBool("Aim", true);
-        }
 
-        if (Input.GetKeyUp(KeyCode.Mouse1) && aim)
+            // Fire
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                animator.SetBool("Fire", true);
+            }
+
+            // no Fire
+            if (!Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                animator.SetBool("Fire", false);
+            }
+        }
+        else if (Input.GetKey(KeyCode.Mouse1))
         {
             // exit RifleAim
             aim = false;
