@@ -1,30 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+namespace Code.Scripts.Player
 {
-    public Transform target;
-    public Vector3 tartgetOffset;
-    // public float movementSpeed;
-    public float smoothTime = 0.3f;
-    public float maxSpeed = 10f; // Optionally add a max speed
-    private Vector3 velocity = Vector3.zero;
-    // Start is called before the first frame update
-    void Start()
+    public class CameraController : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private Transform target;
+        [SerializeField] private Vector3 tartgetOffset = new Vector3(-10, 10, 10);
+        // public float movementSpeed;
+        [SerializeField] private float smoothTime = 0.3f;
+        [SerializeField] private float maxSpeed = 10f; // Optionally add a max speed
+        private Vector3 velocity = Vector3.zero;
+        // Start is called before the first frame update
+        private void Start()
+        {
 
-    // Update is called once per frame
-    void Update()
-    {
-        MoveCamera();
-    }
+        }
 
-    void MoveCamera()
-    {
-        // transform.position = Vector3.Lerp(transform.position, target.position + tartgetOffset, movementSpeed * Time.deltaTime);
-        transform.position = Vector3.SmoothDamp(transform.position, target.position + tartgetOffset, ref velocity, smoothTime, maxSpeed);
+        // Update is called once per frame
+        private void Update()
+        {
+            MoveCamera();
+        }
+
+        private void MoveCamera()
+        {
+            // transform.position = Vector3.Lerp(transform.position, target.position + tartgetOffset, movementSpeed * Time.deltaTime);
+            transform.position = Vector3.SmoothDamp(transform.position, target.position + tartgetOffset, ref velocity, smoothTime, maxSpeed);
+        }
     }
 }

@@ -6,24 +6,36 @@ namespace Code.Scripts.Enemy
     public class VisionConeMeshRenderer : MonoBehaviour
     {
         private const int IgnoreLayerMask = ~(1 << 2);
+        private const int PlayerLayerMask = ~((1 << 3) | (1 << 2));
         private const float ArcLengthDelta = 0.5f;
         private const float Epsilon = 1e-4f;
 
         private Mesh mesh;
         private Material material;
+        private Rigidbody rb;
         private VisionConeController controller;
 
-        public float range;
-        public float arcAngle;
+        private float range;
+        private float arcAngle;
         private float rayCount;
         private float arcAngleDelta;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             mesh = GetComponent<MeshFilter>().mesh = new Mesh();
+            rb = GetComponentInParent<Rigidbody>();
 
             controller = GetComponent<VisionConeController>();
+            controller.OnFieldChangeCallback(InitializeFields);
+
+            material = GetComponent<Renderer>().material;
+
+            InitializeFields();
+        }
+
+        private void InitializeFields()
+        {
             range = controller.range;
             arcAngle = controller.arcAngle;
 
@@ -31,12 +43,11 @@ namespace Code.Scripts.Enemy
             arcAngleDelta = arcAngle / rayCount;
 
             // Ensure the range property for the material shader is the same range of the vision cone
-            material = GetComponent<Renderer>().material;
             material.SetFloat("_Range", range);
         }
 
         // Update is called once per frame
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             DrawMesh(transform);
 
@@ -62,25 +73,26 @@ namespace Code.Scripts.Enemy
 
         private Vector3[] BuildVertices(Transform t)
         {
-            var vertices = new List<Vector3> { t.position };
+            var vertices = new List<Vector3> { t.localPosition };
             var eye = t.forward;
 
             var castDirection = RotY(-arcAngle * 0.5f); // We start at negative half total arc angle.
             var prevCastDirection = castDirection;
 
             var hasPrevHit = false;
-            var hasHitPlayer = false;
+            var hasHitPlayerAtAll = false;
             var edgeHitDistance = 0f;
 
             for (var i = 0; i < rayCount; ++i)
             {
                 castDirection *= RotY(arcAngleDelta);
                 var hasHit = Physics.Raycast(t.position, castDirection * eye, out var hit, range, IgnoreLayerMask);
+                var hasHitPlayer = hasHit && hit.transform.CompareTag("Player");
 
                 if (i == 0) hasPrevHit = hasHit; // Properly initialize on first iteration.
                 // If an intersection existed in the last arc (but not this one), or vice versa, we draw a tri at the edge
                 // of intersection to prevent 'jumping' artifacts from switching arcs.
-                if (hasHit != hasPrevHit)
+                if (hasHit != hasPrevHit && !hasHitPlayer)
                 {
                     // --- Object Edge Hit Detection (binary search) ---
                     // Combining both cases of intersection -> no intersection and no intersection -> intersection
@@ -88,9 +100,9 @@ namespace Code.Scripts.Enemy
                     do
                     {
                         var mid = low + (high - low) / 2f;
-                        var hasHitEdge = Physics.Raycast(t.position, prevCastDirection * RotY(mid) * eye, out var edgeHit, range, IgnoreLayerMask);
+                        var hasHitEdge = Physics.Raycast(t.position, prevCastDirection * RotY(mid) * eye, out var edgeHit, range, PlayerLayerMask);
 
-                        low = !(hasHitEdge ^ hasHit) ? low : mid + Epsilon;
+                        low = !(hasHitEdge ^ hasHit) ?  low : mid + Epsilon;
                         high = (hasHitEdge ^ hasHit) ? high : mid - Epsilon;
                         edgeHitDistance = Mathf.Max(edgeHitDistance, edgeHit.distance);
                     } while (low <= high);
@@ -106,17 +118,17 @@ namespace Code.Scripts.Enemy
                 }
 
                 // Add end vertex for iteration arc
-                vertices.Add(castDirection * Vector3.forward * (hasHit ? hit.distance : range));
+                vertices.Add(castDirection * Vector3.forward * (hasHit && !hasHitPlayer ? hit.distance : range));
                 // Update previous value trackers
                 hasPrevHit = hasHit;
                 prevCastDirection = castDirection;
 
                 // Check if player was hit
-                if (hasHit && hit.transform.CompareTag("Player"))
-                    hasHitPlayer = true;
+                if (hasHit && hasHitPlayer)
+                    hasHitPlayerAtAll = true;
             }
 
-            controller.UpdateDetectionProgress(hasHitPlayer);
+            controller.UpdateDetectionProgress(hasHitPlayerAtAll);
             return vertices.ToArray();
         }
 

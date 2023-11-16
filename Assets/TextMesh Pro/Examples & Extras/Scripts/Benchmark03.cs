@@ -16,13 +16,13 @@ namespace TMPro.Examples
         public Font SourceFont;
 
 
-        void Awake()
+        private void Awake()
         {
 
         }
 
 
-        void Start()
+        private void Start()
         {
             TMP_FontAsset fontAsset = null;
 
