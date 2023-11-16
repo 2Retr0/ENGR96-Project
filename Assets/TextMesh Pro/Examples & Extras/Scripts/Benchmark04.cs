@@ -19,7 +19,7 @@ namespace TMPro.Examples
         //public Material material;
 
 
-        void Start()
+        private void Start()
         {
             m_Transform = transform;
 

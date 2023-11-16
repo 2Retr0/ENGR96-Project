@@ -17,7 +17,7 @@ namespace TMPro.Examples
         private int m_lastCharIndex = -1;
         private int m_lastWordIndex = -1;
 
-        void Awake()
+        private void Awake()
         {
             m_TextMeshPro = gameObject.GetComponent<TextMeshPro>();
             m_Camera = Camera.main;
@@ -27,7 +27,7 @@ namespace TMPro.Examples
         }
 
 
-        void LateUpdate()
+        private void LateUpdate()
         {
             m_isHoveringObject = false;
 

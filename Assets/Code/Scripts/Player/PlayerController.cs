@@ -10,7 +10,7 @@ namespace Code.Scripts.Player
         [SerializeField] private Camera playerCamera;
         [SerializeField] private GameObject bullet;
 
-        private float velocity = 0;
+        private float speed = 0;
         private Vector3 displacement;
         public Animator animator;
         public GameObject gunInBack;
@@ -19,16 +19,16 @@ namespace Code.Scripts.Player
         private Vector3 lookAt = Vector3.zero;
         private Rigidbody rb;
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             displacement = Vector3.zero;
             gunInBack.SetActive(true);
             gunInHand.SetActive(false);
-            rb = GetComponent <Rigidbody>();
+            rb = GetComponent<Rigidbody>();
             if(!playerCamera) playerCamera = Camera.main;
         }
 
-        void Update()
+        private void Update()
         {
             var t = transform;
 
@@ -36,19 +36,19 @@ namespace Code.Scripts.Player
             if (displacement == Vector3.zero)
             {
                 // Idle
-                velocity = 0;
+                speed = 0;
                 animator.SetFloat("Speed", 0);
             }
             else if (!Input.GetKey(KeyCode.LeftShift))
             {
                 // Walk
-                velocity = walkSpeed;
+                speed = walkSpeed;
                 animator.SetFloat("Speed", walkSpeed);
             }
             else if (Input.GetKey(KeyCode.LeftShift))
             {
                 // Run
-                velocity = runSpeed;
+                speed = runSpeed;
                 animator.SetFloat("Speed", runSpeed);
             }
 
@@ -79,17 +79,18 @@ namespace Code.Scripts.Player
         }
 
         // Update is called once per frame
-        void FixedUpdate()
+        private void FixedUpdate()
         {
-            rb.MovePosition(transform.position + velocity * Time.deltaTime * displacement);
+            rb.MovePosition(transform.position + speed * Time.deltaTime * displacement);
             UpdateModelRotation();
         }
 
         private void OnMove(InputValue input)
         {
             var planeDisplacement = input.Get<Vector2>(); // Converts WASD to normalized vec2
+            var unRotatedDisplacement = -1 * new Vector3(planeDisplacement.x, 0.0f, planeDisplacement.y).normalized;
             // Cursed input rotation.
-            displacement = Quaternion.AngleAxis(-45, Vector3.up) * (-1 * new Vector3(planeDisplacement.x, 0.0f, planeDisplacement.y));
+            displacement = Quaternion.AngleAxis(-45, Vector3.up) * unRotatedDisplacement;
         }
 
         private void UpdateModelRotation()

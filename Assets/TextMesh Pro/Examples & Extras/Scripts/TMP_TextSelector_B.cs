@@ -34,7 +34,7 @@ namespace TMPro.Examples
 
         private TMP_MeshInfo[] m_cachedMeshInfoVertexData;
 
-        void Awake()
+        private void Awake()
         {
             m_TextMeshPro = gameObject.GetComponent<TextMeshProUGUI>();
 
@@ -55,20 +55,20 @@ namespace TMPro.Examples
         }
 
 
-        void OnEnable()
+        private void OnEnable()
         {
             // Subscribe to event fired when text object has been regenerated.
             TMPro_EventManager.TEXT_CHANGED_EVENT.Add(ON_TEXT_CHANGED);
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             // UnSubscribe to event fired when text object has been regenerated.
             TMPro_EventManager.TEXT_CHANGED_EVENT.Remove(ON_TEXT_CHANGED);
         }
 
 
-        void ON_TEXT_CHANGED(Object obj)
+        private void ON_TEXT_CHANGED(Object obj)
         {
             if (obj == m_TextMeshPro)
             {
@@ -78,7 +78,7 @@ namespace TMPro.Examples
         }
 
 
-        void LateUpdate()
+        private void LateUpdate()
         {
             if (isHoveringObject)
             {
@@ -453,7 +453,7 @@ namespace TMPro.Examples
         }
 
 
-        void RestoreCachedVertexAttributes(int index)
+        private void RestoreCachedVertexAttributes(int index)
         {
             if (index == -1 || index > m_TextMeshPro.textInfo.characterCount - 1) return;
 

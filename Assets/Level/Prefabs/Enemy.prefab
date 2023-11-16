@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7049138748959443639}
   - component: {fileID: 8921700207985246683}
+  - component: {fileID: 2562718647815354652}
   m_Layer: 2
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,6 +49,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 45
+  speed: 5
+  player: {fileID: 0}
+--- !u!54 &2562718647815354652
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3287686646700537905}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 4
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4678640274639310345
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,6 +195,7 @@ GameObject:
   - component: {fileID: 9035116210925592125}
   - component: {fileID: 1863576160872629974}
   - component: {fileID: 7802108314392651183}
+  - component: {fileID: 7416085060404558559}
   m_Layer: 0
   m_Name: Vision Cone
   m_TagString: Untagged
@@ -196,7 +227,7 @@ MeshRenderer:
   m_GameObject: {fileID: 6231539428410288090}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -249,7 +280,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5373a527187da470d951934b2ae0e866, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
+--- !u!114 &7416085060404558559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6231539428410288090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15259a64505ef4f1497aa3d6077edfce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRateSeconds: 1
+  range: 10
   arcAngle: 45
 --- !u!1 &8298609070863701798
 GameObject:
