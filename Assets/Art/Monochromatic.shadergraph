@@ -75,15 +75,15 @@
     ],
     "m_VertexContext": {
         "m_Position": {
-            "x": 287.50006103515627,
-            "y": 0.000003873137757182121
+            "x": 129.5000457763672,
+            "y": 97.49999237060547
         },
         "m_Blocks": []
     },
     "m_FragmentContext": {
         "m_Position": {
-            "x": 287.50006103515627,
-            "y": 199.99998474121095
+            "x": 129.5000457763672,
+            "y": 200.0
         },
         "m_Blocks": [
             {
@@ -271,10 +271,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -191.5,
-            "y": 377.0000305175781,
-            "width": 127.49999237060547,
-            "height": 124.99996948242188
+            "x": -191.49998474121095,
+            "y": 284.0,
+            "width": 127.50001525878906,
+            "height": 125.0
         }
     },
     "m_Slots": [
@@ -499,10 +499,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -272.0,
-            "y": 0.0,
-            "width": 208.0,
-            "height": 312.5
+            "x": -218.99998474121095,
+            "y": 136.00001525878907,
+            "width": 155.00001525878907,
+            "height": 128.49998474121095
         }
     },
     "m_Slots": [
@@ -519,7 +519,7 @@
         "blit"
     ],
     "m_Precision": 0,
-    "m_PreviewExpanded": true,
+    "m_PreviewExpanded": false,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
@@ -540,10 +540,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 15.500008583068848,
-            "y": 199.99998474121095,
-            "width": 208.00001525878907,
-            "height": 302.0
+            "x": -30.999988555908204,
+            "y": 200.0,
+            "width": 127.49998474121094,
+            "height": 118.0
         }
     },
     "m_Slots": [
@@ -561,7 +561,7 @@
         "scalar product"
     ],
     "m_Precision": 0,
-    "m_PreviewExpanded": true,
+    "m_PreviewExpanded": false,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
