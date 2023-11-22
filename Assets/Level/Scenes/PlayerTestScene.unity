@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -266,6 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 556782727}
   - component: {fileID: 556782726}
+  - component: {fileID: 556782728}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -350,6 +351,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &556782728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556782725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &586242901
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,6 +621,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4015038335798760355, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5575239448766077205, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
       propertyPath: m_Camera
       value: 
@@ -611,7 +639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8961057838492120199, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.020896573
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8961057838492120199, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
       propertyPath: m_LocalPosition.z

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 namespace Code.Scripts.Player
 {
@@ -54,7 +55,7 @@ namespace Code.Scripts.Player
 
             switch (isAiming)
             {
-                case false when Input.GetKey(KeyCode.Mouse1):
+                case false when Input.GetButtonDown("Fire2"):
                     // RifleAim
                     isAiming = true;
                     gunInBack.SetActive(false);
@@ -62,7 +63,7 @@ namespace Code.Scripts.Player
                     animator.SetBool("Aim", true);
                     break;
 
-                case true when Input.GetKey(KeyCode.Mouse1):
+                case true when Input.GetButtonUp("Fire2"):
                     // exit RifleAim
                     isAiming = false;
                     gunInBack.SetActive(true);
@@ -74,8 +75,22 @@ namespace Code.Scripts.Player
                     // Spawn bullet at player position with some forward and y-offset
                     var spawnPosition = t.position + 1.25f * t.forward + 1.65f * t.up;
                     Instantiate(bullet, spawnPosition, t.rotation);
+
+                    // Trigger fire animation
+                    animator.SetBool("Fire", true);
+                    // Start coroutine to reset fire animation
+                    StartCoroutine(ResetFireAnimation());
                     break;
             }
+        }
+
+        private IEnumerator ResetFireAnimation()
+        {
+            // Wait for one second
+            yield return new WaitForSeconds(0.1f);
+
+            // Reset the fire animation
+            animator.SetBool("Fire", false);
         }
 
         // Update is called once per frame
