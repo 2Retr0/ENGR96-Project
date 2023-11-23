@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using TMPro;
 
 namespace Code.Scripts.Player
 {
@@ -19,6 +20,16 @@ namespace Code.Scripts.Player
         private bool isAiming = false;
         private Vector3 lookAt = Vector3.zero;
         private Rigidbody rb;
+
+        public TextMeshProUGUI healthText;
+        public TextMeshProUGUI scoreText;
+        public TextMeshProUGUI levelText;
+
+        private int health;
+        private int score;
+        private int level;
+        private float levelConstant;
+
         // Start is called before the first frame update
         private void Start()
         {
@@ -27,6 +38,15 @@ namespace Code.Scripts.Player
             gunInHand.SetActive(false);
             rb = GetComponent<Rigidbody>();
             if(!playerCamera) playerCamera = Camera.main;
+
+            health = 100;
+            score = 0;
+            level = 1;
+            levelConstant = 0.05f;
+
+            healthText.text = "Health: " + health.ToString();
+            scoreText.text = "Score: " + score.ToString();
+            levelText.text = "Level: " + level.ToString();
         }
 
         private void Update()
@@ -115,6 +135,20 @@ namespace Code.Scripts.Player
 
             lookAt = new Vector3(hit.point.x, transform.position.y, hit.point.z);
             transform.LookAt(lookAt);
+        }
+
+        public void IncreaseScore(int scoreIncrease)
+        {
+            score += scoreIncrease;
+            // Update the count text with the current count.
+            scoreText.text = "Score: " + score.ToString();
+            IncreaseLevel();
+        }
+
+        private void IncreaseLevel()
+        {
+            int checkLevel = Mathf.FloorToInt(levelConstant * Mathf.Sqrt(score) + 1);
+            if (level != checkLevel) { levelText.text = "Level: " + checkLevel.ToString(); }
         }
     }
 }

@@ -5,6 +5,7 @@ using Cyan;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Events;
 
 namespace Code.Scripts.Enemy
 {
@@ -18,6 +19,9 @@ namespace Code.Scripts.Enemy
         private VisionConeController controller;
         private Rigidbody rb;
         private Material impactLineMaterial;
+
+        Vector3 currentEulerAngles;
+        public UnityEvent onEnemyDeath;
 
         private enum State
         {
@@ -80,6 +84,14 @@ namespace Code.Scripts.Enemy
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            currentEulerAngles = transform.eulerAngles;
+            Debug.Log(Mathf.Abs(currentEulerAngles.z));
+            if ((Mathf.Abs(currentEulerAngles.z) > 85 && Mathf.Abs(currentEulerAngles.z) < 95) || (Mathf.Abs(currentEulerAngles.z) > 265 && Mathf.Abs(currentEulerAngles.z) < 275)) {
+                onEnemyDeath?.Invoke();
+                Destroy(gameObject); 
+            }
+            
+
         }
     }
 }
