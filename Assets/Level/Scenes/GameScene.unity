@@ -408,6 +408,18 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+      propertyPath: levelText
+      value: 
+      objectReference: {fileID: 1495073533}
+    - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+      propertyPath: scoreText
+      value: 
+      objectReference: {fileID: 918856056}
+    - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+      propertyPath: healthText
+      value: 
+      objectReference: {fileID: 448141074}
     - target: {fileID: 8581540975023566397, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
       propertyPath: m_Name
       value: Player
@@ -873,6 +885,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8961057838492120199, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
   m_PrefabInstance: {fileID: 621895391}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1155152594 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+  m_PrefabInstance: {fileID: 621895391}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155152585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd80489f332fa046a86421df4dfcc7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1220421971
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,6 +1239,26 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1155152585}
+    - target: {fileID: 8921700207985246683, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
+      propertyPath: onEnemyDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921700207985246683, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
+      propertyPath: onEnemyDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1155152594}
+    - target: {fileID: 8921700207985246683, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
+      propertyPath: onEnemyDeath.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: IncreaseScore
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921700207985246683, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
+      propertyPath: onEnemyDeath.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Code.Scripts.Player.PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921700207985246683, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
+      propertyPath: onEnemyDeath.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
