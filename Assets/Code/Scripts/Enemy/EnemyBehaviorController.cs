@@ -5,7 +5,7 @@ using Cyan;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.Events;
+
 
 namespace Code.Scripts.Enemy
 {
@@ -13,7 +13,7 @@ namespace Code.Scripts.Enemy
     {
         [SerializeField] private float rotationSpeed;
         [SerializeField] private float speed = 5f;
-        [SerializeField] private GameObject player;
+        public GameObject player;
 
         private State state = State.Patrol;
         private VisionConeController controller;
@@ -21,7 +21,8 @@ namespace Code.Scripts.Enemy
         private Material impactLineMaterial;
 
         Vector3 currentEulerAngles;
-        public UnityEvent onEnemyDeath;
+        
+        public bool dead;
 
         private enum State
         {
@@ -50,6 +51,8 @@ namespace Code.Scripts.Enemy
                     impactLineMaterial.SetFloat("_Strength", 0.0f);
                 }
             }
+
+            dead = false;
         }
 
         private void FixedUpdate()
@@ -84,14 +87,18 @@ namespace Code.Scripts.Enemy
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            currentEulerAngles = transform.eulerAngles;
-            Debug.Log(Mathf.Abs(currentEulerAngles.z));
-            if ((Mathf.Abs(currentEulerAngles.z) > 85 && Mathf.Abs(currentEulerAngles.z) < 95) || (Mathf.Abs(currentEulerAngles.z) > 265 && Mathf.Abs(currentEulerAngles.z) < 275)) {
-                onEnemyDeath?.Invoke();
-                Destroy(gameObject); 
-            }
             
+        }
 
+        public bool checkIfDead() {
+            dead = false;
+            currentEulerAngles = transform.eulerAngles;
+            if ((Mathf.Abs(currentEulerAngles.z) > 85 && Mathf.Abs(currentEulerAngles.z) < 95) || (Mathf.Abs(currentEulerAngles.z) > 265 && Mathf.Abs(currentEulerAngles.z) < 275))
+            {
+                dead = true;
+                Destroy(gameObject);
+            }
+            return dead;
         }
     }
 }

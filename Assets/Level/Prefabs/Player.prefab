@@ -1841,6 +1841,9 @@ MonoBehaviour:
   animator: {fileID: 3079404916883631869}
   gunInBack: {fileID: 7122354899890381454}
   gunInHand: {fileID: 4964127382398257522}
+  healthText: {fileID: 0}
+  scoreText: {fileID: 0}
+  levelText: {fileID: 0}
 --- !u!136 &2034826490192101258
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1872,7 +1875,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8581540975023566397}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 20
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
