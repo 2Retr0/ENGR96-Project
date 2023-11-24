@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using TMPro;
+using UnityEngine.Events;
 
 namespace Code.Scripts.Player
 {
@@ -29,6 +30,8 @@ namespace Code.Scripts.Player
         private int score;
         private int level;
         private float levelConstant;
+
+        public UnityEvent onLevelUp;
 
         // Start is called before the first frame update
         private void Start()
@@ -148,7 +151,10 @@ namespace Code.Scripts.Player
         private void IncreaseLevel()
         {
             int checkLevel = Mathf.FloorToInt(levelConstant * Mathf.Sqrt(score) + 1);
-            if (level != checkLevel) { levelText.text = "Level: " + checkLevel.ToString(); }
+            if (level != checkLevel) { 
+                levelText.text = "Level: " + checkLevel.ToString();
+                onLevelUp?.Invoke();
+            }
         }
     }
 }
