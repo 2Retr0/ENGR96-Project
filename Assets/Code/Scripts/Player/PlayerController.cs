@@ -154,6 +154,8 @@ namespace Code.Scripts.Player
             if (level != checkLevel) { 
                 levelText.text = "Level: " + checkLevel.ToString();
                 onLevelUp?.Invoke();
+                Debug.Log("LEVELD UP");
+                level = checkLevel;
             }
         }
     }

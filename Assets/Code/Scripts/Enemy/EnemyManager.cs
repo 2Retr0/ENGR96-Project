@@ -49,7 +49,7 @@ public class EnemyManager : MonoBehaviour
 
     public void LeveledUp() {
         level++;
-        for (int i = 0; i < level*4; i++) {
+        for (int i = 0; i < level; i++) {
             AddNewEnemy();
         }
     }

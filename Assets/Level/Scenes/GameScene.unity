@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -420,6 +420,34 @@ PrefabInstance:
       propertyPath: healthText
       value: 
       objectReference: {fileID: 448141074}
+    - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+      propertyPath: onLevelUp.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+      propertyPath: onLevelUp.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+      propertyPath: onLevelUp.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2085466564}
+    - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+      propertyPath: onLevelUp.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+      propertyPath: onLevelUp.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LeveledUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+      propertyPath: onLevelUp.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EnemyManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+      propertyPath: onLevelUp.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8581540975023566397, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
       propertyPath: m_Name
       value: Player
