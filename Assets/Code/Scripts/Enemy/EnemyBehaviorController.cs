@@ -12,10 +12,12 @@ namespace Code.Scripts.Enemy
 {
     public class EnemyBehaviorController : MonoBehaviour
     {
-        [SerializeField] private float rotationSpeed;
-        [SerializeField] private float speed = 5f;
         [SerializeField] private GameObject textMesh;
-        [SerializeField] public GameObject player;
+
+        public float rotationSpeed;
+        public float speed = 5f;
+        public GameObject player;
+
 
         private State state = State.Patrol;
         private VisionConeController controller;
