@@ -5,8 +5,10 @@ namespace Code.Scripts.Enemy
 {
     public class VisionConeMeshRenderer : MonoBehaviour
     {
-        private const int IgnoreLayerMask = ~(1 << 2);
-        private const int PlayerLayerMask = ~((1 << 3) | (1 << 2));
+        // Ignore raycast-ignore and enemy layers
+        private const int IgnoreLayerMask = ~((1 << 2) | (1 << 6));
+        // Ignore raycast-ignore and player layers
+        private const int PlayerLayerMask = ~((1 << 2) | (1 << 3));
         private const float ArcLengthDelta = 0.5f;
         private const float Epsilon = 1e-4f;
 

@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Code.Scripts.Text;
 using Cyan;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
-
+using TMPro;
 
 namespace Code.Scripts.Enemy
 {
@@ -13,12 +14,14 @@ namespace Code.Scripts.Enemy
     {
         [SerializeField] private float rotationSpeed;
         [SerializeField] private float speed = 5f;
-        public GameObject player;
+        [SerializeField] private GameObject textMesh;
+        [SerializeField] public GameObject player;
 
         private State state = State.Patrol;
         private VisionConeController controller;
         private Rigidbody rb;
         private Material impactLineMaterial;
+        private GameObject stateText;
 
         Vector3 currentEulerAngles;
         
@@ -55,19 +58,37 @@ namespace Code.Scripts.Enemy
             dead = false;
         }
 
+        private void SetText(string text, float lifetime = 3)
+        {
+            Destroy(stateText);
+            stateText = Instantiate(textMesh, transform.position, Quaternion.identity);
+            stateText.GetComponent<TextMeshPro>().text = text;
+            stateText.GetComponent<TextController>().lifetimeSeconds = lifetime;
+        }
+
         private void FixedUpdate()
         {
+            var previousState = state;
+            var self = transform;
+
             state = controller.DetectionProgress >= 1.0f ? State.Investigate : State.Patrol;
+
+            if (stateText)
+                stateText.transform.position = self.position + 0.2f * self.up;
 
             switch (state)
             {
                 case State.Patrol:
                     transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
                     impactLineMaterial.SetFloat("_Strength", 0.0f);
+
+                    // Instantiate patrol text
+                    if (previousState == State.Investigate)
+                        SetText("?");
+
                     break;
 
                 case State.Investigate:
-                    var self = transform;
                     var position = self.position;
                     var playerPosition = player.transform.position;
                     var lookAt = playerPosition - position;
@@ -80,8 +101,12 @@ namespace Code.Scripts.Enemy
                     var dist = Mathf.SmoothStep(1f, 0f, Vector3.Distance(position, playerPosition) * 0.1f);
                     impactLineMaterial.SetFloat("_Strength", dist);
 
-
                     rb.MovePosition(position + speed * Time.deltaTime * lookAt);
+
+                    // Instantiate alert text
+                    if (previousState == State.Patrol)
+                        SetText("!", float.MaxValue);
+
                     break;
 
                 default:
