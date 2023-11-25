@@ -11,8 +11,8 @@ namespace Code.Scripts.Enemy
 {
     public class EnemyBehaviorController : MonoBehaviour
     {
-        [SerializeField] private float rotationSpeed;
-        [SerializeField] private float speed = 5f;
+        public float rotationSpeed;
+        public float speed = 5f;
         public GameObject player;
 
         private State state = State.Patrol;

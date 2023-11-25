@@ -51,21 +51,7 @@ MonoBehaviour:
   rotationSpeed: 45
   speed: 5
   player: {fileID: 8581540975023566397, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
-  onEnemyDeath:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
-        m_TargetAssemblyTypeName: Code.Scripts.Player.PlayerController, Assembly-CSharp
-        m_MethodName: IncreaseScore
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 100
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  dead: 0
 --- !u!54 &2562718647815354652
 Rigidbody:
   m_ObjectHideFlags: 0
