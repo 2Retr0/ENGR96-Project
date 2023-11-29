@@ -147,7 +147,8 @@ namespace Code.Scripts.Player
         // Update is called once per frame
         private void FixedUpdate()
         {
-            rb.MovePosition(transform.position + speed * Time.deltaTime * displacement);
+            transform.position += speed * Time.deltaTime * displacement;
+            // rb.MovePosition(transform.position + speed * Time.deltaTime * displacement);
             UpdateModelRotation();
 
             contactEnableCounter++;

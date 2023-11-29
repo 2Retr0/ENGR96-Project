@@ -103,7 +103,7 @@ namespace Code.Scripts.Enemy
                     var dist = Mathf.SmoothStep(1f, 0f, Vector3.Distance(position, playerPosition) * 0.1f);
                     impactLineMaterial.SetFloat("_Strength", dist);
 
-                    rb.MovePosition(position + speed * Time.deltaTime * lookAt);
+                    transform.position += speed * Time.deltaTime * lookAt;
 
                     // Instantiate alert text
                     if (previousState == State.Patrol)
