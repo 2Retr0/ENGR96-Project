@@ -24,6 +24,7 @@ namespace Code.Scripts.Enemy
         private Rigidbody rb;
         private Material impactLineMaterial;
         private GameObject stateText;
+        private bool shouldMove = true;
 
         Vector3 currentEulerAngles;
         
@@ -68,12 +69,23 @@ namespace Code.Scripts.Enemy
             stateText.GetComponent<TextController>().lifetimeSeconds = lifetime;
         }
 
+        private void OnCollisionEnter(Collision other)
+        {
+            if(other.transform.CompareTag(player.tag))
+                shouldMove = false;
+        }
+
+        private void OnCollisionExit(Collision other)
+        {
+            shouldMove = true;
+        }
+
         private void FixedUpdate()
         {
             var previousState = state;
             var self = transform;
 
-            state = controller.DetectionProgress >= 1.0f ? State.Investigate : State.Patrol;
+            state = controller.DetectionProgress >= 1.0f || !shouldMove ? State.Investigate : State.Patrol;
 
             if (stateText)
                 stateText.transform.position = self.position + 0.2f * self.up;
@@ -103,7 +115,9 @@ namespace Code.Scripts.Enemy
                     var dist = Mathf.SmoothStep(1f, 0f, Vector3.Distance(position, playerPosition) * 0.1f);
                     impactLineMaterial.SetFloat("_Strength", dist);
 
-                    transform.position += speed * Time.deltaTime * lookAt;
+                    // Move if not colliding with player!
+                    if (shouldMove)
+                        transform.position += speed * Time.deltaTime * lookAt;
 
                     // Instantiate alert text
                     if (previousState == State.Patrol)
