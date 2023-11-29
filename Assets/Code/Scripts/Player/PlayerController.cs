@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Code.Scripts.Player
 {
@@ -12,6 +13,9 @@ namespace Code.Scripts.Player
         [SerializeField] private float runSpeed = 10; // In units per second
         [SerializeField] private Camera playerCamera;
         [SerializeField] private GameObject bullet;
+
+        [SerializeField] private Button playButton;
+        [SerializeField] private Button quitButton;
 
         private float speed = 0;
         private Vector3 displacement;
@@ -25,6 +29,8 @@ namespace Code.Scripts.Player
         public TextMeshProUGUI healthText;
         public TextMeshProUGUI scoreText;
         public TextMeshProUGUI levelText;
+        public TextMeshProUGUI pausedText;
+        public TextMeshProUGUI gameOverText;
 
         private int health;
         private int score;
@@ -33,9 +39,14 @@ namespace Code.Scripts.Player
 
         public UnityEvent onLevelUp;
 
+        private bool isGamePaused;
+        private int contactEnableCounter;
+
         // Start is called before the first frame update
         private void Start()
         {
+            Time.timeScale = 1.0f;
+
             displacement = Vector3.zero;
             gunInBack.SetActive(true);
             gunInHand.SetActive(false);
@@ -50,6 +61,14 @@ namespace Code.Scripts.Player
             healthText.text = "Health: " + health.ToString();
             scoreText.text = "Score: " + score.ToString();
             levelText.text = "Level: " + level.ToString();
+            pausedText.text = " ";
+            gameOverText.text = " ";
+
+            isGamePaused = false;
+            contactEnableCounter = 0;
+
+            playButton.gameObject.SetActive(false);
+            quitButton.gameObject.SetActive(false);
         }
 
         private void Update()
@@ -80,10 +99,13 @@ namespace Code.Scripts.Player
             {
                 case false when Input.GetButtonDown("Fire2"):
                     // RifleAim
-                    isAiming = true;
-                    gunInBack.SetActive(false);
-                    gunInHand.SetActive(true);
-                    animator.SetBool("Aim", true);
+                    if (!isGamePaused)
+                    {
+                        isAiming = true;
+                        gunInBack.SetActive(false);
+                        gunInHand.SetActive(true);
+                        animator.SetBool("Aim", true);
+                    }
                     break;
 
                 case true when Input.GetButtonUp("Fire2"):
@@ -97,7 +119,10 @@ namespace Code.Scripts.Player
                 case true when Input.GetButtonDown("Fire1"):
                     // Spawn bullet at player position with some forward and y-offset
                     var spawnPosition = t.position + 1.25f * t.forward + 1.65f * t.up;
-                    Instantiate(bullet, spawnPosition, t.rotation);
+                    if (!isGamePaused)
+                    {
+                        Instantiate(bullet, spawnPosition, t.rotation);
+                    }
 
                     // Trigger fire animation
                     animator.SetBool("Fire", true);
@@ -105,6 +130,9 @@ namespace Code.Scripts.Player
                     StartCoroutine(ResetFireAnimation());
                     break;
             }
+
+
+        
         }
 
         private IEnumerator ResetFireAnimation()
@@ -119,8 +147,20 @@ namespace Code.Scripts.Player
         // Update is called once per frame
         private void FixedUpdate()
         {
-            rb.MovePosition(transform.position + speed * Time.deltaTime * displacement);
+            transform.position += speed * Time.deltaTime * displacement;
+            // rb.MovePosition(transform.position + speed * Time.deltaTime * displacement);
             UpdateModelRotation();
+
+            contactEnableCounter++;
+
+            if (contactEnableCounter < 50)
+            {
+                Debug.Log("No Damage mode");
+
+            }
+            else {
+                Debug.Log("Damage mode");
+            }
         }
 
         private void OnMove(InputValue input)
@@ -129,6 +169,11 @@ namespace Code.Scripts.Player
             var unRotatedDisplacement = -1 * new Vector3(planeDisplacement.x, 0.0f, planeDisplacement.y).normalized;
             // Cursed input rotation.
             displacement = Quaternion.AngleAxis(-45, Vector3.up) * unRotatedDisplacement;
+        }
+
+        private void OnPause()
+        {
+            PauseGame();
         }
 
         private void UpdateModelRotation()
@@ -154,6 +199,45 @@ namespace Code.Scripts.Player
             if (level != checkLevel) { 
                 levelText.text = "Level: " + checkLevel.ToString();
                 onLevelUp?.Invoke();
+                Debug.Log("LEVELD UP");
+                level = checkLevel;
+            }
+        }
+
+        private void PauseGame() {
+            isGamePaused = !isGamePaused;
+            if (isGamePaused)
+            {
+                Time.timeScale = 0f;
+                pausedText.text = "Paused\r\npress [esc] again to resume";
+            }
+            else {
+                Time.timeScale = 1f;
+                pausedText.text = " ";
+            }
+        }
+
+        private void OnCollisionEnter(Collision col) {
+            if (col.gameObject.tag == "Enemy" && contactEnableCounter > 50) {
+                TakeDamage(30);
+            }
+            contactEnableCounter = 0;
+        }
+
+        private void TakeDamage(int i) {
+            health += -i;
+            healthText.text = "Health: " + health.ToString();
+            CheckGameOver();
+        }
+
+        private void CheckGameOver() {
+            if (health < 1) {
+                int h = 0;
+                healthText.text = "Health: " + h.ToString();
+                gameOverText.text = "GAME OVER";
+                Time.timeScale = 0.2f;
+                playButton.gameObject.SetActive(true);
+                quitButton.gameObject.SetActive(true);
             }
         }
     }

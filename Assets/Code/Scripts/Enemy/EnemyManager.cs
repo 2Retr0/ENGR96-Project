@@ -49,8 +49,15 @@ public class EnemyManager : MonoBehaviour
 
     public void LeveledUp() {
         level++;
-        for (int i = 0; i < level*4; i++) {
+        for (int i = 0; i < level; i++) {
             AddNewEnemy();
+        }
+
+        Code.Scripts.Enemy.EnemyBehaviorController[] enemies = GetComponentsInChildren<Code.Scripts.Enemy.EnemyBehaviorController>();
+        foreach (Code.Scripts.Enemy.EnemyBehaviorController enemy in enemies)
+        {
+            enemy.rotationSpeed = level*3 + 45;
+            enemy.speed = level + 4;
         }
     }
 }

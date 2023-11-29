@@ -1838,12 +1838,19 @@ MonoBehaviour:
   runSpeed: 10
   playerCamera: {fileID: 0}
   bullet: {fileID: 7347096637064766770, guid: c5534d14cdfc3423eb132f0c8fab2ffe, type: 3}
+  playButton: {fileID: 0}
+  quitButton: {fileID: 0}
   animator: {fileID: 3079404916883631869}
   gunInBack: {fileID: 7122354899890381454}
   gunInHand: {fileID: 4964127382398257522}
   healthText: {fileID: 0}
   scoreText: {fileID: 0}
   levelText: {fileID: 0}
+  pausedText: {fileID: 0}
+  gameOverText: {fileID: 0}
+  onLevelUp:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &2034826490192101258
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1890,7 +1897,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
