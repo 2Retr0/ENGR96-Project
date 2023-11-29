@@ -25,10 +25,10 @@ namespace Code.Scripts.Enemy
         private Material impactLineMaterial;
         private GameObject stateText;
         private bool shouldMove = true;
-
-        Vector3 currentEulerAngles;
         
-        public bool dead;
+        
+        private bool isAlive;
+        private int health;
 
         private enum State
         {
@@ -38,6 +38,9 @@ namespace Code.Scripts.Enemy
         // Start is called before the first frame update
         private void Start()
         {
+            isAlive = true;
+            health = 100;
+            
             controller = GetComponentInChildren<VisionConeController>();
             rb = GetComponent<Rigidbody>();
 
@@ -57,8 +60,6 @@ namespace Code.Scripts.Enemy
                     impactLineMaterial.SetFloat("_Strength", 0.0f);
                 }
             }
-
-            dead = false;
         }
 
         private void SetText(string text, float lifetime = 3)
@@ -128,18 +129,24 @@ namespace Code.Scripts.Enemy
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            
         }
 
-        public bool checkIfDead() {
-            dead = false;
-            currentEulerAngles = transform.eulerAngles;
-            if ((Mathf.Abs(currentEulerAngles.z) > 85 && Mathf.Abs(currentEulerAngles.z) < 95) || (Mathf.Abs(currentEulerAngles.z) > 265 && Mathf.Abs(currentEulerAngles.z) < 275))
+        public void TakeDamage(int damage)
+        {
+            health += -damage;
+            if (health < 1)
             {
-                dead = true;
+                isAlive = false;
+            }
+            DestroyIfDead();
+        }
+
+        private void DestroyIfDead()
+        {
+            if (!isAlive)
+            {
                 Destroy(gameObject);
             }
-            return dead;
         }
     }
 }

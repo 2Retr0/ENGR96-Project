@@ -1,4 +1,5 @@
 using System;
+using Code.Scripts.Enemy;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -22,8 +23,10 @@ namespace Code.Scripts.Bullet
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (!collision.gameObject.GetComponent<Rigidbody>()) return;
-
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                collision.gameObject.GetComponent<EnemyBehaviorController>().TakeDamage(50);
+            }
             Destroy(gameObject);
         }
 

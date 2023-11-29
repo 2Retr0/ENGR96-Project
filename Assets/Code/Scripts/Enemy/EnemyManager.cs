@@ -28,13 +28,6 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Code.Scripts.Enemy.EnemyBehaviorController[] enemies = GetComponentsInChildren<Code.Scripts.Enemy.EnemyBehaviorController>();
-        foreach (Code.Scripts.Enemy.EnemyBehaviorController enemy in enemies)
-        {
-            if (enemy.checkIfDead()) {
-                onEnemyDeath?.Invoke();
-            }
-        }
 
     }
 
