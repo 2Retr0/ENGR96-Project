@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7049138748959443639}
   - component: {fileID: 8921700207985246683}
+  - component: {fileID: 9203804185481353617}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -51,6 +52,33 @@ MonoBehaviour:
   speed: 5
   player: {fileID: 8581540975023566397, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
   dead: 0
+--- !u!54 &9203804185481353617
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3287686646700537905}
+  serializedVersion: 4
+  m_Mass: 20
+  m_Drag: 9999
+  m_AngularDrag: 9999
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 4
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6231539428410288090
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,7 +92,7 @@ GameObject:
   - component: {fileID: 1863576160872629974}
   - component: {fileID: 7802108314392651183}
   - component: {fileID: 7416085060404558559}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Vision Cone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -646,9 +674,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1928729131077497107, guid: 17139a5c5802afd4ea80d355052fba20, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3840140156123155605}
-    - targetCorrespondingSourceObject: {fileID: 1928729131077497107, guid: 17139a5c5802afd4ea80d355052fba20, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2997873734176785126}
   m_SourcePrefab: {fileID: 100100000, guid: 17139a5c5802afd4ea80d355052fba20, type: 3}
 --- !u!4 &1381681868782109464 stripped
 Transform:
@@ -683,30 +708,3 @@ CapsuleCollider:
   m_Height: 1.78
   m_Direction: 1
   m_Center: {x: 0, y: 0.8688879, z: 0}
---- !u!54 &2997873734176785126
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1758489603803404706}
-  serializedVersion: 4
-  m_Mass: 20
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0

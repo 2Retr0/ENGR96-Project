@@ -12975,6 +12975,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2997873734176785126, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
+      propertyPath: m_Drag
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2997873734176785126, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
+      propertyPath: m_AngularDrag
+      value: 2000
+      objectReference: {fileID: 0}
     - target: {fileID: 3287686646700537905, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -13036,6 +13044,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2997873734176785126, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
+      propertyPath: m_Drag
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2997873734176785126, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
+      propertyPath: m_AngularDrag
+      value: 2000
+      objectReference: {fileID: 0}
     - target: {fileID: 3287686646700537905, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
