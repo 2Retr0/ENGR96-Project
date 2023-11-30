@@ -24,13 +24,13 @@ namespace Code.Scripts.Enemy
         private Rigidbody rb;
         private Material impactLineMaterial;
         private GameObject stateText;
-        private bool shouldMove = true;
-        
+        private bool isTouchingPlayer = false;
+        private bool isMoving = false;
         
         private bool isAlive;
         private int health;
 
-        public Animator animator;
+        // public Animator animator;
 
         private enum State
         {
@@ -42,7 +42,7 @@ namespace Code.Scripts.Enemy
         {
             isAlive = true;
             health = 100;
-            
+
             controller = GetComponentInChildren<VisionConeController>();
             rb = GetComponent<Rigidbody>();
 
@@ -66,7 +66,7 @@ namespace Code.Scripts.Enemy
 
         private void SetText(string text, float lifetime = 3)
         {
-            Destroy(stateText);
+            if (stateText) Destroy(stateText);
             stateText = Instantiate(textMesh, transform.position, Quaternion.identity);
             stateText.GetComponent<TextMeshPro>().text = text;
             stateText.GetComponent<TextController>().lifetimeSeconds = lifetime;
@@ -75,38 +75,57 @@ namespace Code.Scripts.Enemy
         private void OnCollisionEnter(Collision other)
         {
             if(other.transform.CompareTag(player.tag))
-                shouldMove = false;
+                isTouchingPlayer = true;
         }
 
         private void OnCollisionExit(Collision other)
         {
-            shouldMove = true;
+            isTouchingPlayer = false;
         }
 
         private void FixedUpdate()
         {
             var previousState = state;
-            var self = transform;
 
-            state = controller.DetectionProgress >= 1.0f || !shouldMove ? State.Investigate : State.Patrol;
+            state = controller.DetectionProgress >= 1.0f || isTouchingPlayer ? State.Investigate : State.Patrol;
 
+            UpdateMovement(transform);
+            UpdateText(previousState, transform);
+        }
+
+
+        private void UpdateText(State previousState, Transform self)
+        {
             if (stateText)
-                stateText.transform.position = self.position + 0.2f * self.up;
+                stateText.transform.position = self.position + 0.5f * self.up;
 
             switch (state)
             {
                 case State.Patrol:
-                    transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
-                    impactLineMaterial.SetFloat("_Strength", 0.0f);
-                    animator.SetFloat("Speed", 5f);
-
-                    // Instantiate patrol text
                     if (previousState == State.Investigate)
                         SetText("?");
+                    break;
+                case State.Investigate:
+                    if (previousState == State.Patrol)
+                        SetText("!", float.MaxValue);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void UpdateMovement(Transform self)
+        {
+            switch (state)
+            {
+                case State.Patrol:
+                    transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
+                    PostManager.Instance.SetImpactStrength(0, gameObject);
 
                     break;
 
                 case State.Investigate:
+                    // --- Move towards player ---
                     var position = self.position;
                     var playerPosition = player.transform.position;
                     var lookAt = playerPosition - position;
@@ -116,24 +135,13 @@ namespace Code.Scripts.Enemy
                     transform.rotation = Quaternion.RotateTowards(
                         self.rotation, Quaternion.LookRotation(lookAt), rotationSpeed * Time.deltaTime);
 
-                    var dist = Mathf.SmoothStep(1f, 0f, Vector3.Distance(position, playerPosition) * 0.1f);
-                    impactLineMaterial.SetFloat("_Strength", dist);
+                    var strength = Mathf.SmoothStep(1f, 0f, Vector3.Distance(position, playerPosition) * 0.1f);
+                    PostManager.Instance.SetImpactStrength(strength, gameObject);
 
                     // Move if not colliding with player!
-                    if (shouldMove)
-                    {
+                    if (!isTouchingPlayer)
                         transform.position += speed * Time.deltaTime * lookAt;
-                        animator.SetFloat("Speed", 10f);
-                    }
-                    else
-                    {
-                        animator.SetFloat("Speed", 0f);
-                    }
-
-                    // Instantiate alert text
-                    if (previousState == State.Patrol)
-                        SetText("!", float.MaxValue);
-
+                    // animator.SetFloat("Speed", isTouchingPlayer ? 0 : 10);
                     break;
 
                 default:
