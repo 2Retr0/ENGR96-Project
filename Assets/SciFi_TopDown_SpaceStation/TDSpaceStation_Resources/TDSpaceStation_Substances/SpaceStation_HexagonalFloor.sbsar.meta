@@ -1,0 +1,793 @@
+fileFormatVersion: 2
+guid: 95da6b59cbe413c4fbe67480f75e151a
+ScriptedImporter:
+  fileIDToRecycleName:
+    100000: SpaceStation_HexagonalFloor/SpaceStation_HexagonalFloor
+    400000: SpaceStation_HexagonalFloor/SpaceStation_HexagonalFloor/Transform
+    2100000: mat.Dark_Floor
+    2100002: mat.Hexagonal_Floor_White
+    2100004: mat.Hexagonal_Floor
+    2100006: mat.Dark_Floor_B
+    2100008: mat.White_Floor_C
+    2100010: mat.White_Floor_B
+    2100012: mat.White_Floor_A
+    2100014: mat.Dark_Floor_C
+    2100016: mat.Metal_Floor_A
+    2100018: mat.Metal_Floor_B
+    2300000: SpaceStation_HexagonalFloor/SpaceStation_HexagonalFloor/MeshRenderer
+    2800000: Dark_Floor_Base Color
+    2800002: Dark_Floor_Metallic
+    2800004: Dark_Floor_Normal
+    2800006: Hexagonal_Floor_White_Base Color
+    2800008: Hexagonal_Floor_White_Metallic
+    2800010: Hexagonal_Floor_White_Normal
+    2800012: Hexagonal_Floor_Base Color
+    2800014: Hexagonal_Floor_Metallic
+    2800016: Hexagonal_Floor_Normal
+    2800018: Dark_Floor_B_Base Color
+    2800020: Dark_Floor_B_Metallic
+    2800022: Dark_Floor_B_Normal
+    2800024: White_Floor_C_Base Color
+    2800026: White_Floor_C_Metallic
+    2800028: White_Floor_C_Normal
+    2800030: White_Floor_B_Base Color
+    2800032: White_Floor_B_Metallic
+    2800034: White_Floor_B_Normal
+    2800036: White_Floor_A_Base Color
+    2800038: White_Floor_A_Metallic
+    2800040: White_Floor_A_Normal
+    2800042: Dark_Floor_C_Base Color
+    2800044: Dark_Floor_C_Metallic
+    2800046: Dark_Floor_C_Normal
+    2800048: Metal_Floor_A_Base Color
+    2800050: Metal_Floor_A_Metallic
+    2800052: Metal_Floor_A_Normal
+    2800054: Metal_Floor_B_Base Color
+    2800056: Metal_Floor_B_Metallic
+    2800058: Metal_Floor_B_Normal
+    3300000: SpaceStation_HexagonalFloor/SpaceStation_HexagonalFloor/MeshFilter
+    11400000: graph1
+    11400002: graph2
+    11400004: graph3
+    11400006: graph4
+    11400008: graph5
+    11400010: graph6
+    11400012: graph7
+    11400014: graph8
+    11400016: graph9
+    11400018: sbsar
+    11400020: graph0
+    13500000: SpaceStation_HexagonalFloor/SpaceStation_HexagonalFloor/SphereCollider
+    100100000: SpaceStation_HexagonalFloor
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 232528478, guid: 43a8bbf65be290d44ba52b94476242b9, type: 3}
+  mGraphInstanceData:
+  - graphLabel: Dark_Floor
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://HexagonalFloor\" label=\"\" >\n  <presetinput
+      identifier=\"$outputsize\" uid=\"1072264192\" type=\"8\" value=\"10,10\" />\n
+      \ <presetinput identifier=\"DiffuseColor\" uid=\"1341479422\" type=\"3\" value=\"0.297,0.297,0.297,1\"
+      />\n  <presetinput identifier=\"NormalFactor\" uid=\"1341479314\" type=\"0\"
+      value=\"0.4\" />\n  <presetinput identifier=\"RoughnessNoise\" uid=\"1341478256\"
+      type=\"0\" value=\"0.237\" />\n  <presetinput identifier=\"UseSubdivision\"
+      uid=\"1339698619\" type=\"4\" value=\"1\" />\n  <presetinput identifier=\"SubdivisionColors\"
+      uid=\"1339697762\" type=\"3\" value=\"0.416,0.416,0.416,1\" />\n  <presetinput
+      identifier=\"SubdivisionScale\" uid=\"1339803125\" type=\"0\" value=\"100.4\"
+      />\n  <presetinput identifier=\"HideHexagons\" uid=\"1339702028\" type=\"4\"
+      value=\"0\" />\n  <presetinput identifier=\"HexagonsSize\" uid=\"1339766549\"
+      type=\"0\" value=\"1.21\" />\n  <presetinput identifier=\"HexagonsTiling\" uid=\"1339766583\"
+      type=\"4\" value=\"28\" />\n  <presetinput identifier=\"FloorTilesNumber\" uid=\"1339700772\"
+      type=\"4\" value=\"2\" />\n  <presetinput identifier=\"FloorTilesSeparation\"
+      uid=\"1339699646\" type=\"0\" value=\"0\" />\n  <presetinput identifier=\"FloorTileCenterFactor\"
+      uid=\"1339801765\" type=\"0\" value=\"0\" />\n  <presetinput identifier=\"FloorTilesLuminanceVar\"
+      uid=\"1339763368\" type=\"1\" value=\"0,0\" />\n  <presetinput identifier=\"FloorTileCornerSize\"
+      uid=\"1339763799\" type=\"0\" value=\"0.8\" />\n  <presetinput identifier=\"FloorTilesBackgroundColor\"
+      uid=\"1339763110\" type=\"3\" value=\"0.109804,0.113725,0.113725,1\" />\n  <presetinput
+      identifier=\"MetalPattern\" uid=\"1339093396\" type=\"4\" value=\"0\" />\n  <presetinput
+      identifier=\"MetalPatternSize\" uid=\"1339093038\" type=\"0\" value=\"1\" />\n
+      </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Metallic,Normal
+    texturePackingList:
+    - outputName: Base Color
+      alphaSource: Base Color
+    - outputName: Roughness
+      alphaSource: Roughness
+    - outputName: Metallic
+      alphaSource: Smoothness
+    - outputName: Normal
+      alphaSource: Normal
+    colorSpaceList:
+    - outputName: Base Color
+      bLinear: 0
+    - outputName: Roughness
+      bLinear: 1
+    - outputName: Metallic
+      bLinear: 1
+    - outputName: Normal
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: Default
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      loadBehavior: 1
+    - label: Standalone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    - label: iPhone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100000, guid: 95da6b59cbe413c4fbe67480f75e151a, type: 3}
+  - graphLabel: Hexagonal_Floor_White
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://HexagonalFloor\" label=\"\" >\n  <presetinput
+      identifier=\"$outputsize\" uid=\"1072264192\" type=\"8\" value=\"10,10\" />\n
+      \ <presetinput identifier=\"DiffuseColor\" uid=\"1341479422\" type=\"3\" value=\"0.816,0.816,0.816,1\"
+      />\n  <presetinput identifier=\"NormalFactor\" uid=\"1341479314\" type=\"0\"
+      value=\"1.69\" />\n  <presetinput identifier=\"Roughness\" uid=\"1341479403\"
+      type=\"0\" value=\"0.5\" />\n  <presetinput identifier=\"RoughnessNoise\" uid=\"1341478256\"
+      type=\"0\" value=\"0.247\" />\n  <presetinput identifier=\"SubdivisionColors\"
+      uid=\"1339697762\" type=\"3\" value=\"0.231795,0.270958,0.303,1\" />\n  <presetinput
+      identifier=\"SubdivisionBorders\" uid=\"1339696266\" type=\"4\" value=\"1\"
+      />\n  <presetinput identifier=\"SubdivisionScale\" uid=\"1339803125\" type=\"0\"
+      value=\"108.54\" />\n  <presetinput identifier=\"HideHexagons\" uid=\"1339702028\"
+      type=\"4\" value=\"0\" />\n  <presetinput identifier=\"HexagonsSize\" uid=\"1339766549\"
+      type=\"0\" value=\"1.29\" />\n  <presetinput identifier=\"HexagonsTiling\" uid=\"1339766583\"
+      type=\"4\" value=\"16\" />\n  <presetinput identifier=\"HexagonsBackgroundLightness\"
+      uid=\"1339089757\" type=\"0\" value=\"0.43\" />\n  <presetinput identifier=\"FloorTilesSeparation\"
+      uid=\"1339699646\" type=\"0\" value=\"0.015\" />\n  <presetinput identifier=\"FloorTileCenterFactor\"
+      uid=\"1339801765\" type=\"0\" value=\"0.3\" />\n  <presetinput identifier=\"FloorTilesLuminanceVar\"
+      uid=\"1339763368\" type=\"1\" value=\"0,0\" />\n  <presetinput identifier=\"FloorTileCornerSize\"
+      uid=\"1339763799\" type=\"0\" value=\"0.8\" />\n  <presetinput identifier=\"FloorTilesBackgroundColor\"
+      uid=\"1339763110\" type=\"3\" value=\"0.109804,0.113725,0.113725,1\" />\n  <presetinput
+      identifier=\"HexagonsLuminanceVariation\" uid=\"1339089415\" type=\"1\" value=\"0.52,0\"
+      />\n  <presetinput identifier=\"MetalPattern\" uid=\"1339093396\" type=\"4\"
+      value=\"0\" />\n  <presetinput identifier=\"MetalPatternSize\" uid=\"1339093038\"
+      type=\"0\" value=\"1\" />\n </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Metallic,Normal
+    texturePackingList:
+    - outputName: Base Color
+      alphaSource: Base Color
+    - outputName: Roughness
+      alphaSource: Roughness
+    - outputName: Metallic
+      alphaSource: Smoothness
+    - outputName: Normal
+      alphaSource: Normal
+    colorSpaceList:
+    - outputName: Base Color
+      bLinear: 0
+    - outputName: Roughness
+      bLinear: 1
+    - outputName: Metallic
+      bLinear: 1
+    - outputName: Normal
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: Default
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      loadBehavior: 1
+    - label: Standalone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    - label: iPhone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100002, guid: 95da6b59cbe413c4fbe67480f75e151a, type: 3}
+  - graphLabel: Hexagonal_Floor
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://HexagonalFloor\" label=\"\" >\n  <presetinput
+      identifier=\"$outputsize\" uid=\"1072264192\" type=\"8\" value=\"10,10\" />\n
+      \ <presetinput identifier=\"DiffuseColor\" uid=\"1341479422\" type=\"3\" value=\"0.183824,0.183824,0.183824,1\"
+      />\n  <presetinput identifier=\"NormalFactor\" uid=\"1341479314\" type=\"0\"
+      value=\"0.4\" />\n  <presetinput identifier=\"Roughness\" uid=\"1341479403\"
+      type=\"0\" value=\"0.55\" />\n  <presetinput identifier=\"RoughnessNoise\" uid=\"1341478256\"
+      type=\"0\" value=\"0.237\" />\n  <presetinput identifier=\"SubdivisionColors\"
+      uid=\"1339697762\" type=\"3\" value=\"0.231795,0.270958,0.303,1\" />\n  <presetinput
+      identifier=\"SubdivisionBorders\" uid=\"1339696266\" type=\"4\" value=\"1\"
+      />\n  <presetinput identifier=\"SubdivisionScale\" uid=\"1339803125\" type=\"0\"
+      value=\"108.54\" />\n  <presetinput identifier=\"HideHexagons\" uid=\"1339702028\"
+      type=\"4\" value=\"0\" />\n  <presetinput identifier=\"HexagonsSize\" uid=\"1339766549\"
+      type=\"0\" value=\"1.28\" />\n  <presetinput identifier=\"HexagonsTiling\" uid=\"1339766583\"
+      type=\"4\" value=\"32\" />\n  <presetinput identifier=\"FloorTilesSeparation\"
+      uid=\"1339699646\" type=\"0\" value=\"0.015\" />\n  <presetinput identifier=\"FloorTileCenterFactor\"
+      uid=\"1339801765\" type=\"0\" value=\"0.3\" />\n  <presetinput identifier=\"FloorTilesLuminanceVar\"
+      uid=\"1339763368\" type=\"1\" value=\"0,0\" />\n  <presetinput identifier=\"FloorTileCornerSize\"
+      uid=\"1339763799\" type=\"0\" value=\"0.8\" />\n  <presetinput identifier=\"FloorTilesBackgroundColor\"
+      uid=\"1339763110\" type=\"3\" value=\"0.109804,0.113725,0.113725,1\" />\n  <presetinput
+      identifier=\"MetalPattern\" uid=\"1339093396\" type=\"4\" value=\"0\" />\n  <presetinput
+      identifier=\"MetalPatternSize\" uid=\"1339093038\" type=\"0\" value=\"1\" />\n
+      </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Metallic,Normal
+    texturePackingList:
+    - outputName: Base Color
+      alphaSource: Base Color
+    - outputName: Roughness
+      alphaSource: Roughness
+    - outputName: Metallic
+      alphaSource: Smoothness
+    - outputName: Normal
+      alphaSource: Normal
+    colorSpaceList:
+    - outputName: Base Color
+      bLinear: 0
+    - outputName: Roughness
+      bLinear: 1
+    - outputName: Metallic
+      bLinear: 1
+    - outputName: Normal
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: Default
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      loadBehavior: 1
+    - label: Standalone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    - label: iPhone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100004, guid: 95da6b59cbe413c4fbe67480f75e151a, type: 3}
+  - graphLabel: Dark_Floor_B
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://HexagonalFloor\" label=\"\" >\n  <presetinput
+      identifier=\"$outputsize\" uid=\"1072264192\" type=\"8\" value=\"10,10\" />\n
+      \ <presetinput identifier=\"$randomseed\" uid=\"1755013714\" type=\"4\" value=\"8015\"
+      />\n  <presetinput identifier=\"DiffuseColor\" uid=\"1341479422\" type=\"3\"
+      value=\"0.216,0.216,0.216,1\" />\n  <presetinput identifier=\"NormalFactor\"
+      uid=\"1341479314\" type=\"0\" value=\"0.4\" />\n  <presetinput identifier=\"RoughnessNoise\"
+      uid=\"1341478256\" type=\"0\" value=\"0.237\" />\n  <presetinput identifier=\"UseSubdivision\"
+      uid=\"1339698619\" type=\"4\" value=\"1\" />\n  <presetinput identifier=\"SubdivisionsCount\"
+      uid=\"1339698774\" type=\"4\" value=\"6\" />\n  <presetinput identifier=\"SubdivisionColors\"
+      uid=\"1339697762\" type=\"3\" value=\"0.134,0.134,0.134,1\" />\n  <presetinput
+      identifier=\"SubdivisionScale\" uid=\"1339803125\" type=\"0\" value=\"100.4\"
+      />\n  <presetinput identifier=\"HexagonsSize\" uid=\"1339766549\" type=\"0\"
+      value=\"1.21\" />\n  <presetinput identifier=\"HexagonsTiling\" uid=\"1339766583\"
+      type=\"4\" value=\"28\" />\n  <presetinput identifier=\"FloorTilesNumber\" uid=\"1339700772\"
+      type=\"4\" value=\"6\" />\n  <presetinput identifier=\"FloorTilesSeparation\"
+      uid=\"1339699646\" type=\"0\" value=\"0\" />\n  <presetinput identifier=\"FloorTileCenterFactor\"
+      uid=\"1339801765\" type=\"0\" value=\"1\" />\n  <presetinput identifier=\"FloorTilesLuminanceVar\"
+      uid=\"1339763368\" type=\"1\" value=\"0,0\" />\n  <presetinput identifier=\"FloorTileCornerSize\"
+      uid=\"1339763799\" type=\"0\" value=\"0.8\" />\n  <presetinput identifier=\"FloorTilesBackgroundColor\"
+      uid=\"1339763110\" type=\"3\" value=\"0.109804,0.113725,0.113725,1\" />\n  <presetinput
+      identifier=\"MetalPattern\" uid=\"1339093396\" type=\"4\" value=\"0\" />\n  <presetinput
+      identifier=\"MetalPatternSize\" uid=\"1339093038\" type=\"0\" value=\"1\" />\n
+      </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Metallic,Normal
+    texturePackingList:
+    - outputName: Base Color
+      alphaSource: Base Color
+    - outputName: Roughness
+      alphaSource: Roughness
+    - outputName: Metallic
+      alphaSource: Smoothness
+    - outputName: Normal
+      alphaSource: Normal
+    colorSpaceList:
+    - outputName: Base Color
+      bLinear: 0
+    - outputName: Roughness
+      bLinear: 1
+    - outputName: Metallic
+      bLinear: 1
+    - outputName: Normal
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: Default
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      loadBehavior: 1
+    - label: Standalone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    - label: iPhone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100006, guid: 95da6b59cbe413c4fbe67480f75e151a, type: 3}
+  - graphLabel: White_Floor_C
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://HexagonalFloor\" label=\"\" >\n  <presetinput
+      identifier=\"$outputsize\" uid=\"1072264192\" type=\"8\" value=\"10,10\" />\n
+      \ <presetinput identifier=\"$randomseed\" uid=\"1755013714\" type=\"4\" value=\"3001\"
+      />\n  <presetinput identifier=\"DiffuseColor\" uid=\"1341479422\" type=\"3\"
+      value=\"0.934,0.934,0.934,1\" />\n  <presetinput identifier=\"NormalFactor\"
+      uid=\"1341479314\" type=\"0\" value=\"0.43\" />\n  <presetinput identifier=\"Roughness\"
+      uid=\"1341479403\" type=\"0\" value=\"0.55\" />\n  <presetinput identifier=\"RoughnessNoise\"
+      uid=\"1341478256\" type=\"0\" value=\"0.147\" />\n  <presetinput identifier=\"SubdivisionColors\"
+      uid=\"1339697762\" type=\"3\" value=\"0.447,0.447,0.447,1\" />\n  <presetinput
+      identifier=\"SubdivisionScale\" uid=\"1339803125\" type=\"0\" value=\"105\"
+      />\n  <presetinput identifier=\"HexagonsSize\" uid=\"1339766549\" type=\"0\"
+      value=\"1.3\" />\n  <presetinput identifier=\"HexagonsTiling\" uid=\"1339766583\"
+      type=\"4\" value=\"60\" />\n  <presetinput identifier=\"FloorTileCenterFactor\"
+      uid=\"1339801765\" type=\"0\" value=\"0.08\" />\n  <presetinput identifier=\"FloorTilesLuminanceVar\"
+      uid=\"1339763368\" type=\"1\" value=\"0.17,0\" />\n  <presetinput identifier=\"FloorTileCornerSize\"
+      uid=\"1339763799\" type=\"0\" value=\"0.753\" />\n  <presetinput identifier=\"FloorTilesBackgroundColor\"
+      uid=\"1339763110\" type=\"3\" value=\"0.422,0.422,0.422,1\" />\n  <presetinput
+      identifier=\"MetalPattern\" uid=\"1339093396\" type=\"4\" value=\"0\" />\n  <presetinput
+      identifier=\"MetalPatternSize\" uid=\"1339093038\" type=\"0\" value=\"1\" />\n
+      </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Metallic,Normal
+    texturePackingList:
+    - outputName: Base Color
+      alphaSource: Base Color
+    - outputName: Roughness
+      alphaSource: Roughness
+    - outputName: Metallic
+      alphaSource: Smoothness
+    - outputName: Normal
+      alphaSource: Normal
+    colorSpaceList:
+    - outputName: Base Color
+      bLinear: 0
+    - outputName: Roughness
+      bLinear: 1
+    - outputName: Metallic
+      bLinear: 1
+    - outputName: Normal
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: Default
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      loadBehavior: 1
+    - label: Standalone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    - label: iPhone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100008, guid: 95da6b59cbe413c4fbe67480f75e151a, type: 3}
+  - graphLabel: White_Floor_B
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://HexagonalFloor\" label=\"\" >\n  <presetinput
+      identifier=\"$outputsize\" uid=\"1072264192\" type=\"8\" value=\"10,10\" />\n
+      \ <presetinput identifier=\"$randomseed\" uid=\"1755013714\" type=\"4\" value=\"3001\"
+      />\n  <presetinput identifier=\"DiffuseColor\" uid=\"1341479422\" type=\"3\"
+      value=\"0.653,0.653,0.653,1\" />\n  <presetinput identifier=\"NormalFactor\"
+      uid=\"1341479314\" type=\"0\" value=\"0.32\" />\n  <presetinput identifier=\"Roughness\"
+      uid=\"1341479403\" type=\"0\" value=\"0.5\" />\n  <presetinput identifier=\"RoughnessNoise\"
+      uid=\"1341478256\" type=\"0\" value=\"0.225\" />\n  <presetinput identifier=\"SubdivisionColors\"
+      uid=\"1339697762\" type=\"3\" value=\"0.350727,0.386409,0.391,1\" />\n  <presetinput
+      identifier=\"SubdivisionScale\" uid=\"1339803125\" type=\"0\" value=\"104.1\"
+      />\n  <presetinput identifier=\"HexagonsSize\" uid=\"1339766549\" type=\"0\"
+      value=\"1.3\" />\n  <presetinput identifier=\"HexagonsTiling\" uid=\"1339766583\"
+      type=\"4\" value=\"60\" />\n  <presetinput identifier=\"FloorTileCenterFactor\"
+      uid=\"1339801765\" type=\"0\" value=\"0.08\" />\n  <presetinput identifier=\"FloorTilesLuminanceVar\"
+      uid=\"1339763368\" type=\"1\" value=\"0.17,0\" />\n  <presetinput identifier=\"FloorTilesBevelCorners\"
+      uid=\"1339757023\" type=\"4\" value=\"0\" />\n  <presetinput identifier=\"FloorTileCornerSize\"
+      uid=\"1339763799\" type=\"0\" value=\"0.772\" />\n  <presetinput identifier=\"FloorTilesBackgroundColor\"
+      uid=\"1339763110\" type=\"3\" value=\"0.316,0.316,0.316,1\" />\n  <presetinput
+      identifier=\"MetalPattern\" uid=\"1339093396\" type=\"4\" value=\"0\" />\n  <presetinput
+      identifier=\"MetalPatternSize\" uid=\"1339093038\" type=\"0\" value=\"1\" />\n
+      </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Metallic,Normal
+    texturePackingList:
+    - outputName: Base Color
+      alphaSource: Base Color
+    - outputName: Roughness
+      alphaSource: Roughness
+    - outputName: Metallic
+      alphaSource: Smoothness
+    - outputName: Normal
+      alphaSource: Normal
+    colorSpaceList:
+    - outputName: Base Color
+      bLinear: 0
+    - outputName: Roughness
+      bLinear: 1
+    - outputName: Metallic
+      bLinear: 1
+    - outputName: Normal
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: Default
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      loadBehavior: 1
+    - label: Standalone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    - label: iPhone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100010, guid: 95da6b59cbe413c4fbe67480f75e151a, type: 3}
+  - graphLabel: White_Floor_A
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://HexagonalFloor\" label=\"\" >\n  <presetinput
+      identifier=\"$outputsize\" uid=\"1072264192\" type=\"8\" value=\"10,10\" />\n
+      \ <presetinput identifier=\"$randomseed\" uid=\"1755013714\" type=\"4\" value=\"3001\"
+      />\n  <presetinput identifier=\"DiffuseColor\" uid=\"1341479422\" type=\"3\"
+      value=\"0.653,0.653,0.653,1\" />\n  <presetinput identifier=\"NormalFactor\"
+      uid=\"1341479314\" type=\"0\" value=\"0.5\" />\n  <presetinput identifier=\"Roughness\"
+      uid=\"1341479403\" type=\"0\" value=\"0.5\" />\n  <presetinput identifier=\"RoughnessNoise\"
+      uid=\"1341478256\" type=\"0\" value=\"0.225\" />\n  <presetinput identifier=\"SubdivisionColors\"
+      uid=\"1339697762\" type=\"3\" value=\"0.350727,0.386409,0.391,1\" />\n  <presetinput
+      identifier=\"SubdivisionScale\" uid=\"1339803125\" type=\"0\" value=\"104.1\"
+      />\n  <presetinput identifier=\"HexagonsSize\" uid=\"1339766549\" type=\"0\"
+      value=\"1.3\" />\n  <presetinput identifier=\"HexagonsTiling\" uid=\"1339766583\"
+      type=\"4\" value=\"60\" />\n  <presetinput identifier=\"FloorTilesNumber\" uid=\"1339700772\"
+      type=\"4\" value=\"6\" />\n  <presetinput identifier=\"FloorTilesSeparation\"
+      uid=\"1339699646\" type=\"0\" value=\"0.042\" />\n  <presetinput identifier=\"FloorTileCenterFactor\"
+      uid=\"1339801765\" type=\"0\" value=\"0.39\" />\n  <presetinput identifier=\"FloorTilesLuminanceVar\"
+      uid=\"1339763368\" type=\"1\" value=\"0.045,0\" />\n  <presetinput identifier=\"FloorTileCornerSize\"
+      uid=\"1339763799\" type=\"0\" value=\"0.772\" />\n  <presetinput identifier=\"FloorTilesBackgroundColor\"
+      uid=\"1339763110\" type=\"3\" value=\"0.316,0.316,0.316,1\" />\n  <presetinput
+      identifier=\"MetalPattern\" uid=\"1339093396\" type=\"4\" value=\"0\" />\n  <presetinput
+      identifier=\"MetalPatternSize\" uid=\"1339093038\" type=\"0\" value=\"1\" />\n
+      </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Metallic,Normal
+    texturePackingList:
+    - outputName: Base Color
+      alphaSource: Base Color
+    - outputName: Roughness
+      alphaSource: Roughness
+    - outputName: Metallic
+      alphaSource: Smoothness
+    - outputName: Normal
+      alphaSource: Normal
+    colorSpaceList:
+    - outputName: Base Color
+      bLinear: 0
+    - outputName: Roughness
+      bLinear: 1
+    - outputName: Metallic
+      bLinear: 1
+    - outputName: Normal
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: Default
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      loadBehavior: 1
+    - label: Standalone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    - label: iPhone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100012, guid: 95da6b59cbe413c4fbe67480f75e151a, type: 3}
+  - graphLabel: Dark_Floor_C
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://HexagonalFloor\" label=\"\" >\n  <presetinput
+      identifier=\"$outputsize\" uid=\"1072264192\" type=\"8\" value=\"10,10\" />\n
+      \ <presetinput identifier=\"DiffuseColor\" uid=\"1341479422\" type=\"3\" value=\"0.216,0.216,0.216,1\"
+      />\n  <presetinput identifier=\"NormalFactor\" uid=\"1341479314\" type=\"0\"
+      value=\"0.4\" />\n  <presetinput identifier=\"RoughnessNoise\" uid=\"1341478256\"
+      type=\"0\" value=\"0.237\" />\n  <presetinput identifier=\"SubdivisionColors\"
+      uid=\"1339697762\" type=\"3\" value=\"0.453,0.453,0.453,1\" />\n  <presetinput
+      identifier=\"SubdivisionBorders\" uid=\"1339696266\" type=\"4\" value=\"1\"
+      />\n  <presetinput identifier=\"SubdivisionScale\" uid=\"1339803125\" type=\"0\"
+      value=\"100.4\" />\n  <presetinput identifier=\"HexagonsSize\" uid=\"1339766549\"
+      type=\"0\" value=\"1.21\" />\n  <presetinput identifier=\"HexagonsTiling\" uid=\"1339766583\"
+      type=\"4\" value=\"28\" />\n  <presetinput identifier=\"FloorTilesNumber\" uid=\"1339700772\"
+      type=\"4\" value=\"6\" />\n  <presetinput identifier=\"FloorTilesSeparation\"
+      uid=\"1339699646\" type=\"0\" value=\"0.09\" />\n  <presetinput identifier=\"FloorTileCenterFactor\"
+      uid=\"1339801765\" type=\"0\" value=\"0\" />\n  <presetinput identifier=\"FloorTilesLuminanceVar\"
+      uid=\"1339763368\" type=\"1\" value=\"0,0\" />\n  <presetinput identifier=\"FloorTileCornerSize\"
+      uid=\"1339763799\" type=\"0\" value=\"0.72\" />\n  <presetinput identifier=\"FloorTilesBackgroundColor\"
+      uid=\"1339763110\" type=\"3\" value=\"0.153518,0.159,0.159,1\" />\n  <presetinput
+      identifier=\"MetalPattern\" uid=\"1339093396\" type=\"4\" value=\"0\" />\n  <presetinput
+      identifier=\"MetalPatternSize\" uid=\"1339093038\" type=\"0\" value=\"1\" />\n
+      </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Metallic,Normal
+    texturePackingList:
+    - outputName: Base Color
+      alphaSource: Base Color
+    - outputName: Roughness
+      alphaSource: Roughness
+    - outputName: Metallic
+      alphaSource: Smoothness
+    - outputName: Normal
+      alphaSource: Normal
+    colorSpaceList:
+    - outputName: Base Color
+      bLinear: 0
+    - outputName: Roughness
+      bLinear: 1
+    - outputName: Metallic
+      bLinear: 1
+    - outputName: Normal
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: Default
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      loadBehavior: 1
+    - label: Standalone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    - label: iPhone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100014, guid: 95da6b59cbe413c4fbe67480f75e151a, type: 3}
+  - graphLabel: Metal_Floor_A
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://HexagonalFloor\" label=\"\" >\n  <presetinput
+      identifier=\"$outputsize\" uid=\"1072264192\" type=\"8\" value=\"10,10\" />\n
+      \ <presetinput identifier=\"DiffuseColor\" uid=\"1341479422\" type=\"3\" value=\"0.603,0.603,0.603,1\"
+      />\n  <presetinput identifier=\"NormalFactor\" uid=\"1341479314\" type=\"0\"
+      value=\"0.5\" />\n  <presetinput identifier=\"Roughness\" uid=\"1341479403\"
+      type=\"0\" value=\"0.39\" />\n  <presetinput identifier=\"RoughnessNoise\" uid=\"1341478256\"
+      type=\"0\" value=\"0.099\" />\n  <presetinput identifier=\"UseSubdivision\"
+      uid=\"1339698619\" type=\"4\" value=\"1\" />\n  <presetinput identifier=\"SubdivisionColors\"
+      uid=\"1339697762\" type=\"3\" value=\"0.766,0.766,0.766,1\" />\n  <presetinput
+      identifier=\"SubdivisionScale\" uid=\"1339803125\" type=\"0\" value=\"100.4\"
+      />\n  <presetinput identifier=\"HexagonsSize\" uid=\"1339766549\" type=\"0\"
+      value=\"1.21\" />\n  <presetinput identifier=\"HexagonsTiling\" uid=\"1339766583\"
+      type=\"4\" value=\"28\" />\n  <presetinput identifier=\"FloorTilesNumber\" uid=\"1339700772\"
+      type=\"4\" value=\"2\" />\n  <presetinput identifier=\"FloorTilesSeparation\"
+      uid=\"1339699646\" type=\"0\" value=\"0\" />\n  <presetinput identifier=\"FloorTileCenterFactor\"
+      uid=\"1339801765\" type=\"0\" value=\"0\" />\n  <presetinput identifier=\"FloorTilesLuminanceVar\"
+      uid=\"1339763368\" type=\"1\" value=\"0,0\" />\n  <presetinput identifier=\"FloorTileCornerSize\"
+      uid=\"1339763799\" type=\"0\" value=\"0.8\" />\n  <presetinput identifier=\"FloorTilesBackgroundColor\"
+      uid=\"1339763110\" type=\"3\" value=\"0,0,0,1\" />\n  <presetinput identifier=\"Metalness\"
+      uid=\"1339095607\" type=\"0\" value=\"0.8\" />\n  <presetinput identifier=\"MetalPatternSize\"
+      uid=\"1339093038\" type=\"0\" value=\"5\" />\n </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Metallic,Normal
+    texturePackingList:
+    - outputName: Base Color
+      alphaSource: Base Color
+    - outputName: Roughness
+      alphaSource: Roughness
+    - outputName: Metallic
+      alphaSource: Smoothness
+    - outputName: Normal
+      alphaSource: Normal
+    colorSpaceList:
+    - outputName: Base Color
+      bLinear: 0
+    - outputName: Roughness
+      bLinear: 1
+    - outputName: Metallic
+      bLinear: 1
+    - outputName: Normal
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: Default
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      loadBehavior: 1
+    - label: Standalone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    - label: iPhone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100016, guid: 95da6b59cbe413c4fbe67480f75e151a, type: 3}
+  - graphLabel: Metal_Floor_B
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://HexagonalFloor\" label=\"\" >\n  <presetinput
+      identifier=\"$outputsize\" uid=\"1072264192\" type=\"8\" value=\"10,10\" />\n
+      \ <presetinput identifier=\"DiffuseColor\" uid=\"1341479422\" type=\"3\" value=\"1,1,1,1\"
+      />\n  <presetinput identifier=\"NormalFactor\" uid=\"1341479314\" type=\"0\"
+      value=\"0.5\" />\n  <presetinput identifier=\"Roughness\" uid=\"1341479403\"
+      type=\"0\" value=\"0.39\" />\n  <presetinput identifier=\"RoughnessNoise\" uid=\"1341478256\"
+      type=\"0\" value=\"0.099\" />\n  <presetinput identifier=\"SubdivisionColors\"
+      uid=\"1339697762\" type=\"3\" value=\"0.766,0.766,0.766,1\" />\n  <presetinput
+      identifier=\"SubdivisionScale\" uid=\"1339803125\" type=\"0\" value=\"100.4\"
+      />\n  <presetinput identifier=\"HexagonsSize\" uid=\"1339766549\" type=\"0\"
+      value=\"1.08\" />\n  <presetinput identifier=\"HexagonsTiling\" uid=\"1339766583\"
+      type=\"4\" value=\"28\" />\n  <presetinput identifier=\"FloorTilesNumber\" uid=\"1339700772\"
+      type=\"4\" value=\"2\" />\n  <presetinput identifier=\"FloorTilesSeparation\"
+      uid=\"1339699646\" type=\"0\" value=\"0\" />\n  <presetinput identifier=\"FloorTileCenterFactor\"
+      uid=\"1339801765\" type=\"0\" value=\"0\" />\n  <presetinput identifier=\"FloorTilesLuminanceVar\"
+      uid=\"1339763368\" type=\"1\" value=\"0,0\" />\n  <presetinput identifier=\"FloorTileCornerSize\"
+      uid=\"1339763799\" type=\"0\" value=\"0.8\" />\n  <presetinput identifier=\"FloorTilesBackgroundColor\"
+      uid=\"1339763110\" type=\"3\" value=\"0,0,0,1\" />\n  <presetinput identifier=\"Metalness\"
+      uid=\"1339095607\" type=\"0\" value=\"0.74\" />\n  <presetinput identifier=\"MetalPatternSize\"
+      uid=\"1339093038\" type=\"0\" value=\"5\" />\n </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Metallic,Normal
+    texturePackingList:
+    - outputName: Base Color
+      alphaSource: Base Color
+    - outputName: Roughness
+      alphaSource: Roughness
+    - outputName: Metallic
+      alphaSource: Smoothness
+    - outputName: Normal
+      alphaSource: Normal
+    colorSpaceList:
+    - outputName: Base Color
+      bLinear: 0
+    - outputName: Roughness
+      bLinear: 1
+    - outputName: Metallic
+      bLinear: 1
+    - outputName: Normal
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: Default
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 1024
+      textureHeight: 1024
+      textureFormat: 0
+      loadBehavior: 1
+    - label: Standalone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    - label: iPhone
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100018, guid: 95da6b59cbe413c4fbe67480f75e151a, type: 3}
