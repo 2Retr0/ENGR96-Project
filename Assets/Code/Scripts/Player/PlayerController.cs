@@ -117,22 +117,24 @@ namespace Code.Scripts.Player
                     break;
 
                 case true when Input.GetButtonDown("Fire1"):
-                    // Spawn bullet at player position with some forward and y-offset
-                    var spawnPosition = t.position + 1.25f * t.forward + 1.65f * t.up;
-                    if (!isGamePaused)
-                    {
-                        Instantiate(bullet, spawnPosition, t.rotation);
-                    }
-
-                    // Trigger fire animation
-                    animator.SetBool("Fire", true);
-                    // Start coroutine to reset fire animation
-                    StartCoroutine(ResetFireAnimation());
+                    FireGun(t);
                     break;
             }
+        }
 
+        private void FireGun(Transform t)
+        {
+            // Spawn bullet at player position with some forward and y-offset
+            var spawnPosition = t.position + 1.25f * t.forward + 1.65f * t.up;
+            if (!isGamePaused)
+            {
+                Instantiate(bullet, spawnPosition, t.rotation);
+            }
 
-        
+            // Trigger fire animation
+            animator.SetBool("Fire", true);
+            // Start coroutine to reset fire animation
+            StartCoroutine(ResetFireAnimation());
         }
 
         private IEnumerator ResetFireAnimation()
@@ -153,14 +155,14 @@ namespace Code.Scripts.Player
 
             contactEnableCounter++;
 
-            if (contactEnableCounter < 50)
-            {
-                Debug.Log("No Damage mode");
-
-            }
-            else {
-                Debug.Log("Damage mode");
-            }
+            // if (contactEnableCounter < 50)
+            // {
+            //     Debug.Log("No Damage mode");
+            //
+            // }
+            // else {
+            //     Debug.Log("Damage mode");
+            // }
         }
 
         private void OnMove(InputValue input)
@@ -178,10 +180,14 @@ namespace Code.Scripts.Player
 
         private void UpdateModelRotation()
         {
-            if (!Physics.Raycast(playerCamera.ScreenPointToRay(Input.mousePosition), out var hit))
-                return;
+            var ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+            var yPlane = new Plane(Vector3.up, new Vector3(0, 1.75f, 0));
 
-            lookAt = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+            // Cast ray from mouse position in screen space to xz plane in world space
+            if (!yPlane.Raycast(ray, out var distance)) return; // Should never occur
+
+            var hitPoint = ray.GetPoint(distance);
+            lookAt = new Vector3(hitPoint.x, transform.position.y, hitPoint.z);
             transform.LookAt(lookAt);
         }
 
