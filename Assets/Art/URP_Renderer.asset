@@ -28,7 +28,7 @@ MonoBehaviour:
     overrideShaderPassIndex: 0
     overrideMode: 1
     overrideDepthState: 1
-    depthCompareFunction: 5
+    depthCompareFunction: 0
     enableWrite: 0
     stencilSettings:
       overrideStencilState: 1
@@ -212,13 +212,14 @@ MonoBehaviour:
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
   - {fileID: 3060367851728037021}
+  - {fileID: 4243188417477278516}
   - {fileID: -6516983713492875170}
   - {fileID: -5061618801833534379}
   - {fileID: -8673970339548821013}
   - {fileID: -284646865939745333}
   - {fileID: 4857588011993741861}
   - {fileID: -4452911361716286747}
-  m_RendererFeatureMap: 9d6446bc589c782a5e48404ed7058fa5551c46708484c1b9eb09ebceeedd9f87cbb53bfd2ebb0cfc253a15708f9e6943e58a9984b51434c2
+  m_RendererFeatureMap: 9d6446bc589c782a34fbc86262d5e23a5e48404ed7058fa5551c46708484c1b9eb09ebceeedd9f87cbb53bfd2ebb0cfc253a15708f9e6943e58a9984b51434c2
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -299,6 +300,23 @@ MonoBehaviour:
   m_Active: 0
   intensity: 1
   material: {fileID: 2100000, guid: 08a5634dd38314bb2a535dc3fc4dec1a, type: 2}
+--- !u!114 &4243188417477278516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d613f08f173d4dd895bb07b3230baa9, type: 3}
+  m_Name: Per Object Motion Blur
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  passMaterial: {fileID: 2100000, guid: 0c17700eeec896943a8d753c4a13fe45, type: 2}
+  injectionPoint: 600
+  requirements: 12
+  passIndex: 0
 --- !u!114 &4857588011993741861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,7 +345,7 @@ MonoBehaviour:
     overrideShaderPassIndex: 0
     overrideMode: 1
     overrideDepthState: 1
-    depthCompareFunction: 7
+    depthCompareFunction: 0
     enableWrite: 0
     stencilSettings:
       overrideStencilState: 1

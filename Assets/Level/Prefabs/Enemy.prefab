@@ -48,9 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 8217228448143196156, guid: 5c77f23899cd640f684c4cbe2a812163, type: 3}
-  rotationSpeed: 45
+  player: {fileID: 0}
   speed: 5
-  player: {fileID: 8581540975023566397, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+  rotationSpeed: 25
 --- !u!54 &9203804185481353617
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectionRateSeconds: 1
   range: 10
-  arcAngle: 45
+  arcAngle: 50
 --- !u!1001 &190083670239422641
 PrefabInstance:
   m_ObjectHideFlags: 0

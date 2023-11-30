@@ -49,10 +49,10 @@ namespace TMPro.Examples
         {
             textComponent.ForceMeshUpdate();
 
-            TMP_TextInfo textInfo = textComponent.textInfo;
+            var textInfo = textComponent.textInfo;
 
-            int totalVisibleCharacters = textInfo.characterCount; // Get # of Visible Character in text object
-            int visibleCount = 0;
+            var totalVisibleCharacters = textInfo.characterCount; // Get # of Visible Character in text object
+            var visibleCount = 0;
 
             while (true)
             {
@@ -85,11 +85,11 @@ namespace TMPro.Examples
         {
             textComponent.ForceMeshUpdate();
 
-            int totalWordCount = textComponent.textInfo.wordCount;
-            int totalVisibleCharacters = textComponent.textInfo.characterCount; // Get # of Visible Character in text object
-            int counter = 0;
-            int currentWord = 0;
-            int visibleCount = 0;
+            var totalWordCount = textComponent.textInfo.wordCount;
+            var totalVisibleCharacters = textComponent.textInfo.characterCount; // Get # of Visible Character in text object
+            var counter = 0;
+            var currentWord = 0;
+            var visibleCount = 0;
 
             while (true)
             {
