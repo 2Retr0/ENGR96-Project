@@ -14,7 +14,7 @@ namespace Code.Scripts.Player
         // Start is called before the first frame update
         private void Start()
         {
-
+            if (!target) target = FindObjectOfType<PlayerController>().gameObject.transform;
         }
 
         // Update is called once per frame
@@ -25,7 +25,6 @@ namespace Code.Scripts.Player
 
         private void MoveCamera()
         {
-            // transform.position = Vector3.Lerp(transform.position, target.position + tartgetOffset, movementSpeed * Time.deltaTime);
             transform.position = Vector3.SmoothDamp(transform.position, target.position + targetOffset, ref velocity, smoothTime, maxSpeed);
         }
     }

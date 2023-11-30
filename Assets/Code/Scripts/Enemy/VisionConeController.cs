@@ -36,6 +36,7 @@ namespace Code.Scripts.Enemy
         /** Assumed to be called *once* per `FixedUpdate()`*/
         public void UpdateDetectionProgress(bool hasDetectedPlayer)
         {
+            print(range + ", " + arcAngle);
             CanSeePlayer = hasDetectedPlayer;
             DetectionProgress += Time.deltaTime / detectionRateSeconds * (hasDetectedPlayer ? 1 : -0.5f);
             DetectionProgress = Mathf.Clamp(DetectionProgress, 0.0f, 1.0f);
@@ -51,7 +52,7 @@ namespace Code.Scripts.Enemy
             else if (Mathf.Abs(range - ranges[0]) >= 1e-4f)
             {
                 range = Mathf.SmoothDamp(range, ranges[0], ref _, 0.2f);
-                arcAngle = Mathf.SmoothDamp(arcAngle, angles[0], ref _, 0.5f);
+                arcAngle = Mathf.SmoothDamp(arcAngle, angles[0], ref _, 0.125f);
                 onFieldChange.Invoke();
             }
         }

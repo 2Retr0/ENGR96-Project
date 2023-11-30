@@ -37,6 +37,12 @@ namespace Code.Scripts.Enemy
         private float visionArcAngle;
         private float visionRange;
 
+        // --- Dash State Fields ---
+        private const int PlayerLayerMask = ~((1 << 2) | (1 << 3));
+        private const float TargetDashDistance = 10f;
+        private Vector3 startDashPosition;
+        private float dashDistance;
+
         private VisionConeController controller;
         private Material impactLineMaterial;
         private bool isTouchingPlayer;
@@ -119,21 +125,29 @@ namespace Code.Scripts.Enemy
                     var strength = Mathf.SmoothStep(1f, 0f, Vector3.Distance(self.position, player.transform.position) * 0.1f);
                     PostManager.Instance.SetImpactStrength(strength, gameObject);
 
-                    if (Time.fixedTime >= nextDashTime)
+                    if (!controller.CanSeePlayer && !isTouchingPlayer)
+                        state = State.CatchUp;
+                    else if (Time.fixedTime >= nextDashTime)
                     {
                         state = State.Dash;
                         visionArcAngle = controller.arcAngle;
                         visionRange = controller.range;
+                        startDashPosition = self.position;
+                        dashDistance = Physics.Raycast(startDashPosition, player.transform.position - startDashPosition, out var hit,
+                            TargetDashDistance, PlayerLayerMask) ? hit.distance : TargetDashDistance;
                     }
-                    else if (!controller.CanSeePlayer && !isTouchingPlayer)
-                        state = State.CatchUp;
                     break;
 
                 case State.CatchUp:
-                    if (Vector3.Distance(self.position, lastSeenPlayerPosition) < 0.05f * speed)
-                        state = State.Patrol;
-
                     PostManager.Instance.SetImpactStrength(0, gameObject);
+
+                    if (controller.CanSeePlayer)
+                        state = State.Investigate;
+                    else if (Vector3.Distance(self.position, lastSeenPlayerPosition) < 0.05f * speed ||
+                        Time.fixedTime - lastStateChangeTime > 5.0f)
+                    {
+                        state = State.Patrol;
+                    }
                     break;
 
                 case State.Sussed:
@@ -153,15 +167,14 @@ namespace Code.Scripts.Enemy
             }
 
             didStateJustChange = currentState != state && !didStateJustChange;
-            if (didStateJustChange)
-            {
-                previousState = currentState;
-                lastStateChangeTime = Time.fixedTime;
+            if (!didStateJustChange) return;
 
-                lookAngle = Vector3.SignedAngle(new Vector3(0, 0, 1), transform.forward, Vector3.up);
-                nextLookTime = Time.fixedTime + 0.35f;
-                nextDashTime = Time.fixedTime + Random.Range(2f, 3f);
-            }
+            previousState = currentState;
+            lastStateChangeTime = Time.fixedTime;
+
+            lookAngle = Vector3.SignedAngle(new Vector3(0, 0, 1), transform.forward, Vector3.up);
+            nextLookTime = Time.fixedTime + 0.35f;
+            nextDashTime = Time.fixedTime + Random.Range(2f, 3f);
         }
 
 
@@ -175,11 +188,12 @@ namespace Code.Scripts.Enemy
             switch (state)
             {
                 case State.Patrol:
-                    if (previousState is State.CatchUp or State.Investigate)
+                    if (previousState != State.Sussed)
                         SetText("?");
                     break;
                 case State.Investigate:
-                    SetText("!", float.MaxValue);
+                    if (previousState != State.CatchUp)
+                        SetText("!", float.MaxValue);
                     break;
                 case State.Sussed:
                     SetText("?");
@@ -218,6 +232,9 @@ namespace Code.Scripts.Enemy
                     break;
 
                 case State.CatchUp:
+                    // Keep vision cone on detected mode until enemy gives up
+                    controller.DetectionProgress = 1.1f;
+
                     // Move towards last seen position, slowing down to 0.3*speed over 1 second
                     MoveTowards(lastSeenPlayerPosition, transform, Mathf.SmoothStep(1f, 0.5f, t / 3f));
                     break;
@@ -234,39 +251,48 @@ namespace Code.Scripts.Enemy
                     var _ = 0.0f;
                     // var strength = Mathf.SmoothStep(1f, 0f, Vector3.Distance(self.position, player.transform.position) * 0.1f);
                     // PostManager.Instance.SetImpactStrength(strength, gameObject);
+                    const float targetDashTime = 0.1f;
+                    const float dashStartTime = 0.8f;
+                    // Proper dash time based on the amount of distance that can be travelled
+                    var dashTime = dashDistance / TargetDashDistance * targetDashTime;
 
                     controller.DetectionProgress = 1.1f;
-                    // print(controller.arcAngle);
-                    if (t < 0.8)
+                    switch (t)
                     {
-                        controller.SetArcAngle(Mathf.SmoothDamp(controller.arcAngle, 15f, ref _, 8.0f * Time.deltaTime));
-                    }
-                    else if (t is > 0.8f and < 0.9f)
-                    {
-                        Destroy(stateText);
-                        transform.position += 100f * Time.deltaTime * self.forward;
-                        controller.SetRange(0.1f);
-                        // transform.position = Vector3.SmoothDamp(self.position, )
-                    }
-                    else if (t < 1.5f)
-                        controller.SetRange(0.1f);
-                    else if (t > 1.5f)
-                    {
-                        controller.SetRange(Mathf.SmoothDamp(controller.range, visionRange, ref _, 10.0f * Time.deltaTime));
-                        controller.SetArcAngle(Mathf.SmoothDamp(controller.arcAngle, visionArcAngle, ref _, 10.0f * Time.deltaTime));
+                        // print(controller.arcAngle);
+                        case < dashStartTime:
+                            controller.SetArcAngle(Mathf.SmoothDamp(controller.arcAngle, 12f, ref _, 8.0f * Time.deltaTime));
+                            controller.SetRange(Mathf.SmoothDamp(controller.range, dashDistance, ref _, 8.0f * Time.deltaTime));
+                            break;
+
+                        case >= dashStartTime when t < dashStartTime + dashTime:
+                            // --- Dash Movement Logic ---
+                            Destroy(stateText);
+                            transform.position = Vector3.Lerp(startDashPosition, startDashPosition + dashDistance * self.forward,
+                                (t - dashStartTime) * (1 / dashTime));
+                            controller.SetRange(0.1f);
+                            break;
+
+                        case < dashStartTime + 0.4f:
+                            controller.SetRange(0.1f);
+                            break;
+
+                        case >= dashStartTime + 0.4f:
+                            controller.SetRange(Mathf.SmoothDamp(controller.range, visionRange, ref _, 10.0f * Time.deltaTime));
+                            controller.SetArcAngle(Mathf.SmoothDamp(controller.arcAngle, visionArcAngle, ref _, 10.0f * Time.deltaTime));
 
 
-                        // Begin running towards player if there is line of sight
-                        if (Physics.Raycast(self.position, playerPosition - self.position, out var hit, 15f) &&
-                            hit.transform == player.transform)
-                        {
-                            lookAt = LookAt(playerPosition, self);
-                            transform.rotation = Quaternion.Slerp(
-                                self.rotation, Quaternion.LookRotation(lookAt), 3.0f * Time.deltaTime);
-                            MoveTowards(self.position + self.forward, self, 0.5f);
-                        }
+                            // Begin running towards player if there is line of sight
+                            if (Physics.Raycast(self.position, playerPosition - self.position, out var hit, 15f) &&
+                                hit.transform == player.transform)
+                            {
+                                lookAt = LookAt(playerPosition, self);
+                                transform.rotation = Quaternion.Slerp(
+                                    self.rotation, Quaternion.LookRotation(lookAt), 3.0f * Time.deltaTime);
+                                MoveTowards(self.position + self.forward, self, 0.5f);
+                            }
+                            break;
                     }
-
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -311,6 +337,7 @@ namespace Code.Scripts.Enemy
         {
             Destroy(stateText);
             Destroy(gameObject);
+            PostManager.Instance.SetImpactStrength(0, gameObject);
         }
     }
 }

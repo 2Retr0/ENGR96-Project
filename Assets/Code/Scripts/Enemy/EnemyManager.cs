@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Code.Scripts.Enemy;
 using UnityEngine;
 using UnityEngine.Events;
