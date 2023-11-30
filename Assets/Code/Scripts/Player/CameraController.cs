@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Code.Scripts.Player
 {
     public class CameraController : MonoBehaviour
     {
         [SerializeField] private Transform target;
-        [SerializeField] private Vector3 tartgetOffset = new Vector3(-10, 10, 10);
+        [SerializeField] private Vector3 targetOffset = new(-10, 10, 10);
         // public float movementSpeed;
         [SerializeField] private float smoothTime = 0.3f;
         [SerializeField] private float maxSpeed = 10f; // Optionally add a max speed
@@ -25,7 +26,7 @@ namespace Code.Scripts.Player
         private void MoveCamera()
         {
             // transform.position = Vector3.Lerp(transform.position, target.position + tartgetOffset, movementSpeed * Time.deltaTime);
-            transform.position = Vector3.SmoothDamp(transform.position, target.position + tartgetOffset, ref velocity, smoothTime, maxSpeed);
+            transform.position = Vector3.SmoothDamp(transform.position, target.position + targetOffset, ref velocity, smoothTime, maxSpeed);
         }
     }
 }

@@ -137,16 +137,14 @@ namespace Code.Scripts.Enemy
             if (health < 1)
             {
                 isAlive = false;
+                OnKill();
             }
-            DestroyIfDead();
         }
 
-        private void DestroyIfDead()
+        private void OnKill()
         {
-            if (!isAlive)
-            {
-                Destroy(gameObject);
-            }
+            Destroy(stateText);
+            Destroy(gameObject);
         }
     }
 }

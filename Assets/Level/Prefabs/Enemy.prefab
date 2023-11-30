@@ -51,7 +51,6 @@ MonoBehaviour:
   rotationSpeed: 45
   speed: 5
   player: {fileID: 8581540975023566397, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
-  dead: 0
 --- !u!54 &9203804185481353617
 Rigidbody:
   m_ObjectHideFlags: 0
