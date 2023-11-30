@@ -30,6 +30,8 @@ namespace Code.Scripts.Enemy
         private bool isAlive;
         private int health;
 
+        public Animator animator;
+
         private enum State
         {
             Patrol, Investigate
@@ -96,6 +98,7 @@ namespace Code.Scripts.Enemy
                 case State.Patrol:
                     transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
                     impactLineMaterial.SetFloat("_Strength", 0.0f);
+                    animator.SetFloat("Speed", 5f);
 
                     // Instantiate patrol text
                     if (previousState == State.Investigate)
@@ -118,7 +121,14 @@ namespace Code.Scripts.Enemy
 
                     // Move if not colliding with player!
                     if (shouldMove)
+                    {
                         transform.position += speed * Time.deltaTime * lookAt;
+                        animator.SetFloat("Speed", 10f);
+                    }
+                    else
+                    {
+                        animator.SetFloat("Speed", 0f);
+                    }
 
                     // Instantiate alert text
                     if (previousState == State.Patrol)
