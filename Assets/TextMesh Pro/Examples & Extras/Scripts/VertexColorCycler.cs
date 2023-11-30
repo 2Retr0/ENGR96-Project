@@ -31,15 +31,15 @@ namespace TMPro.Examples
             // Force the text object to update right away so we can have geometry to modify right from the start.
             m_TextComponent.ForceMeshUpdate();
 
-            TMP_TextInfo textInfo = m_TextComponent.textInfo;
-            int currentCharacter = 0;
+            var textInfo = m_TextComponent.textInfo;
+            var currentCharacter = 0;
 
             Color32[] newVertexColors;
             Color32 c0 = m_TextComponent.color;
 
             while (true)
             {
-                int characterCount = textInfo.characterCount;
+                var characterCount = textInfo.characterCount;
 
                 // If No Characters then just yield and wait for some text to be added
                 if (characterCount == 0)
@@ -49,13 +49,13 @@ namespace TMPro.Examples
                 }
 
                 // Get the index of the material used by the current character.
-                int materialIndex = textInfo.characterInfo[currentCharacter].materialReferenceIndex;
+                var materialIndex = textInfo.characterInfo[currentCharacter].materialReferenceIndex;
 
                 // Get the vertex colors of the mesh used by this text element (character or sprite).
                 newVertexColors = textInfo.meshInfo[materialIndex].colors32;
 
                 // Get the index of the first vertex used by this text element.
-                int vertexIndex = textInfo.characterInfo[currentCharacter].vertexIndex;
+                var vertexIndex = textInfo.characterInfo[currentCharacter].vertexIndex;
 
                 // Only change the vertex color if the text element is visible.
                 if (textInfo.characterInfo[currentCharacter].isVisible)

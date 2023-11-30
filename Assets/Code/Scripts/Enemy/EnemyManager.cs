@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Code.Scripts.Enemy;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,7 +10,7 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private GameObject playerSlot;
-    Vector3 currentEulerAngles;
+    private Vector3 currentEulerAngles;
 
     public UnityEvent onEnemyDeath;
     private int level;
@@ -25,16 +26,10 @@ public class EnemyManager : MonoBehaviour
         level = 1;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-
-    }
-
     private void AddNewEnemy() {
         Instantiate(enemyPrefab, this.transform);
-        Code.Scripts.Enemy.EnemyBehaviorController[] enemies = GetComponentsInChildren<Code.Scripts.Enemy.EnemyBehaviorController>();
-        foreach (Code.Scripts.Enemy.EnemyBehaviorController enemy in enemies)
+        var children = GetComponentsInChildren<EnemyBehaviorController>();
+        foreach (var enemy in children)
         {
             enemy.player = playerSlot;
         }
@@ -42,12 +37,12 @@ public class EnemyManager : MonoBehaviour
 
     public void LeveledUp() {
         level++;
-        for (int i = 0; i < level; i++) {
+        for (var i = 0; i < level; i++) {
             AddNewEnemy();
         }
 
-        Code.Scripts.Enemy.EnemyBehaviorController[] enemies = GetComponentsInChildren<Code.Scripts.Enemy.EnemyBehaviorController>();
-        foreach (Code.Scripts.Enemy.EnemyBehaviorController enemy in enemies)
+        var children = GetComponentsInChildren<EnemyBehaviorController>();
+        foreach (var enemy in children)
         {
             enemy.rotationSpeed = level*3 + 45;
             enemy.speed = level + 4;

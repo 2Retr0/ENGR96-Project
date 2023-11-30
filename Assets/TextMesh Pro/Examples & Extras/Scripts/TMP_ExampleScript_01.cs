@@ -44,7 +44,7 @@ namespace TMPro.Examples
             m_text.text = "A <#0080ff>simple</color> line of text.";
 
             // Get the preferred width and height based on the supplied width and height as opposed to the actual size of the current text container.
-            Vector2 size = m_text.GetPreferredValues(Mathf.Infinity, Mathf.Infinity);
+            var size = m_text.GetPreferredValues(Mathf.Infinity, Mathf.Infinity);
 
             // Set the size of the RectTransform based on the new calculated values.
             m_text.rectTransform.sizeDelta = new Vector2(size.x, size.y);

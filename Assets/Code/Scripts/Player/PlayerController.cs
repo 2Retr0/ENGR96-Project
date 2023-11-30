@@ -201,7 +201,7 @@ namespace Code.Scripts.Player
 
         private void IncreaseLevel()
         {
-            int checkLevel = Mathf.FloorToInt(levelConstant * Mathf.Sqrt(score) + 1);
+            var checkLevel = Mathf.FloorToInt(levelConstant * Mathf.Sqrt(score) + 1);
             if (level != checkLevel) { 
                 levelText.text = "Level: " + checkLevel.ToString();
                 onLevelUp?.Invoke();
@@ -238,7 +238,7 @@ namespace Code.Scripts.Player
 
         private void CheckGameOver() {
             if (health < 1) {
-                int h = 0;
+                var h = 0;
                 healthText.text = "Health: " + h.ToString();
                 gameOverText.text = "GAME OVER";
                 Time.timeScale = 0.2f;

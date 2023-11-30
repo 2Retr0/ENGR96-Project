@@ -21,6 +21,7 @@ namespace Code.Scripts.Enemy
         private float arcAngle;
         private float rayCount;
         private float arcAngleDelta;
+        private static readonly int Range = Shader.PropertyToID("_Range");
 
         // Start is called before the first frame update
         private void Start()
@@ -45,11 +46,11 @@ namespace Code.Scripts.Enemy
             arcAngleDelta = arcAngle / rayCount;
 
             // Ensure the range property for the material shader is the same range of the vision cone
-            material.SetFloat("_Range", range);
+            material.SetFloat(Range, range);
         }
 
         // Update is called once per frame
-        private void FixedUpdate()
+        private void Update()
         {
             DrawMesh(transform);
 

@@ -11,6 +11,7 @@ namespace Code.Scripts.Enemy
         [SerializeField] public float arcAngle = 45f;
 
         [NonSerialized] public float DetectionProgress = 0.0f;
+        [NonSerialized] public bool CanSeePlayer;
 
         private Vector2 ranges;
         private Vector2 angles;
@@ -23,8 +24,8 @@ namespace Code.Scripts.Enemy
         // Start is called before the first frame update
         private void Start()
         {
-            ranges = new Vector2(range, range + 1f);
-            angles = new Vector2(arcAngle, arcAngle + 10f);
+            ranges = new Vector2(range, range + 3f);
+            angles = new Vector2(arcAngle, arcAngle + 20f);
         }
 
         public void ResetDetectionProgress()
@@ -35,6 +36,7 @@ namespace Code.Scripts.Enemy
         /** Assumed to be called *once* per `FixedUpdate()`*/
         public void UpdateDetectionProgress(bool hasDetectedPlayer)
         {
+            CanSeePlayer = hasDetectedPlayer;
             DetectionProgress += Time.deltaTime / detectionRateSeconds * (hasDetectedPlayer ? 1 : -0.5f);
             DetectionProgress = Mathf.Clamp(DetectionProgress, 0.0f, 1.0f);
 
@@ -49,9 +51,21 @@ namespace Code.Scripts.Enemy
             else if (Mathf.Abs(range - ranges[0]) >= 1e-4f)
             {
                 range = Mathf.SmoothDamp(range, ranges[0], ref _, 0.2f);
-                arcAngle = Mathf.SmoothDamp(arcAngle, angles[0], ref _, 0.2f);
+                arcAngle = Mathf.SmoothDamp(arcAngle, angles[0], ref _, 0.5f);
                 onFieldChange.Invoke();
             }
+        }
+
+        public void SetArcAngle(float angle)
+        {
+            arcAngle = angle;
+            onFieldChange.Invoke();
+        }
+
+        public void SetRange(float distance)
+        {
+            range = distance;
+            onFieldChange.Invoke();
         }
     }
 }
