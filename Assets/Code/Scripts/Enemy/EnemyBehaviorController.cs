@@ -17,6 +17,7 @@ namespace Code.Scripts.Enemy
         [SerializeField] private GameObject textMesh;
         [SerializeField] public GameObject player;
         [SerializeField] public float speed = 5f;
+        [SerializeField] private GameObject bullet;
 
         public float rotationSpeed;
 
@@ -47,9 +48,11 @@ namespace Code.Scripts.Enemy
         private Material impactLineMaterial;
         private bool isTouchingPlayer;
 
-
+        
         private bool isAlive;
         private int health;
+
+        private float bulletTime;
 
         // public Animator animator;
 
@@ -64,6 +67,8 @@ namespace Code.Scripts.Enemy
             isAlive = true;
             health = 100;
 
+            bulletTime = 1.5f;
+
             controller = GetComponentInChildren<VisionConeController>();
 
             if (!player) player = FindObjectOfType<PlayerController>().gameObject;
@@ -77,6 +82,14 @@ namespace Code.Scripts.Enemy
             stateText = Instantiate(textMesh, transform.position, Quaternion.identity);
             stateText.GetComponent<TextMeshPro>().text = text;
             stateText.GetComponent<TextController>().lifetimeSeconds = lifetime;
+        }
+        
+        private void FireGun(Transform t)
+        {
+            // Spawn bullet at player position with some forward and y-offset
+            
+            var spawnPosition = t.position + 1.25f * t.forward + 1.65f * t.up;
+            Instantiate(bullet, spawnPosition, t.rotation);
         }
 
         private void OnCollisionEnter(Collision other)
@@ -99,6 +112,18 @@ namespace Code.Scripts.Enemy
         {
             UpdateMovement(transform);
             UpdateText(transform);
+
+            bulletTime -= Time.deltaTime;
+            
+            var t = transform;
+            if (state == State.Investigate && bulletTime < 0)
+            {
+                FireGun(t);
+                bulletTime = 1.5f;
+                Debug.Log("Fired");
+            }
+
+
         }
 
         private void UpdateState(Transform self)
@@ -335,6 +360,7 @@ namespace Code.Scripts.Enemy
 
         private void OnKill()
         {
+            player.GetComponent<PlayerController>().IncreaseScore(400);
             Destroy(stateText);
             Destroy(gameObject);
             PostManager.Instance.SetImpactStrength(0, gameObject);

@@ -50,7 +50,8 @@ MonoBehaviour:
   textMesh: {fileID: 8217228448143196156, guid: 5c77f23899cd640f684c4cbe2a812163, type: 3}
   player: {fileID: 0}
   speed: 5
-  rotationSpeed: 25
+  bullet: {fileID: 1335506382024183407, guid: 3519589546d60d44bab20955a9bd5a62, type: 3}
+  rotationSpeed: 50
 --- !u!54 &9203804185481353617
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -60,8 +61,8 @@ Rigidbody:
   m_GameObject: {fileID: 3287686646700537905}
   serializedVersion: 4
   m_Mass: 20
-  m_Drag: 9999
-  m_AngularDrag: 9999
+  m_Drag: 2
+  m_AngularDrag: 99999
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}

@@ -9,8 +9,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private GameObject playerSlot;
     private Vector3 currentEulerAngles;
-
-    public UnityEvent onEnemyDeath;
+    
     private int level;
 
 
@@ -18,9 +17,7 @@ public class EnemyManager : MonoBehaviour
     void Start()
     {
         AddNewEnemy();
-        AddNewEnemy();
-        AddNewEnemy();
-        AddNewEnemy();
+
         level = 1;
     }
 

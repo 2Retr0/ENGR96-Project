@@ -154,15 +154,6 @@ namespace Code.Scripts.Player
             UpdateModelRotation();
 
             contactEnableCounter++;
-
-            // if (contactEnableCounter < 50)
-            // {
-            //     Debug.Log("No Damage mode");
-            //
-            // }
-            // else {
-            //     Debug.Log("Damage mode");
-            // }
         }
 
         private void OnMove(InputValue input)
@@ -224,13 +215,13 @@ namespace Code.Scripts.Player
         }
 
         private void OnCollisionEnter(Collision col) {
-            if (col.gameObject.tag == "Enemy" && contactEnableCounter > 50) {
+            if (col.gameObject.CompareTag("Enemy") && contactEnableCounter > 50) {
                 TakeDamage(30);
+                contactEnableCounter = 0;
             }
-            contactEnableCounter = 0;
         }
 
-        private void TakeDamage(int i) {
+        public void TakeDamage(int i) {
             health += -i;
             healthText.text = "Health: " + health.ToString();
             CheckGameOver();
@@ -238,7 +229,7 @@ namespace Code.Scripts.Player
 
         private void CheckGameOver() {
             if (health < 1) {
-                var h = 0;
+                int h = 0;
                 healthText.text = "Health: " + h.ToString();
                 gameOverText.text = "GAME OVER";
                 Time.timeScale = 0.2f;
