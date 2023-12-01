@@ -52,6 +52,7 @@ MonoBehaviour:
   speed: 5
   bullet: {fileID: 1335506382024183407, guid: 3519589546d60d44bab20955a9bd5a62, type: 3}
   rotationSpeed: 50
+  animator: {fileID: 5029558171277384034}
 --- !u!54 &9203804185481353617
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -487,6 +488,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5147549043775238611, guid: 17139a5c5802afd4ea80d355052fba20, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 53371864f0143594d8bb5dbb8fe676e2, type: 2}
     - target: {fileID: 5219460373089656709, guid: 17139a5c5802afd4ea80d355052fba20, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -708,3 +713,8 @@ CapsuleCollider:
   m_Height: 1.78
   m_Direction: 1
   m_Center: {x: 0, y: 0.8688879, z: 0}
+--- !u!95 &5029558171277384034 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5147549043775238611, guid: 17139a5c5802afd4ea80d355052fba20, type: 3}
+  m_PrefabInstance: {fileID: 190083670239422641}
+  m_PrefabAsset: {fileID: 0}

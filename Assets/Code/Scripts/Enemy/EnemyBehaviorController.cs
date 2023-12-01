@@ -32,11 +32,14 @@ namespace Code.Scripts.Enemy
         private Vector3 lastSeenPlayerPosition;
         private float nextLookTime;
         private float lookAngle;
+        private bool isPatrolling; // is walking
 
         // --- Investigate State Fields ---
         private float nextDashTime;
         private float visionArcAngle;
         private float visionRange;
+        private float patrolMovementDuration = 2f;
+        private float patrolMovementTimer;
 
         // --- Dash State Fields ---
         private const int PlayerLayerMask = ~((1 << 2) | (1 << 3));
@@ -54,7 +57,7 @@ namespace Code.Scripts.Enemy
 
         private float bulletTime;
 
-        // public Animator animator;
+        public Animator animator;
 
         private enum State
         {
@@ -133,13 +136,31 @@ namespace Code.Scripts.Enemy
             {
                 case State.Patrol:
                     var t = Time.fixedTime - lastStateChangeTime;
-                    // Get next look angle
-                    if (Time.fixedTime >= nextLookTime)
+
+                    if (isPatrolling)
+                    {
+                        patrolMovementTimer += Time.fixedDeltaTime;
+
+                        if (patrolMovementTimer <= patrolMovementDuration)
+                        {
+                            // Move in the look direction
+                            var moveDirection = Quaternion.Euler(0, lookAngle, 0) * Vector3.forward;
+                            transform.position += moveDirection * speed * 0.2f * Time.fixedDeltaTime;
+                        }
+                        else
+                        {
+                            // stop walking
+                            isPatrolling = false;
+                            patrolMovementTimer = 0;
+                        }
+                    }
+                    else if (Time.fixedTime >= nextLookTime)
                     {
                         // Look around more often right after losing track of a player
                         var spanFactor = Mathf.SmoothStep(0.2f, 1f, t / 6f);
                         nextLookTime += Random.Range(2f, 4f) * spanFactor;
                         lookAngle += Random.Range(-100f, 100f) * spanFactor;
+                        isPatrolling = true;
                     }
 
                     if (controller.CanSeePlayer)
@@ -244,6 +265,7 @@ namespace Code.Scripts.Enemy
                 case State.Patrol:
                     // Look randomly (faster right after losing track of a player)
                     var rotationSpeedModifier = Mathf.SmoothStep(0.4f, 0.1f, t / 6f);
+                    animator.SetFloat("Speed", 5);
                     var rotationAmount = rotationSpeed * rotationSpeedModifier * Time.deltaTime;
                     transform.rotation = Quaternion.Slerp(
                         self.rotation, Quaternion.AngleAxis(lookAngle, Vector3.up), rotationAmount);
@@ -253,7 +275,7 @@ namespace Code.Scripts.Enemy
                     MoveTowards(playerPosition, transform);
                     lastSeenPlayerPosition = playerPosition;
 
-                    // animator.SetFloat("Speed", isTouchingPlayer ? 0 : 10);
+                    animator.SetFloat("Speed", isTouchingPlayer ? 0 : 10);
                     break;
 
                 case State.CatchUp:
