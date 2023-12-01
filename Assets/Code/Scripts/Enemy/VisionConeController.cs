@@ -36,7 +36,7 @@ namespace Code.Scripts.Enemy
         /** Assumed to be called *once* per `FixedUpdate()`*/
         public void UpdateDetectionProgress(bool hasDetectedPlayer)
         {
-            print(range + ", " + arcAngle);
+            // print(range + ", " + arcAngle);
             CanSeePlayer = hasDetectedPlayer;
             DetectionProgress += Time.deltaTime / detectionRateSeconds * (hasDetectedPlayer ? 1 : -0.5f);
             DetectionProgress = Mathf.Clamp(DetectionProgress, 0.0f, 1.0f);
