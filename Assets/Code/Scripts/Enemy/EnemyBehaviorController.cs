@@ -206,6 +206,7 @@ namespace Code.Scripts.Enemy
                 case State.Dash:
                     if (Time.fixedTime - lastStateChangeTime > 2.25f)
                         state = State.Investigate;
+                        animator.SetBool("Dash", false);
                     break;
 
                 default:
@@ -310,6 +311,7 @@ namespace Code.Scripts.Enemy
                         case < dashStartTime:
                             controller.SetArcAngle(Mathf.SmoothDamp(controller.arcAngle, 12f, ref _, 8.0f * Time.deltaTime));
                             controller.SetRange(Mathf.SmoothDamp(controller.range, dashDistance, ref _, 8.0f * Time.deltaTime));
+                            animator.SetBool("Dash", true);
                             break;
 
                         case >= dashStartTime when t < dashStartTime + dashTime:

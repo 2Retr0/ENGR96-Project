@@ -149,7 +149,7 @@ namespace Code.Scripts.Player
         // Update is called once per frame
         private void FixedUpdate()
         {
-            transform.position += speed * Time.deltaTime * displacement;
+            transform.position += speed * Time.deltaTime * displacement * 0.4f;
             // rb.MovePosition(transform.position + speed * Time.deltaTime * displacement);
             UpdateModelRotation();
 
