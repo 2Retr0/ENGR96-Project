@@ -19,6 +19,10 @@ namespace Code.Scripts.Enemy
         [SerializeField] public float speed = 5f;
         [SerializeField] private GameObject bullet;
 
+        [SerializeField] private AudioClip detectSound;
+        [SerializeField] private AudioClip dashTelegraphSound;
+        [SerializeField] private AudioClip dashSound;
+
         public float rotationSpeed;
 
         // --- State Tracking Fields ---
@@ -46,6 +50,7 @@ namespace Code.Scripts.Enemy
         private const float TargetDashDistance = 10f;
         private Vector3 startDashPosition;
         private float dashDistance;
+        private bool hasDashed = false; // FIXME: AWFUL SOLUTION OMG
 
         private VisionConeController controller;
         private Material impactLineMaterial;
@@ -176,9 +181,11 @@ namespace Code.Scripts.Enemy
                     else if (Time.fixedTime >= nextDashTime)
                     {
                         state = State.Dash;
+                        AudioSource.PlayClipAtPoint(dashTelegraphSound, transform.position, 0.5f);
                         visionArcAngle = controller.arcAngle;
                         visionRange = controller.range;
                         startDashPosition = self.position;
+                        hasDashed = false;
                         dashDistance = Physics.Raycast(startDashPosition, player.transform.position - startDashPosition, out var hit,
                             TargetDashDistance, PlayerLayerMask) ? hit.distance : TargetDashDistance;
                     }
@@ -198,15 +205,20 @@ namespace Code.Scripts.Enemy
 
                 case State.Sussed:
                     if (controller.DetectionProgress >= 1.0f)
+                    {
                         state = State.Investigate;
+                        AudioSource.PlayClipAtPoint(detectSound, transform.position, 1.0f);
+                    }
                     else if (controller.DetectionProgress < 0.5f && !controller.CanSeePlayer)
                         state = State.Patrol;
                     break;
 
                 case State.Dash:
                     if (Time.fixedTime - lastStateChangeTime > 2.25f)
+                    {
                         state = State.Investigate;
                         animator.SetBool("Dash", false);
+                    }
                     break;
 
                 default:
@@ -321,6 +333,10 @@ namespace Code.Scripts.Enemy
                             transform.position = Vector3.Lerp(startDashPosition, startDashPosition + dashDistance * self.forward,
                                 (t - dashStartTime) * (1 / dashTime));
                             controller.SetRange(0.1f);
+                            if (!hasDashed)
+                                AudioSource.PlayClipAtPoint(dashSound, playerPosition, 1.0f);
+
+                            hasDashed = true;
                             break;
 
                         case < dashStartTime + 0.4f:
@@ -328,6 +344,7 @@ namespace Code.Scripts.Enemy
                             break;
 
                         case >= dashStartTime + 0.4f:
+                            animator.SetBool("Dash", false);
                             controller.SetRange(Mathf.SmoothDamp(controller.range, visionRange, ref _, 10.0f * Time.deltaTime));
                             controller.SetArcAngle(Mathf.SmoothDamp(controller.arcAngle, visionArcAngle, ref _, 10.0f * Time.deltaTime));
 

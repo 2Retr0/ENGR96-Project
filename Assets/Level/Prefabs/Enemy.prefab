@@ -51,6 +51,9 @@ MonoBehaviour:
   player: {fileID: 0}
   speed: 5
   bullet: {fileID: 1335506382024183407, guid: 3519589546d60d44bab20955a9bd5a62, type: 3}
+  detectSound: {fileID: 8300000, guid: 1ceaa1f4293aff9459dbf8163dbb03cd, type: 3}
+  dashTelegraphSound: {fileID: 8300000, guid: ec2b583ed63204178b0b15d109e3ed6a, type: 3}
+  dashSound: {fileID: 8300000, guid: 8682de2e841ff4a37ba52cdfc69f1b49, type: 3}
   rotationSpeed: 50
   animator: {fileID: 5029558171277384034}
 --- !u!54 &9203804185481353617
