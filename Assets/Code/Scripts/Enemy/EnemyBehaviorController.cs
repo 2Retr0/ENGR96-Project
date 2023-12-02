@@ -290,6 +290,7 @@ namespace Code.Scripts.Enemy
                 case State.Sussed:
                     lookAt = LookAt(playerPosition, self);
 
+                    animator.SetFloat("Speed", 0);
                     // Slowly look towards player
                     transform.rotation = Quaternion.Slerp(
                         self.rotation, Quaternion.LookRotation(lookAt), 1.5f * Time.deltaTime);

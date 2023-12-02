@@ -14,10 +14,14 @@ namespace Code.Scripts.Player
         [SerializeField] private Camera playerCamera;
         [SerializeField] private GameObject bullet;
 
+        [SerializeField] private AudioClip fireSound;
+        [SerializeField] private AudioClip equipSound;
+        [SerializeField] private AudioClip concealSound;
+
         [SerializeField] private Button playButton;
         [SerializeField] private Button quitButton;
 
-        private float speed = 0;
+        public float speed = 0;
         private Vector3 displacement;
         public Animator animator;
         public GameObject gunInBack;
@@ -86,12 +90,14 @@ namespace Code.Scripts.Player
             {
                 // Walk
                 speed = walkSpeed;
+                animator.speed = walkSpeed * 0.135f;
                 animator.SetFloat("Speed", walkSpeed);
             }
             else if (Input.GetKey(KeyCode.LeftShift))
             {
                 // Run
                 speed = runSpeed;
+                animator.speed = runSpeed * 0.1f;
                 animator.SetFloat("Speed", runSpeed);
             }
 
@@ -105,6 +111,7 @@ namespace Code.Scripts.Player
                         gunInBack.SetActive(false);
                         gunInHand.SetActive(true);
                         animator.SetBool("Aim", true);
+                        AudioSource.PlayClipAtPoint(equipSound, playerCamera.transform.position, 0.1f);
                     }
                     break;
 
@@ -114,6 +121,7 @@ namespace Code.Scripts.Player
                     gunInBack.SetActive(true);
                     gunInHand.SetActive(false);
                     animator.SetBool("Aim", false);
+                    AudioSource.PlayClipAtPoint(concealSound, playerCamera.transform.position, 0.1f);
                     break;
 
                 case true when Input.GetButtonDown("Fire1"):
@@ -135,6 +143,8 @@ namespace Code.Scripts.Player
             animator.SetBool("Fire", true);
             // Start coroutine to reset fire animation
             StartCoroutine(ResetFireAnimation());
+
+            AudioSource.PlayClipAtPoint(fireSound, playerCamera.transform.position, 0.25f);
         }
 
         private IEnumerator ResetFireAnimation()
