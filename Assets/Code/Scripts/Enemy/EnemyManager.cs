@@ -1,6 +1,5 @@
 using Code.Scripts.Enemy;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -14,7 +13,7 @@ public class EnemyManager : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         AddNewEnemy();
 

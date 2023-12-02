@@ -21,14 +21,13 @@ namespace Code.Scripts.Player
         [SerializeField] private Button playButton;
         [SerializeField] private Button quitButton;
 
-        public float speed = 0;
+        public float speed;
         private Vector3 displacement;
         public Animator animator;
         public GameObject gunInBack;
         public GameObject gunInHand;
-        private bool isAiming = false;
+        private bool isAiming;
         private Vector3 lookAt = Vector3.zero;
-        private Rigidbody rb;
 
         public TextMeshProUGUI healthText;
         public TextMeshProUGUI scoreText;
@@ -45,6 +44,9 @@ namespace Code.Scripts.Player
 
         private bool isGamePaused;
         private int contactEnableCounter;
+        private static readonly int Speed = Animator.StringToHash("Speed");
+        private static readonly int Aim = Animator.StringToHash("Aim");
+        private static readonly int Fire = Animator.StringToHash("Fire");
 
         // Start is called before the first frame update
         private void Start()
@@ -54,7 +56,7 @@ namespace Code.Scripts.Player
             displacement = Vector3.zero;
             gunInBack.SetActive(true);
             gunInHand.SetActive(false);
-            rb = GetComponent<Rigidbody>();
+            GetComponent<Rigidbody>();
             if(!playerCamera) playerCamera = Camera.main;
 
             health = 100;
@@ -62,9 +64,9 @@ namespace Code.Scripts.Player
             level = 1;
             levelConstant = 0.05f;
 
-            healthText.text = "Health: " + health.ToString();
-            scoreText.text = "Score: " + score.ToString();
-            levelText.text = "Level: " + level.ToString();
+            healthText.text = "Health: " + health;
+            scoreText.text = "Score: " + score;
+            levelText.text = "Level: " + level;
             pausedText.text = " ";
             gameOverText.text = " ";
 
@@ -84,21 +86,21 @@ namespace Code.Scripts.Player
             {
                 // Idle
                 speed = 0;
-                animator.SetFloat("Speed", 0);
+                animator.SetFloat(Speed, 0);
             }
             else if (!Input.GetKey(KeyCode.LeftShift))
             {
                 // Walk
                 speed = walkSpeed;
                 animator.speed = walkSpeed * 0.135f;
-                animator.SetFloat("Speed", walkSpeed);
+                animator.SetFloat(Speed, walkSpeed);
             }
             else if (Input.GetKey(KeyCode.LeftShift))
             {
                 // Run
                 speed = runSpeed;
                 animator.speed = runSpeed * 0.1f;
-                animator.SetFloat("Speed", runSpeed);
+                animator.SetFloat(Speed, runSpeed);
             }
 
             switch (isAiming)
@@ -110,7 +112,7 @@ namespace Code.Scripts.Player
                         isAiming = true;
                         gunInBack.SetActive(false);
                         gunInHand.SetActive(true);
-                        animator.SetBool("Aim", true);
+                        animator.SetBool(Aim, true);
                         AudioSource.PlayClipAtPoint(equipSound, playerCamera.transform.position, 0.1f);
                     }
                     break;
@@ -120,7 +122,7 @@ namespace Code.Scripts.Player
                     isAiming = false;
                     gunInBack.SetActive(true);
                     gunInHand.SetActive(false);
-                    animator.SetBool("Aim", false);
+                    animator.SetBool(Aim, false);
                     AudioSource.PlayClipAtPoint(concealSound, playerCamera.transform.position, 0.1f);
                     break;
 
@@ -140,7 +142,7 @@ namespace Code.Scripts.Player
             }
 
             // Trigger fire animation
-            animator.SetBool("Fire", true);
+            animator.SetBool(Fire, true);
             // Start coroutine to reset fire animation
             StartCoroutine(ResetFireAnimation());
 
@@ -153,13 +155,13 @@ namespace Code.Scripts.Player
             yield return new WaitForSeconds(0.1f);
 
             // Reset the fire animation
-            animator.SetBool("Fire", false);
+            animator.SetBool(Fire, false);
         }
 
         // Update is called once per frame
         private void FixedUpdate()
         {
-            transform.position += speed * Time.deltaTime * displacement * 0.4f;
+            transform.position += displacement * (speed * Time.deltaTime * 0.4f);
             // rb.MovePosition(transform.position + speed * Time.deltaTime * displacement);
             UpdateModelRotation();
 
@@ -196,7 +198,7 @@ namespace Code.Scripts.Player
         {
             score += scoreIncrease;
             // Update the count text with the current count.
-            scoreText.text = "Score: " + score.ToString();
+            scoreText.text = "Score: " + score;
             IncreaseLevel();
         }
 
@@ -204,7 +206,7 @@ namespace Code.Scripts.Player
         {
             var checkLevel = Mathf.FloorToInt(levelConstant * Mathf.Sqrt(score) + 1);
             if (level != checkLevel) { 
-                levelText.text = "Level: " + checkLevel.ToString();
+                levelText.text = "Level: " + checkLevel;
                 onLevelUp?.Invoke();
                 Debug.Log("LEVELD UP");
                 level = checkLevel;
@@ -233,14 +235,14 @@ namespace Code.Scripts.Player
 
         public void TakeDamage(int i) {
             health += -i;
-            healthText.text = "Health: " + health.ToString();
+            healthText.text = "Health: " + health;
             CheckGameOver();
         }
 
         private void CheckGameOver() {
             if (health < 1) {
                 int h = 0;
-                healthText.text = "Health: " + h.ToString();
+                healthText.text = "Health: " + h;
                 gameOverText.text = "GAME OVER";
                 Time.timeScale = 0.2f;
                 playButton.gameObject.SetActive(true);

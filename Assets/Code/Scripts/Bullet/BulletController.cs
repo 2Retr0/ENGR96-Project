@@ -1,13 +1,10 @@
-using System;
 using Code.Scripts.Enemy;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Code.Scripts.Bullet
 {
     public class BulletController : MonoBehaviour
     {
-        [SerializeField] private string targetTag;
         [SerializeField] private float lifetimeSeconds = 5;
         [SerializeField] private float speed = 50; // In units per second
 

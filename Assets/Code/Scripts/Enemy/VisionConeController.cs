@@ -10,12 +10,12 @@ namespace Code.Scripts.Enemy
         [SerializeField] public float range = 5f;
         [SerializeField] public float arcAngle = 45f;
 
-        [NonSerialized] public float DetectionProgress = 0.0f;
+        [NonSerialized] public float DetectionProgress;
         [NonSerialized] public bool CanSeePlayer;
 
         private Vector2 ranges;
         private Vector2 angles;
-        private UnityEvent onFieldChange = new UnityEvent();
+        private readonly UnityEvent onFieldChange = new();
         public void OnFieldChangeCallback(UnityAction callback)
         {
             onFieldChange.AddListener(callback);

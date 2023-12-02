@@ -14,7 +14,6 @@ namespace Code.Scripts.Enemy
 
         private Mesh mesh;
         private Material material;
-        private Rigidbody rb;
         private VisionConeController controller;
 
         private float range;
@@ -22,12 +21,13 @@ namespace Code.Scripts.Enemy
         private float rayCount;
         private float arcAngleDelta;
         private static readonly int Range = Shader.PropertyToID("_Range");
+        private static readonly int Position = Shader.PropertyToID("_Position");
+        private static readonly int Progress = Shader.PropertyToID("_Progress");
 
         // Start is called before the first frame update
         private void Start()
         {
             mesh = GetComponent<MeshFilter>().mesh = new Mesh();
-            rb = GetComponentInParent<Rigidbody>();
 
             controller = GetComponent<VisionConeController>();
             controller.OnFieldChangeCallback(InitializeFields);
@@ -55,8 +55,8 @@ namespace Code.Scripts.Enemy
             DrawMesh(transform);
 
             // Update material shader properties
-            material.SetVector("_Position", transform.position);
-            material.SetFloat("_Progress", controller.DetectionProgress);
+            material.SetVector(Position, transform.position);
+            material.SetFloat(Progress, controller.DetectionProgress);
         }
 
         private void DrawMesh(Transform t)
@@ -111,9 +111,10 @@ namespace Code.Scripts.Enemy
                     } while (low <= high);
                     var edgeDirection = prevCastDirection * RotY(hasHit ? low : high);
 
-                    Debug.DrawRay(t.position, castDirection * eye * range, Color.blue);
-                    Debug.DrawRay(t.position, edgeDirection * eye * range, Color.white);
-                    Debug.DrawRay(t.position, prevCastDirection * eye * range, Color.red);
+                    var position = t.position;
+                    Debug.DrawRay(position, castDirection * eye * range, Color.blue);
+                    Debug.DrawRay(position, edgeDirection * eye * range, Color.white);
+                    Debug.DrawRay(position, prevCastDirection * eye * range, Color.red);
 
                     var v0 = edgeDirection * Vector3.forward * range;
                     var v1 = edgeDirection * Vector3.forward * edgeHitDistance;

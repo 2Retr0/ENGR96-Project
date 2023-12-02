@@ -53,38 +53,12 @@ Shader "Unlit/Occluded Base" {
 	            	return frag_data;
 	            }
 
-	            // SV_TARGET semantic tells Unity that we're outputting a fixed4 to be rendered.
 	            fixed4 frag(const frag_data frag_data) : SV_Target
 	            {
-		            // const float dist = distance(frag_data.position, _Position);
-	            	// float2 st = frag_data.position.xy / frag_data.position.w;
-	            	// float4 fragCoord = fixed4_position / fixed4_position.w;
-				// fragCoord.xy = 0.5 * (fragCoord.xy + 1.0);
 				    float2 st = frag_data.screen_pos.xy / frag_data.screen_pos.w;
 	            	st = rotate(st, PI / 4);
 	            	st *= 20.f;
 
-		            // const float dist = distance(frag_data.world_pos, float3(0,0,0));
-
-		            // float2 uv = frag_data.screen_position.xy / frag_data.screen_position.w;
-	             //    float4 cpos = UnityObjectToClipPos(float3(0,0,0));
-	             //    uv -= cpos.xy / cpos.w;
-	             //    uv *= cpos.w / UNITY_MATRIX_P._m11;
-	                // uv.x *= _ScreenParams.x / _ScreenParams.y;
-
-
-					// const float progress = lerp(start_offset, 1.f, 0.9f);
-	    //         	const bool alerted = 0.9f >= 1.0f;
-
-	            	// _Color0.w *= 1.f - dist * dist; // Taper off vision cone alpha
-	            	// _Color0.w *= alerted ? 1.15f : 1.f;       // Increase alpha if alerted
-	            	// _Color0.w *= step(start_offset, dist);    // Start vision cone after certain distance from actor
-		            //
-	            	// _Color1 *= alerted ? 1.f : cos(dist * 50.f) * 0.05f + 0.9f; // Add 'strips' to detection portion of cone
-	            	// _Color1.w = _Color0.w;
-
-	            	// Mix detection and undetected parts of cone together.
-					// return step(dist, progress) * _Color1 + step(progress, dist) * _Color0;
 	            	return _Color0 * (cos(st.x * 50.f) * 0.05f + 0.9f);
 	            }
             ENDCG

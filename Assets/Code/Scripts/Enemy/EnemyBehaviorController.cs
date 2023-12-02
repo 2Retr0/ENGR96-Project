@@ -1,12 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Code.Scripts.Player;
 using Code.Scripts.Text;
-using Cyan;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 using TMPro;
 using Random = UnityEngine.Random;
 
@@ -42,7 +37,7 @@ namespace Code.Scripts.Enemy
         private float nextDashTime;
         private float visionArcAngle;
         private float visionRange;
-        private float patrolMovementDuration = 2f;
+        private readonly float patrolMovementDuration = 2f;
         private float patrolMovementTimer;
 
         // --- Dash State Fields ---
@@ -50,7 +45,7 @@ namespace Code.Scripts.Enemy
         private const float TargetDashDistance = 10f;
         private Vector3 startDashPosition;
         private float dashDistance;
-        private bool hasDashed = false; // FIXME: AWFUL SOLUTION OMG
+        private bool hasDashed; // FIXME: AWFUL SOLUTION OMG
 
         private VisionConeController controller;
         private Material impactLineMaterial;
@@ -63,6 +58,13 @@ namespace Code.Scripts.Enemy
         private float bulletTime;
 
         public Animator animator;
+        private static readonly int Dash = Animator.StringToHash("Dash");
+        private static readonly int Speed = Animator.StringToHash("Speed");
+
+        public EnemyBehaviorController(bool isAlive)
+        {
+            this.isAlive = isAlive;
+        }
 
         private enum State
         {
@@ -106,7 +108,7 @@ namespace Code.Scripts.Enemy
                 isTouchingPlayer = true;
         }
 
-        private void OnCollisionExit(Collision other)
+        private void OnCollisionExit()
         {
             isTouchingPlayer = false;
         }
@@ -217,7 +219,7 @@ namespace Code.Scripts.Enemy
                     if (Time.fixedTime - lastStateChangeTime > 2.25f)
                     {
                         state = State.Investigate;
-                        animator.SetBool("Dash", false);
+                        animator.SetBool(Dash, false);
                     }
                     break;
 
@@ -278,7 +280,7 @@ namespace Code.Scripts.Enemy
                 case State.Patrol:
                     // Look randomly (faster right after losing track of a player)
                     var rotationSpeedModifier = Mathf.SmoothStep(0.4f, 0.1f, t / 6f);
-                    animator.SetFloat("Speed", 5);
+                    animator.SetFloat(Speed, 5);
                     var rotationAmount = rotationSpeed * rotationSpeedModifier * Time.deltaTime;
                     transform.rotation = Quaternion.Slerp(
                         self.rotation, Quaternion.AngleAxis(lookAngle, Vector3.up), rotationAmount);
@@ -288,7 +290,7 @@ namespace Code.Scripts.Enemy
                     MoveTowards(playerPosition, transform);
                     lastSeenPlayerPosition = playerPosition;
 
-                    animator.SetFloat("Speed", isTouchingPlayer ? 0 : 10);
+                    animator.SetFloat(Speed, isTouchingPlayer ? 0 : 10);
                     break;
 
                 case State.CatchUp:
@@ -302,7 +304,7 @@ namespace Code.Scripts.Enemy
                 case State.Sussed:
                     lookAt = LookAt(playerPosition, self);
 
-                    animator.SetFloat("Speed", 0);
+                    animator.SetFloat(Speed, 0);
                     // Slowly look towards player
                     transform.rotation = Quaternion.Slerp(
                         self.rotation, Quaternion.LookRotation(lookAt), 1.5f * Time.deltaTime);
@@ -324,7 +326,7 @@ namespace Code.Scripts.Enemy
                         case < dashStartTime:
                             controller.SetArcAngle(Mathf.SmoothDamp(controller.arcAngle, 12f, ref _, 8.0f * Time.deltaTime));
                             controller.SetRange(Mathf.SmoothDamp(controller.range, dashDistance, ref _, 8.0f * Time.deltaTime));
-                            animator.SetBool("Dash", true);
+                            animator.SetBool(Dash, true);
                             break;
 
                         case >= dashStartTime when t < dashStartTime + dashTime:
@@ -344,7 +346,7 @@ namespace Code.Scripts.Enemy
                             break;
 
                         case >= dashStartTime + 0.4f:
-                            animator.SetBool("Dash", false);
+                            animator.SetBool(Dash, false);
                             controller.SetRange(Mathf.SmoothDamp(controller.range, visionRange, ref _, 10.0f * Time.deltaTime));
                             controller.SetArcAngle(Mathf.SmoothDamp(controller.arcAngle, visionArcAngle, ref _, 10.0f * Time.deltaTime));
 

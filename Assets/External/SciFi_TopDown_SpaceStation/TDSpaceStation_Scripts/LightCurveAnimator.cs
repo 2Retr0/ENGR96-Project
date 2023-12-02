@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class LightCurveAnimator : MonoBehaviour {
 
@@ -12,7 +11,7 @@ public class LightCurveAnimator : MonoBehaviour {
     public bool active = true;
 
 	// Use this for initialization
-	void Start () {
+    private void Start () {
         if (GetComponent<Light>())
         {
             LightComp = GetComponent<Light>();
@@ -26,7 +25,7 @@ public class LightCurveAnimator : MonoBehaviour {
    }
 	
 	// Update is called once per frame
-	void Update () {
+    private void Update () {
         if (LightComp && active)
         {
             LightComp.intensity = ActualLightFactor * LightFactor.Evaluate(Time.time * FactorSpeed);
@@ -36,7 +35,7 @@ public class LightCurveAnimator : MonoBehaviour {
         }
     }
 
-    void DestroyComp()
+    private void DestroyComp()
     {
         Debug.LogWarning("Light curve animator script can´t find light component on gameobject : " + gameObject.name + "Destroying Component...");
         Destroy(this);

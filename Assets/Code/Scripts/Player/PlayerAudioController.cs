@@ -9,17 +9,11 @@ namespace Code.Scripts.Player
         private float defaultVolume;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             audioSource = GetComponent<AudioSource>();
             movementController = GetComponent<PlayerController>();
             defaultVolume = audioSource.volume;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
         }
 
         public void PlayFootstepSound()
