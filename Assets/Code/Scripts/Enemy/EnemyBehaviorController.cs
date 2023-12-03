@@ -21,8 +21,8 @@ namespace Code.Scripts.Enemy
         public float rotationSpeed;
 
         // --- State Tracking Fields ---
-        private State state = State.Patrol;
-        private State previousState = State.Patrol;
+        private State state = State.Rest;
+        private State previousState = State.Rest;
         private bool didStateJustChange;
         private float lastStateChangeTime;
         private GameObject stateText;
@@ -32,6 +32,7 @@ namespace Code.Scripts.Enemy
         private float nextLookTime;
         private float lookAngle;
         private bool isPatrolling; // is walking
+        private float nextWalkTime;
 
         // --- Investigate State Fields ---
         private float nextDashTime;
@@ -60,6 +61,7 @@ namespace Code.Scripts.Enemy
         public Animator animator;
         private static readonly int Dash = Animator.StringToHash("Dash");
         private static readonly int Speed = Animator.StringToHash("Speed");
+        private bool wasShotAt;
 
         public EnemyBehaviorController(bool isAlive)
         {
@@ -68,7 +70,7 @@ namespace Code.Scripts.Enemy
 
         private enum State
         {
-            Patrol, Investigate, CatchUp, Sussed, Dash
+            Rest, Chase, CatchUp, Sussed, Dash, Patrol
         }
 
         // Start is called before the first frame update
@@ -126,7 +128,7 @@ namespace Code.Scripts.Enemy
             bulletTime -= Time.deltaTime;
             
             var t = transform;
-            if (state == State.Investigate && bulletTime < 0)
+            if (state == State.Chase && bulletTime < 0)
             {
                 FireGun(t);
                 bulletTime = 1.5f;
@@ -142,39 +144,33 @@ namespace Code.Scripts.Enemy
             switch (state)
             {
                 case State.Patrol:
+                    PostManager.Instance.SetImpactStrength(0, gameObject);
+
+                    if (controller.CanSeePlayer)
+                        state = State.Sussed;
+                    else if (Time.fixedTime >= nextWalkTime)
+                        state = State.Rest;
+                    break;
+
+                case State.Rest:
                     var t = Time.fixedTime - lastStateChangeTime;
 
-                    if (isPatrolling)
-                    {
-                        patrolMovementTimer += Time.fixedDeltaTime;
-
-                        if (patrolMovementTimer <= patrolMovementDuration)
-                        {
-                            // Move in the look direction
-                            var moveDirection = Quaternion.Euler(0, lookAngle, 0) * Vector3.forward;
-                            transform.position += moveDirection * speed * 0.2f * Time.fixedDeltaTime;
-                        }
-                        else
-                        {
-                            // stop walking
-                            isPatrolling = false;
-                            patrolMovementTimer = 0;
-                        }
-                    }
-                    else if (Time.fixedTime >= nextLookTime)
+                    if (Time.fixedTime >= nextLookTime)
                     {
                         // Look around more often right after losing track of a player
                         var spanFactor = Mathf.SmoothStep(0.2f, 1f, t / 6f);
                         nextLookTime += Random.Range(2f, 4f) * spanFactor;
                         lookAngle += Random.Range(-100f, 100f) * spanFactor;
-                        isPatrolling = true;
                     }
 
-                    if (controller.CanSeePlayer)
+                    // Only switch to walk state if finished rotating.
+                    if (Time.fixedTime >= nextWalkTime)
+                        state = State.Patrol;
+                    else if (controller.CanSeePlayer)
                         state = State.Sussed;
                     break;
 
-                case State.Investigate:
+                case State.Chase:
                     var strength = Mathf.SmoothStep(1f, 0f, Vector3.Distance(self.position, player.transform.position) * 0.1f);
                     PostManager.Instance.SetImpactStrength(strength, gameObject);
 
@@ -197,28 +193,28 @@ namespace Code.Scripts.Enemy
                     PostManager.Instance.SetImpactStrength(0, gameObject);
 
                     if (controller.CanSeePlayer)
-                        state = State.Investigate;
+                        state = State.Chase;
                     else if (Vector3.Distance(self.position, lastSeenPlayerPosition) < 0.05f * speed ||
                         Time.fixedTime - lastStateChangeTime > 5.0f)
                     {
-                        state = State.Patrol;
+                        state = State.Rest;
                     }
                     break;
 
                 case State.Sussed:
                     if (controller.DetectionProgress >= 1.0f)
                     {
-                        state = State.Investigate;
+                        state = State.Chase;
                         AudioSource.PlayClipAtPoint(detectSound, transform.position, 1.0f);
                     }
                     else if (controller.DetectionProgress < 0.5f && !controller.CanSeePlayer)
-                        state = State.Patrol;
+                        state = State.Rest;
                     break;
 
                 case State.Dash:
                     if (Time.fixedTime - lastStateChangeTime > 2.25f)
                     {
-                        state = State.Investigate;
+                        state = State.Chase;
                         animator.SetBool(Dash, false);
                     }
                     break;
@@ -230,12 +226,18 @@ namespace Code.Scripts.Enemy
             didStateJustChange = currentState != state && !didStateJustChange;
             if (!didStateJustChange) return;
 
-            previousState = currentState;
-            lastStateChangeTime = Time.fixedTime;
+            OnStateChanged(currentState);
+        }
 
+        private void OnStateChanged(State oldState)
+        {
             lookAngle = Vector3.SignedAngle(new Vector3(0, 0, 1), transform.forward, Vector3.up);
+            nextWalkTime += (previousState == State.Patrol) ? Random.Range(3f, 4f) : Random.Range(7f, 8f);
             nextLookTime = Time.fixedTime + 0.35f;
             nextDashTime = Time.fixedTime + Random.Range(2f, 3f);
+
+            previousState = oldState;
+            lastStateChangeTime = Time.fixedTime;
         }
 
 
@@ -249,10 +251,12 @@ namespace Code.Scripts.Enemy
             switch (state)
             {
                 case State.Patrol:
-                    if (previousState != State.Sussed)
+                    break;
+                case State.Rest:
+                    if (previousState != State.Sussed && previousState != State.Patrol)
                         SetText("?");
                     break;
-                case State.Investigate:
+                case State.Chase:
                     if (previousState != State.CatchUp)
                         SetText("!", float.MaxValue);
                     break;
@@ -278,15 +282,21 @@ namespace Code.Scripts.Enemy
             switch (state)
             {
                 case State.Patrol:
+                    // Move in the look direction
+                    MoveTowards(transform.position + Vector3.forward, transform, 0.45f);
+                    animator.SetFloat(Speed, 5);
+                    break;
+
+                case State.Rest:
                     // Look randomly (faster right after losing track of a player)
                     var rotationSpeedModifier = Mathf.SmoothStep(0.4f, 0.1f, t / 6f);
-                    animator.SetFloat(Speed, 5);
+                    animator.SetFloat(Speed, 0);
                     var rotationAmount = rotationSpeed * rotationSpeedModifier * Time.deltaTime;
                     transform.rotation = Quaternion.Slerp(
                         self.rotation, Quaternion.AngleAxis(lookAngle, Vector3.up), rotationAmount);
                     break;
 
-                case State.Investigate:
+                case State.Chase:
                     MoveTowards(playerPosition, transform);
                     lastSeenPlayerPosition = playerPosition;
 
@@ -347,6 +357,7 @@ namespace Code.Scripts.Enemy
 
                         case >= dashStartTime + 0.4f:
                             animator.SetBool(Dash, false);
+                            animator.SetFloat(Speed, 5);
                             controller.SetRange(Mathf.SmoothDamp(controller.range, visionRange, ref _, 10.0f * Time.deltaTime));
                             controller.SetArcAngle(Mathf.SmoothDamp(controller.arcAngle, visionArcAngle, ref _, 10.0f * Time.deltaTime));
 
@@ -365,6 +376,17 @@ namespace Code.Scripts.Enemy
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+
+            if (wasShotAt && t < 1.0f)
+            {
+                lookAt = LookAt(playerPosition, self);
+                transform.rotation = Quaternion.Slerp(
+                    self.rotation, Quaternion.LookRotation(lookAt), 10f * Time.deltaTime);
+            }
+            else
+            {
+                wasShotAt = false;
             }
         }
 
@@ -400,11 +422,26 @@ namespace Code.Scripts.Enemy
                 isAlive = false;
                 OnKill();
             }
+            else if (state != State.Chase)
+            {
+                var originalState = state;
+                state = State.Chase;
+                AudioSource.PlayClipAtPoint(detectSound, transform.position, 1.0f);
+                wasShotAt = true;
+                OnStateChanged(originalState);
+            }
         }
 
         private void OnKill()
         {
-            player.GetComponent<PlayerController>().IncreaseScore(400);
+            try
+            {
+                player.GetComponent<PlayerController>().IncreaseScore(400);
+            }
+            catch
+            {
+
+            }
             Destroy(stateText);
             Destroy(gameObject);
             PostManager.Instance.SetImpactStrength(0, gameObject);
