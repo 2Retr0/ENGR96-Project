@@ -1,15 +1,14 @@
 using UnityEditor;
 using UnityEngine;
-using System.Collections;
 
 public class AssignMaterial : ScriptableWizard {
 
-    public Material material_to_apply;
+    public Material materialToApply;
 
     void OnWizardUpdate ()
     {
         helpString = "Select Game Objects";
-        isValid = ( material_to_apply != null );
+        isValid = ( materialToApply != null );
     }
 
     void OnWizardCreate ()
@@ -19,12 +18,12 @@ public class AssignMaterial : ScriptableWizard {
         {
             Material[] materials = go.GetComponent<Renderer> ().sharedMaterials;
             for ( int i = 0 ; i < materials.Length ; i++ )
-                materials [ i ] = material_to_apply;
+                materials [ i ] = materialToApply;
             go.GetComponent<Renderer> ().sharedMaterials = materials;
 
             materials = go.GetComponent<Renderer> ().materials;
             for ( int i = 0 ; i < materials.Length ; i++ )
-                materials [ i ] = material_to_apply;
+                materials [ i ] = materialToApply;
             go.GetComponent<Renderer> ().materials = materials;
 
 

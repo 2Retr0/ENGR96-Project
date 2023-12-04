@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Cyan;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -16,7 +19,10 @@ public class PostManager : Singleton<PostManager>
     private readonly HashSet<int> editors = new();
 
     private Material impactLineMaterial;
-    private float currentStrength;
+    private Material playerOutlineMaterial;
+    public float currentStrength;
+    public float currentThickness;
+    private static readonly int Thickness = Shader.PropertyToID("_Thickness");
 
     private void Start()
     {
@@ -32,6 +38,21 @@ public class PostManager : Singleton<PostManager>
             impactLineMaterial = (feature as Blit)?.settings.blitMaterial;
             impactLineMaterial!.SetFloat(Strength, 0.0f);
         }
+
+        foreach (var feature in features.Where(feature => feature.GetType() == typeof(RenderObjects)))
+        {
+            if ((feature as RenderObjects)?.name != "Occluded Outline Player") continue;
+
+            playerOutlineMaterial = (feature as RenderObjects).settings.overrideMaterial;
+            playerOutlineMaterial!.SetFloat(Thickness, 0.04f);
+            currentThickness = 0.04f;
+        }
+    }
+
+    public void SetPlayerOutlineThickness(float thickness)
+    {
+        playerOutlineMaterial!.SetFloat(Thickness, thickness);
+        currentThickness = thickness;
     }
 
     public void SetImpactStrength(float strength, GameObject who)

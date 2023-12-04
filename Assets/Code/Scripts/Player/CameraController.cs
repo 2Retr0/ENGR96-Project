@@ -7,12 +7,18 @@ namespace Code.Scripts.Player
         [SerializeField] private Transform target;
         [SerializeField] private Vector3 targetOffset = new(-10, 10, 10);
         // public float movementSpeed;
-        [SerializeField] private float smoothTime = 0.3f;
-        [SerializeField] private float maxSpeed = 10f; // Optionally add a max speed
-        private Vector3 velocity = Vector3.zero;
+        [SerializeField] private float smoothTime = 30f;
+
+        private float originalSmoothTime;
+        private Camera camera;
+        private float originalOrthographicSize;
+
         // Start is called before the first frame update
         private void Start()
         {
+            camera = GetComponent<Camera>();
+            originalOrthographicSize = camera.orthographicSize;
+            originalSmoothTime = smoothTime;
             if (!target) target = FindObjectOfType<PlayerController>().gameObject.transform;
         }
 
@@ -22,9 +28,26 @@ namespace Code.Scripts.Player
             MoveCamera();
         }
 
+        public void Reset()
+        {
+            smoothTime = originalSmoothTime;
+            camera.orthographicSize = originalOrthographicSize;
+        }
+
+        public void Zoom(float limit, float delta)
+        {
+            if (camera.orthographicSize > limit)
+            {
+                camera.orthographicSize += delta;
+                targetOffset.y -= delta * 0.35f;
+                smoothTime = originalSmoothTime * Time.timeScale;
+            }
+        }
+
         private void MoveCamera()
         {
-            transform.position = Vector3.SmoothDamp(transform.position, target.position + targetOffset, ref velocity, smoothTime, maxSpeed);
+            var _ = Vector3.zero;
+            transform.position = Vector3.SmoothDamp(transform.position, target.position + targetOffset, ref _, smoothTime);
         }
     }
 }

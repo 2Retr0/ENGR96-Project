@@ -28,6 +28,7 @@ namespace Code.Scripts.Player
         public GameObject gunInHand;
         private bool isAiming;
         private Vector3 lookAt = Vector3.zero;
+        private CameraController cameraController;
 
         public TextMeshProUGUI healthText;
         public TextMeshProUGUI scoreText;
@@ -35,9 +36,9 @@ namespace Code.Scripts.Player
         public TextMeshProUGUI pausedText;
         public TextMeshProUGUI gameOverText;
 
-        private int health;
-        private int score;
-        private int level;
+        [SerializeField] private int health = 100;
+        [SerializeField] private int score = 0;
+        [SerializeField] private int level = 1;
         private float levelConstant;
 
         public UnityEvent onLevelUp;
@@ -47,21 +48,24 @@ namespace Code.Scripts.Player
         private static readonly int Speed = Animator.StringToHash("Speed");
         private static readonly int Aim = Animator.StringToHash("Aim");
         private static readonly int Fire = Animator.StringToHash("Fire");
+        private static readonly int Death = Animator.StringToHash("OnDeath");
+        public bool isDead;
+        private MainAudioSource mainAudioSource;
 
         // Start is called before the first frame update
         private void Start()
         {
             Time.timeScale = 1.0f;
 
+            mainAudioSource = GetComponentInChildren<MainAudioSource>();
+
             displacement = Vector3.zero;
             gunInBack.SetActive(true);
             gunInHand.SetActive(false);
             GetComponent<Rigidbody>();
             if(!playerCamera) playerCamera = Camera.main;
+            cameraController = playerCamera.GetComponent<CameraController>();
 
-            health = 100;
-            score = 0;
-            level = 1;
             levelConstant = 0.05f;
 
             healthText.text = "Health: " + health;
@@ -79,7 +83,25 @@ namespace Code.Scripts.Player
 
         private void Update()
         {
-            var t = transform;
+            var self = transform;
+
+            if (isDead)
+            {
+                // Slow down time over time
+                if (Time.timeScale > 0.2)
+                {
+                    Time.timeScale -= 0.001f;
+                    animator.speed = 1f / Time.timeScale;
+                }
+
+                PostManager.Instance.SetPlayerOutlineThickness(PostManager.Instance.currentThickness + 0.03f);
+                cameraController.Zoom(3f, -0.01f);
+                return;
+            }
+
+            transform.position += displacement * (speed * Time.deltaTime * 0.4f);
+            // rb.MovePosition(transform.position + speed * Time.deltaTime * displacement);
+            UpdateModelRotation();
 
             // Animation
             if (displacement == Vector3.zero)
@@ -113,7 +135,7 @@ namespace Code.Scripts.Player
                         gunInBack.SetActive(false);
                         gunInHand.SetActive(true);
                         animator.SetBool(Aim, true);
-                        AudioSource.PlayClipAtPoint(equipSound, playerCamera.transform.position, 0.1f);
+                        mainAudioSource.equipSource.Play();
                     }
                     break;
 
@@ -123,11 +145,11 @@ namespace Code.Scripts.Player
                     gunInBack.SetActive(true);
                     gunInHand.SetActive(false);
                     animator.SetBool(Aim, false);
-                    AudioSource.PlayClipAtPoint(concealSound, playerCamera.transform.position, 0.1f);
+                    mainAudioSource.concealSource.Play();
                     break;
 
                 case true when Input.GetButtonDown("Fire1"):
-                    FireGun(t);
+                    FireGun(self);
                     break;
             }
         }
@@ -146,7 +168,8 @@ namespace Code.Scripts.Player
             // Start coroutine to reset fire animation
             StartCoroutine(ResetFireAnimation());
 
-            AudioSource.PlayClipAtPoint(fireSound, playerCamera.transform.position, 0.25f);
+            mainAudioSource.fireSource.PlayOneShot(fireSound, 0.5f);
+            // AudioSource.PlayClipAtPoint(fireSound, playerCamera.transform.position, 0.25f);
         }
 
         private IEnumerator ResetFireAnimation()
@@ -161,10 +184,6 @@ namespace Code.Scripts.Player
         // Update is called once per frame
         private void FixedUpdate()
         {
-            transform.position += displacement * (speed * Time.deltaTime * 0.4f);
-            // rb.MovePosition(transform.position + speed * Time.deltaTime * displacement);
-            UpdateModelRotation();
-
             contactEnableCounter++;
         }
 
@@ -226,28 +245,43 @@ namespace Code.Scripts.Player
             }
         }
 
-        private void OnCollisionEnter(Collision col) {
+        private void OnCollisionStay(Collision col)
+        {
+            if (isDead) return;
             if (col.gameObject.CompareTag("Enemy") && contactEnableCounter > 50) {
                 TakeDamage(30);
                 contactEnableCounter = 0;
+                mainAudioSource.damageSource.Play();
             }
         }
 
         public void TakeDamage(int i) {
             health += -i;
-            healthText.text = "Health: " + health;
-            CheckGameOver();
+
+            if (healthText) healthText.text = "Health: " + health;
+            if (health > 0) return;
+            OnDeath();
         }
 
-        private void CheckGameOver() {
-            if (health < 1) {
-                int h = 0;
-                healthText.text = "Health: " + h;
-                gameOverText.text = "GAME OVER";
-                Time.timeScale = 0.2f;
-                playButton.gameObject.SetActive(true);
-                quitButton.gameObject.SetActive(true);
-            }
+        private void OnDeath()
+        {
+            if (isDead) return;
+
+            isDead = true;
+
+            isAiming = false;
+            speed = 0;
+            gunInBack.SetActive(true);
+            gunInHand.SetActive(false);
+            animator.SetBool(Aim, false);
+            animator.SetFloat(Speed, 0f);
+            mainAudioSource.deathSource.Play();
+
+            animator.SetTrigger(Death);
+
+            if (gameOverText) gameOverText.text = "GAME OVER";
+            if (playButton) playButton.gameObject.SetActive(true);
+            if (quitButton) quitButton.gameObject.SetActive(true);
         }
     }
 }

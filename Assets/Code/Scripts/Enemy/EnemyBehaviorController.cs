@@ -3,6 +3,7 @@ using Code.Scripts.Player;
 using Code.Scripts.Text;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Code.Scripts.Enemy
@@ -13,10 +14,13 @@ namespace Code.Scripts.Enemy
         [SerializeField] public GameObject player;
         [SerializeField] public float speed = 5f;
         [SerializeField] private GameObject bullet;
+        [SerializeField] private bool canStunLock = true;
 
         [SerializeField] private AudioClip detectSound;
         [SerializeField] private AudioClip dashTelegraphSound;
         [SerializeField] private AudioClip dashSound;
+        [SerializeField] private AudioClip hitSound;
+        [SerializeField] private AudioClip deathSound;
 
         public float rotationSpeed;
 
@@ -38,7 +42,6 @@ namespace Code.Scripts.Enemy
         private float nextDashTime;
         private float visionArcAngle;
         private float visionRange;
-        private readonly float patrolMovementDuration = 2f;
         private float patrolMovementTimer;
 
         // --- Dash State Fields ---
@@ -52,9 +55,8 @@ namespace Code.Scripts.Enemy
         private Material impactLineMaterial;
         private bool isTouchingPlayer;
 
-        
-        private bool isAlive;
-        private int health;
+        private Vector3 hitDirection;
+        [SerializeField] public int health = 3;
 
         private float bulletTime;
 
@@ -62,28 +64,32 @@ namespace Code.Scripts.Enemy
         private static readonly int Dash = Animator.StringToHash("Dash");
         private static readonly int Speed = Animator.StringToHash("Speed");
         private bool wasShotAt;
-
-        public EnemyBehaviorController(bool isAlive)
-        {
-            this.isAlive = isAlive;
-        }
+        private static readonly int Damage = Animator.StringToHash("TakeDamage");
+        private Vector3 hitPosition;
+        private Transform self;
+        private PlayerController playerController;
+        private static readonly int OnDeath = Animator.StringToHash("OnDeath");
+        private CapsuleCollider collider;
+        private Rigidbody rb;
+        private Renderer renderer;
 
         private enum State
         {
-            Rest, Chase, CatchUp, Sussed, Dash, Patrol
+            Rest, Chase, CatchUp, Sussed, Dash, Patrol, Stunned, Dead
         }
 
         // Start is called before the first frame update
         private void Start()
         {
-            isAlive = true;
-            health = 100;
-
             bulletTime = 1.5f;
 
             controller = GetComponentInChildren<VisionConeController>();
+            collider = GetComponentInChildren<CapsuleCollider>();
+            rb = GetComponentInChildren<Rigidbody>();
+            renderer = GetComponentInChildren<Renderer>();
 
             if (!player) player = FindObjectOfType<PlayerController>().gameObject;
+            playerController = player.GetComponent<PlayerController>();
 
             lastSeenPlayerPosition = transform.position;
         }
@@ -95,11 +101,11 @@ namespace Code.Scripts.Enemy
             stateText.GetComponent<TextMeshPro>().text = text;
             stateText.GetComponent<TextController>().lifetimeSeconds = lifetime;
         }
-        
+
         private void FireGun(Transform t)
         {
             // Spawn bullet at player position with some forward and y-offset
-            
+
             var spawnPosition = t.position + 1.25f * t.forward + 1.65f * t.up;
             Instantiate(bullet, spawnPosition, t.rotation);
         }
@@ -117,44 +123,69 @@ namespace Code.Scripts.Enemy
 
         private void FixedUpdate()
         {
-            UpdateState(transform);
+            UpdateState();
         }
 
         private void Update()
         {
-            UpdateMovement(transform);
-            UpdateText(transform);
+            self = transform;
+
+            UpdateMovement();
+            UpdateText();
 
             bulletTime -= Time.deltaTime;
-            
+
             var t = transform;
-            if (state == State.Chase && bulletTime < 0)
+            if (!(state != State.Chase || !(bulletTime < 0)))
             {
                 FireGun(t);
                 bulletTime = 1.5f;
-                Debug.Log("Fired");
             }
 
+            // Dead logic
+            var _ = 0f;
+            if (state != State.Dead && !playerController.isDead) return;
 
+            controller.DetectionProgress = 0f;
+            Destroy(stateText);
+            controller.SetRange(Mathf.SmoothDamp(controller.range, 0.1f, ref _, 5.0f * Time.deltaTime));
+            PostManager.Instance.SetImpactStrength(0, gameObject);
         }
 
-        private void UpdateState(Transform self)
+        private void UpdateState()
         {
+            if (playerController.isDead)
+            {
+                state = State.Rest;
+                OnStateChanged(state);
+                return;
+            }
+
             var currentState = state;
+            var t = Time.fixedTime - lastStateChangeTime;
+
             switch (state)
             {
+                case State.Dead:
+                    // Cleanup when out of view
+                    if (!renderer.isVisible)
+                        Destroy(gameObject);
+                    break;
+                case State.Stunned:
+                    if (t > 1f)
+                        state = State.Chase;
+                    break;
+
                 case State.Patrol:
                     PostManager.Instance.SetImpactStrength(0, gameObject);
 
-                    if (controller.CanSeePlayer)
+                    if (controller.CanSeePlayer && !playerController.isDead)
                         state = State.Sussed;
                     else if (Time.fixedTime >= nextWalkTime)
                         state = State.Rest;
                     break;
 
                 case State.Rest:
-                    var t = Time.fixedTime - lastStateChangeTime;
-
                     if (Time.fixedTime >= nextLookTime)
                     {
                         // Look around more often right after losing track of a player
@@ -166,7 +197,7 @@ namespace Code.Scripts.Enemy
                     // Only switch to walk state if finished rotating.
                     if (Time.fixedTime >= nextWalkTime)
                         state = State.Patrol;
-                    else if (controller.CanSeePlayer)
+                    else if (controller.CanSeePlayer && !playerController.isDead)
                         state = State.Sussed;
                     break;
 
@@ -231,17 +262,18 @@ namespace Code.Scripts.Enemy
 
         private void OnStateChanged(State oldState)
         {
-            lookAngle = Vector3.SignedAngle(new Vector3(0, 0, 1), transform.forward, Vector3.up);
-            nextWalkTime += (previousState == State.Patrol) ? Random.Range(3f, 4f) : Random.Range(7f, 8f);
-            nextLookTime = Time.fixedTime + 0.35f;
-            nextDashTime = Time.fixedTime + Random.Range(2f, 3f);
-
             previousState = oldState;
             lastStateChangeTime = Time.fixedTime;
+
+            if (state == State.Dead) return;
+            lookAngle = Vector3.SignedAngle(new Vector3(0, 0, 1), transform.forward, Vector3.up);
+            nextWalkTime += (previousState == State.Patrol) ? Random.Range(3f, 10f) : Random.Range(7f, 10f);
+            nextLookTime = Time.fixedTime + 0.35f;
+            nextDashTime = Time.fixedTime + Random.Range(2f, 3f);
         }
 
 
-        private void UpdateText(Transform self)
+        private void UpdateText()
         {
             if (stateText)
                 stateText.transform.position = self.position + 0.5f * self.up;
@@ -250,6 +282,11 @@ namespace Code.Scripts.Enemy
 
             switch (state)
             {
+                case State.Dead:
+                    break;
+                case State.Stunned:
+                    SetText("!");
+                    break;
                 case State.Patrol:
                     break;
                 case State.Rest:
@@ -273,17 +310,30 @@ namespace Code.Scripts.Enemy
             }
         }
 
-        private void UpdateMovement(Transform self)
+        private void UpdateMovement()
         {
             var t = Time.fixedTime - lastStateChangeTime;
             Vector3 lookAt;
             var playerPosition = player.transform.position;
 
+            if (wasShotAt && t < 0.3f)
+            {
+                lookAt = LookAt(playerPosition, self);
+                transform.rotation = Quaternion.Slerp(
+                    self.rotation, Quaternion.LookRotation(lookAt), 10f * Time.deltaTime);
+            }
+            else wasShotAt = false;
+
             switch (state)
             {
+                case State.Dead:
+                    return;
+                case State.Stunned:
+                    transform.position = Vector3.Slerp(self.position, hitPosition + 0.2f * hitDirection, t * 0.3f);
+                    break;
                 case State.Patrol:
                     // Move in the look direction
-                    MoveTowards(transform.position + Vector3.forward, transform, 0.45f);
+                    MoveTowards(self.position + Vector3.forward, 0.45f);
                     animator.SetFloat(Speed, 5);
                     break;
 
@@ -297,7 +347,7 @@ namespace Code.Scripts.Enemy
                     break;
 
                 case State.Chase:
-                    MoveTowards(playerPosition, transform);
+                    MoveTowards(playerPosition);
                     lastSeenPlayerPosition = playerPosition;
 
                     animator.SetFloat(Speed, isTouchingPlayer ? 0 : 10);
@@ -308,7 +358,7 @@ namespace Code.Scripts.Enemy
                     controller.DetectionProgress = 1.1f;
 
                     // Move towards last seen position, slowing down to 0.3*speed over 1 second
-                    MoveTowards(lastSeenPlayerPosition, transform, Mathf.SmoothStep(1f, 0.5f, t / 3f));
+                    MoveTowards(lastSeenPlayerPosition, Mathf.SmoothStep(1f, 0.5f, t / 3f));
                     break;
 
                 case State.Sussed:
@@ -369,24 +419,13 @@ namespace Code.Scripts.Enemy
                                 lookAt = LookAt(playerPosition, self);
                                 transform.rotation = Quaternion.Slerp(
                                     self.rotation, Quaternion.LookRotation(lookAt), 3.0f * Time.deltaTime);
-                                MoveTowards(self.position + self.forward, self, 0.5f);
+                                MoveTowards(self.position + self.forward, 0.5f);
                             }
                             break;
                     }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
-            }
-
-            if (wasShotAt && t < 1.0f)
-            {
-                lookAt = LookAt(playerPosition, self);
-                transform.rotation = Quaternion.Slerp(
-                    self.rotation, Quaternion.LookRotation(lookAt), 10f * Time.deltaTime);
-            }
-            else
-            {
-                wasShotAt = false;
             }
         }
 
@@ -400,7 +439,7 @@ namespace Code.Scripts.Enemy
             return lookAt;
         }
 
-        private void MoveTowards(Vector3 targetPosition, Transform self, float speedModifier = 1.0f)
+        private void MoveTowards(Vector3 targetPosition, float speedModifier = 1.0f)
         {
             var lookAt = LookAt(targetPosition, self);
             transform.rotation = Quaternion.RotateTowards(
@@ -416,34 +455,55 @@ namespace Code.Scripts.Enemy
 
         public void TakeDamage(int damage)
         {
-            health += -damage;
-            if (health < 1)
+            health -= damage;
+            wasShotAt = true;
+
+            if (state != State.Dead)
+                AudioSource.PlayClipAtPoint(hitSound, transform.position, 1.0f);
+
+            if (health <= 0)
             {
-                isAlive = false;
                 OnKill();
             }
-            else if (state != State.Chase)
+            else
             {
+                var position = self.position;
+                hitDirection = position - player.transform.position;
+                hitPosition = position;
                 var originalState = state;
-                state = State.Chase;
-                AudioSource.PlayClipAtPoint(detectSound, transform.position, 1.0f);
-                wasShotAt = true;
-                OnStateChanged(originalState);
+                var isVulnerableToStun = originalState != State.Chase && originalState != State.Stunned && originalState != State.Dash;
+
+                if (isVulnerableToStun || canStunLock)
+                {
+                    state = State.Stunned;
+                    OnStateChanged(originalState);
+                    animator.SetTrigger(Damage);
+                }
+
+                if (isVulnerableToStun)
+                    AudioSource.PlayClipAtPoint(detectSound, position, 1.0f);
             }
         }
 
         private void OnKill()
         {
-            try
-            {
-                player.GetComponent<PlayerController>().IncreaseScore(400);
-            }
-            catch
-            {
+            try {
+                playerController.IncreaseScore(400);
+            } catch { /* ignored */ }
 
-            }
+            if (state == State.Dead) return;
+
+            AudioSource.PlayClipAtPoint(deathSound, transform.position, 1.0f);
+
+            var originalState = state;
+            state = State.Dead;
+            OnStateChanged(originalState);
+            animator.SetTrigger(OnDeath);
+
+            collider.enabled = false;
+            rb.useGravity = false;
+
             Destroy(stateText);
-            Destroy(gameObject);
             PostManager.Instance.SetImpactStrength(0, gameObject);
         }
     }

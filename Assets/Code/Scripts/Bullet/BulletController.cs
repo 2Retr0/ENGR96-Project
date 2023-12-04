@@ -22,7 +22,7 @@ namespace Code.Scripts.Bullet
         {
             if (collision.gameObject.CompareTag("Enemy"))
             {
-                collision.gameObject.GetComponent<EnemyBehaviorController>().TakeDamage(50);
+                collision.gameObject.GetComponent<EnemyBehaviorController>().TakeDamage(1);
             }
             Destroy(gameObject);
         }
