@@ -32330,6 +32330,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+      propertyPath: runSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
       propertyPath: levelText
       value: 
       objectReference: {fileID: 1495073533}
@@ -32337,6 +32341,10 @@ PrefabInstance:
       propertyPath: scoreText
       value: 
       objectReference: {fileID: 918856056}
+    - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
+      propertyPath: walkSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7919226257001376406, guid: fbf66151aeaf34d2a9f86c2c0b109cdb, type: 3}
       propertyPath: healthText
       value: 
