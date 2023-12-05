@@ -292,8 +292,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 100
+  near clip plane: 0
+  far clip plane: 1000
   field of view: 60
   orthographic: 1
   orthographic size: 6
@@ -453,6 +453,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   persistent: 1
   playerCamera: {fileID: 0}
+  player: {fileID: 0}
   canvas: {fileID: 0}
   uiSprite: {fileID: 8586598801808181678, guid: 04263e0eada634c6baeeb21b26bd736a, type: 3}
   borderThickness: 0.06
