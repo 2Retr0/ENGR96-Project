@@ -38,7 +38,7 @@ namespace Code.Scripts.Player
 
         [SerializeField] private int health = 100;
         [SerializeField] private int score = 0;
-        [SerializeField] private int level = 1;
+        [SerializeField] public int level = 1;
         private float levelConstant;
 
         public UnityEvent onLevelUp;
@@ -87,14 +87,8 @@ namespace Code.Scripts.Player
 
             if (isDead)
             {
-                // Slow down time over time
-                if (Time.timeScale > 0.2)
-                {
-                    Time.timeScale -= 0.001f;
-                    animator.speed = 1f / Time.timeScale;
-                }
-
-                PostManager.Instance.SetPlayerOutlineThickness(PostManager.Instance.currentThickness + 0.03f);
+                if (PostManager.Instance.currentThickness < 100f)
+                    PostManager.Instance.SetPlayerOutlineThickness(PostManager.Instance.currentThickness + 0.10f);
                 cameraController.Zoom(3f, -0.01f);
                 return;
             }
@@ -268,6 +262,8 @@ namespace Code.Scripts.Player
             if (isDead) return;
 
             isDead = true;
+            Time.timeScale = 0.2f;
+            animator.speed = 1f / 0.2f;
 
             isAiming = false;
             speed = 0;

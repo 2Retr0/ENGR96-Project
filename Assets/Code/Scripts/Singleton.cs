@@ -1,26 +1,76 @@
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Serialization;
+// ReSharper disable Unity.PerformanceCriticalCodeInvocation
 
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+namespace Code.Scripts
 {
-    private static T instance;
-    private static readonly Object SyncRoot = new();
+    public abstract class Singleton<T> : Singleton where T : MonoBehaviour {
+        #region  Fields
+        [CanBeNull]
+        private static T instance;
 
-    public static T Instance
-    {
-        get
-        {
-            var self = instance;
-            if (self) return self;
+        [NotNull]
+        // ReSharper disable once StaticMemberInGenericType
+        private static readonly object Lock = new object();
 
-            lock (SyncRoot)
-            {
-                if (self) return self;
+        [FormerlySerializedAs("_persistent")] [SerializeField]
+        private bool persistent = true;
+        #endregion
 
-                instance = FindObjectOfType(typeof(T)) as T;
-                if (!self)
-                    Debug.LogError("SingletoneBase<T>: Could not found GameObject of type " + typeof(T).Name);
+        #region  Properties
+        [NotNull]
+        public static T Instance {
+            get {
+                if (Quitting) {
+                    Debug.LogWarning($"[{nameof(Singleton)}<{typeof(T)}>] Instance will not be returned because the application is quitting.");
+                    // ReSharper disable once AssignNullToNotNullAttribute
+                    return null;
+                }
+
+                lock (Lock) {
+                    if (instance) return instance;
+
+                    var instances = FindObjectsOfType<T>();
+                    var count = instances.Length;
+                    if (count > 0) {
+                        if (count == 1) return instance = instances[0];
+
+                        Debug.LogWarning($"[{nameof(Singleton)}<{typeof(T)}>] There should never be more than one {nameof(Singleton)} of type {typeof(T)} in the scene, but {count} were found. The first instance found will be used, and all others will be destroyed.");
+
+                        for (var i = 1; i < instances.Length; i++)
+                            Destroy(instances[i]);
+                        return instance = instances[0];
+                    }
+
+                    Debug.Log($"[{nameof(Singleton)}<{typeof(T)}>] An instance is needed in the scene and no existing instances were found, so a new instance will be created.");
+                    return instance = new GameObject($"({nameof(Singleton)}){typeof(T)}")
+                        .AddComponent<T>();
+                }
             }
-            return self;
         }
+        #endregion
+
+        #region  Methods
+        private void Awake() {
+            if (persistent)
+                DontDestroyOnLoad(gameObject);
+            OnAwake();
+        }
+
+        protected virtual void OnAwake() { }
+        #endregion
+    }
+
+    public abstract class Singleton : MonoBehaviour {
+        #region  Properties
+        public static bool Quitting { get; private set; }
+        #endregion
+
+        #region  Methods
+        private void OnApplicationQuit() {
+            Quitting = true;
+        }
+        #endregion
     }
 }
