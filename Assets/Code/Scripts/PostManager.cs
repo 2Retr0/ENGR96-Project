@@ -56,7 +56,7 @@ namespace Code.Scripts
                     case "Occluded Outline":
                         enemyOutlineMaterial = (feature as RenderObjects).settings.overrideMaterial;
                         enemyOutlineMaterial!.SetFloat(Thickness, 0.04f);
-                        enemyOutlineMaterial!.SetColor(Color1, new Color(192, 123, 127));
+                        enemyOutlineMaterial!.SetColor(Color1, new Color(181, 51, 59));
                         break;
                 }
             }
