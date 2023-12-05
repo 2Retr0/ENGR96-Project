@@ -45,12 +45,14 @@ namespace Code.Scripts.Player
 
         private bool isGamePaused;
         private int contactEnableCounter;
+        private int pickup_point;
         private static readonly int Speed = Animator.StringToHash("Speed");
         private static readonly int Aim = Animator.StringToHash("Aim");
         private static readonly int Fire = Animator.StringToHash("Fire");
         private static readonly int Death = Animator.StringToHash("OnDeath");
         public bool isDead;
         private MainAudioSource mainAudioSource;
+
 
         // Start is called before the first frame update
         private void Start()
@@ -76,6 +78,7 @@ namespace Code.Scripts.Player
 
             isGamePaused = false;
             contactEnableCounter = 0;
+            pickup_point = 25; //how much point awarded to each pick up
 
             playButton.gameObject.SetActive(false);
             quitButton.gameObject.SetActive(false);
@@ -205,6 +208,18 @@ namespace Code.Scripts.Player
             var hitPoint = ray.GetPoint(distance);
             lookAt = new Vector3(hitPoint.x, transform.position.y, hitPoint.z);
             transform.LookAt(lookAt);
+        }
+
+        void OnTriggerEnter(Collider other) //code for pick up
+        {
+            
+            if (other.gameObject.CompareTag("PickUp")) 
+            {
+                other.gameObject.SetActive(false);
+
+                IncreaseScore(pickup_point);
+            }
+            
         }
 
         public void IncreaseScore(int scoreIncrease)
