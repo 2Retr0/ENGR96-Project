@@ -56,6 +56,7 @@ namespace Code.Scripts
             //pickups.Remove(position);
             //GameObject.Destroy(pickups[position]);
             pickups[position].gameObject.SetActive(false);
+            GameObject.Destroy(pickups[position]);
             pickups.Remove(position);
         }
 
