@@ -7,10 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CelShadeGround
+  m_Name: Floor 3
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_Parent: {fileID: 2100000, guid: 2d43a9ed72132fb40b7ebfc086bc8723, type: 2}
-  m_ModifiedSerializedProperties: 18
+  m_Parent: {fileID: 2100000, guid: d86315c400dddb14b9c9a30664e51921, type: 2}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -26,19 +26,12 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _BlendModePreserveSpecular: 1
-    - _DstBlend: 0
-    - _DstBlendAlpha: 0
-    - _ReceiveShadows: 1
-    - _SrcBlend: 1
-    - _Surface: 0
-    - _ZWrite: 1
+    - _Smoothness: 0.5
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _BaseColor: {r: 0.053700175, g: 0.05660379, b: 0.033374876, a: 1}
+    - _Color: {r: 0.053700175, g: 0.05660379, b: 0.033374876, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &6400375266579580326
+--- !u!114 &2156411177281835360
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
