@@ -12,9 +12,10 @@ namespace Code.Scripts.Pickup
             CompassManager.Instance.AddPosition(transform.position);
         }
 
-        private void OnDestroy()
+        public void OnDisable()
         {
             CompassManager.Instance.RemovePosition(transform.position);
+            Debug.Log("HELLLO!!!");
         }
     }
 }

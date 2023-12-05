@@ -53,6 +53,9 @@ namespace Code.Scripts
 
         public void RemovePosition(Vector3 position)
         {
+            //pickups.Remove(position);
+            //GameObject.Destroy(pickups[position]);
+            pickups[position].gameObject.SetActive(false);
             pickups.Remove(position);
         }
 
