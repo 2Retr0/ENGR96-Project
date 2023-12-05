@@ -63300,8 +63300,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b444d133baa45504ca50b4f9ac7b6cd0, type: 3}
-<<<<<<< HEAD
-=======
 --- !u!1001 &5934035925017186751
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63359,7 +63357,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8932604a685ef4723a46d6ddd9a78985, type: 3}
->>>>>>> 55505132056e756ae52177165a2e4ba8f9ed474f
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
