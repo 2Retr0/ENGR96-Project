@@ -48,6 +48,13 @@ namespace Code.Scripts
             enemyOutlineMaterial!.SetColor(Color1, new Color(181, 51, 59));
         }
 
+        public void Reset()
+        {
+            ResetImpactStrength();
+            ResetOutlineThickness();
+            ResetOutlineColors();
+        }
+
         private void Start()
         {
             // --- Get impact line material ---
@@ -76,9 +83,7 @@ namespace Code.Scripts
                 }
             }
 
-            ResetImpactStrength();
-            ResetOutlineThickness();
-            ResetOutlineColors();
+            Reset();
 
             player = FindObjectOfType<PlayerController>();
         }

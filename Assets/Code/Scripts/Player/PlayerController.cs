@@ -66,7 +66,7 @@ namespace Code.Scripts.Player
             gunInHand.SetActive(false);
             GetComponent<Rigidbody>();
             if(!playerCamera) playerCamera = Camera.main;
-            cameraController = playerCamera.GetComponent<CameraController>();
+            if (playerCamera != null) cameraController = playerCamera.GetComponent<CameraController>();
 
             levelConstant = 0.05f;
 
@@ -241,7 +241,6 @@ namespace Code.Scripts.Player
             if (level != checkLevel) { 
                 levelText.text = "Level: " + checkLevel;
                 onLevelUp?.Invoke();
-                Debug.Log("LEVELD UP");
                 level = checkLevel;
             }
         }

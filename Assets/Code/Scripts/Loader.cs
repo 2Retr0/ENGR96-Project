@@ -1,3 +1,4 @@
+using Code.Scripts;
 using UnityEngine.SceneManagement;
 
 public static class Loader
@@ -10,12 +11,11 @@ public static class Loader
         LoadingScene
     }
 
-
-
     public static void Load(Scene target) {
         targetScene = target;
 
         SceneManager.LoadScene(Scene.LoadingScene.ToString());
+        PostManager.Instance.Reset();
     }
 
 

@@ -1,19 +1,28 @@
+using Code.Scripts.Player;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuUI : MonoBehaviour
+namespace Code.Scripts
 {
-    [SerializeField] private Button playButton;
-    [SerializeField] private Button quitButton;
+    public class MainMenuUI : Singleton
+    {
+        [SerializeField] private Button playButton;
+        [SerializeField] private Button quitButton;
 
-    private void Awake() {
-        playButton.onClick.AddListener(() => {
-            Loader.Load(Loader.Scene.GameScene);
-        });
+        private void Awake() {
+            playButton.onClick.AddListener(() => {
+                Loader.Load(Loader.Scene.GameScene);
 
-        quitButton.onClick.AddListener(() =>
-        {
-            Application.Quit();
-        });
+                var player = FindObjectOfType<PlayerController>();
+                player.animator.Rebind();
+                player.animator.Update(0f);
+                player.animator.speed = 1f;
+            });
+
+            quitButton.onClick.AddListener(() =>
+            {
+                Application.Quit();
+            });
+        }
     }
 }

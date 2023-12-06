@@ -15,7 +15,6 @@ namespace Code.Scripts.Pickup
         public void OnDisable()
         {
             CompassManager.Instance.RemovePosition(transform.position);
-            Debug.Log("HELLLO!!!");
         }
     }
 }
