@@ -9,7 +9,8 @@ public static class Loader
         MainMenuScene,
         GameScene,
         LoadingScene,
-        SettingsScene
+        SettingsScene,
+        CreditsScene
     }
 
     public static void Load(Scene target) {
@@ -18,8 +19,15 @@ public static class Loader
         SceneManager.LoadScene(Scene.LoadingScene.ToString());
         PostManager.Instance.Reset();
     }
+    
+    public static void LoadInstant(Scene target) {
+        targetScene = target;
 
-
+        SceneManager.LoadScene(targetScene.ToString());
+        //PostManager.Instance.Reset();
+    }
+    
+    
     public static void LoaderCallback() {
         SceneManager.LoadScene(targetScene.ToString());
     }

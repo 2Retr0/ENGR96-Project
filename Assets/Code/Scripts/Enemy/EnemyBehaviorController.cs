@@ -82,6 +82,8 @@ namespace Code.Scripts.Enemy
         private void Start()
         {
             bulletTime = 1.5f;
+            EnemySpawnManager.Instance.TrackEnemy();
+            EnemySpawnManager.Instance.maxActiveEnemies = 1000;
 
             controller = GetComponentInChildren<VisionConeController>();
             collider = GetComponentInChildren<CapsuleCollider>();
@@ -92,6 +94,11 @@ namespace Code.Scripts.Enemy
             playerController = player.GetComponent<PlayerController>();
 
             lastSeenPlayerPosition = transform.position;
+        }
+
+        private void OnDestroy()
+        {
+            EnemySpawnManager.Instance.UntrackEnemy();
         }
 
         private void SetText(string text, float lifetime = 3)
@@ -114,6 +121,14 @@ namespace Code.Scripts.Enemy
         {
             if(other.transform.CompareTag(player.tag))
                 isTouchingPlayer = true;
+
+            if (isTouchingPlayer || state != State.Patrol) return;
+
+            var pos = new Vector3(self.position.x, 0.2f, self.position.y);
+            if (!other.gameObject.CompareTag("Ground"))
+            {
+                transform.Rotate(new Vector3(0, -180, 0));
+            }
         }
 
         private void OnCollisionExit()
@@ -126,7 +141,7 @@ namespace Code.Scripts.Enemy
             UpdateState();
             if (transform.position.y < -2)
             {
-                TakeDamage(10000);
+                Destroy(gameObject);
             }
         }
 

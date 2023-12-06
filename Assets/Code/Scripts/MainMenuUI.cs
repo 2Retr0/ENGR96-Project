@@ -9,6 +9,7 @@ namespace Code.Scripts
         [SerializeField] private Button playButton;
         [SerializeField] private Button settingsButton;
         [SerializeField] private Button quitButton;
+        [SerializeField] private Button creditsButton;
 
         private void Awake() {
             playButton.onClick.AddListener(() => {
@@ -27,6 +28,10 @@ namespace Code.Scripts
             quitButton.onClick.AddListener(() =>
             {
                 Application.Quit();
+            });
+            
+            creditsButton.onClick.AddListener(() => {
+                Loader.LoadInstant(Loader.Scene.CreditsScene);
             });
         }
     }

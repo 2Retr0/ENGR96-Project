@@ -399,6 +399,8 @@ GameObject:
   - component: {fileID: 4592272384890718386}
   - component: {fileID: 4053255895535894511}
   - component: {fileID: 3580641038509398451}
+  - component: {fileID: 9000468504351584946}
+  - component: {fileID: 338156962155655262}
   m_Layer: 0
   m_Name: Scene Camera
   m_TagString: Untagged
@@ -456,7 +458,39 @@ MonoBehaviour:
   player: {fileID: 0}
   canvas: {fileID: 0}
   uiSprite: {fileID: 8586598801808181678, guid: 04263e0eada634c6baeeb21b26bd736a, type: 3}
+  uiSpriteSpeed: {fileID: 0}
   borderThickness: 0.06
+--- !u!114 &9000468504351584946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3154361208251223256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26941cd2618a94ec38c7a001d0ff02b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  persistent: 1
+  pickupPrefab: {fileID: 6822266697862541576, guid: 8932604a685ef4723a46d6ddd9a78985, type: 3}
+  maxActivePickups: 5
+--- !u!114 &338156962155655262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3154361208251223256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7a3705e80fe94c8988ecbf9c7f76391, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  persistent: 1
+  enemyPrefab: {fileID: 7901145924032473057, guid: 2b516b335c81d3e4580111d1393a4f44, type: 3}
+  maxActiveEnemies: 5
+  playerCamera: {fileID: 0}
 --- !u!1 &6005782200965133006
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using Code.Scripts.Pickup;
 using TMPro;
 using UnityEngine.Events;
 using UnityEngine.UI;
+
 
 namespace Code.Scripts.Player
 {
@@ -31,7 +33,7 @@ namespace Code.Scripts.Player
         private CameraController cameraController;
 
         public TextMeshProUGUI healthText;
-        public TextMeshProUGUI scoreText;
+        //public TextMeshProUGUI scoreText;
         public TextMeshProUGUI levelText;
         public TextMeshProUGUI pausedText;
         public TextMeshProUGUI gameOverText;
@@ -45,13 +47,20 @@ namespace Code.Scripts.Player
 
         private bool isGamePaused;
         private int contactEnableCounter;
-        private int pickup_point;
+        private int pickupScore;
         private static readonly int Speed = Animator.StringToHash("Speed");
         private static readonly int Aim = Animator.StringToHash("Aim");
         private static readonly int Fire = Animator.StringToHash("Fire");
         private static readonly int Death = Animator.StringToHash("OnDeath");
         public bool isDead;
         private MainAudioSource mainAudioSource;
+
+        //slider bars
+        public Slider xpBar;
+        //public float fillSpeed = 0.5f;
+        private float targetProgress;
+
+        public Slider lifeBar;
 
 
         // Start is called before the first frame update
@@ -71,14 +80,18 @@ namespace Code.Scripts.Player
             levelConstant = 0.05f;
 
             healthText.text = "Health: " + health;
-            scoreText.text = "Score: " + score;
+            lifeBar.value = health;
+            //scoreText.text = "Score: " + score;
+            xpBar.value = 0;
             levelText.text = "Level: " + level;
             pausedText.text = " ";
             gameOverText.text = " ";
 
             isGamePaused = false;
             contactEnableCounter = 0;
-            pickup_point = 25; //how much point awarded to each pick up
+            pickupScore = 25; //how much point awarded to each pick up
+
+            targetProgress = 0;
 
             playButton.gameObject.SetActive(false);
             quitButton.gameObject.SetActive(false);
@@ -149,6 +162,17 @@ namespace Code.Scripts.Player
                     FireGun(self);
                     break;
             }
+
+            //update xpBar
+            /*
+            if(xpBar.value < percentageProgress){
+                xpBar.value += fillSpeed * Time.deltaTime;
+            }
+
+            if (xpBar.value == 1){xpBar.value = 0;}
+            */
+            
+
         }
 
         private void FireGun(Transform t)
@@ -210,15 +234,15 @@ namespace Code.Scripts.Player
             transform.LookAt(lookAt);
         }
 
-        void OnTriggerEnter(Collider other) //code for pick up
+        private void OnTriggerEnter(Collider other) //code for pick up
         {
             
-            if (other.gameObject.CompareTag("PickUp")) 
+            if (other.gameObject.CompareTag("PickUp"))
             {
-                other.gameObject.SetActive(false);
-
-                IncreaseScore(pickup_point);
-            }else if (other.gameObject.CompareTag("SpeedIncrease"))
+                Destroy(other.gameObject);
+                IncreaseScore(pickupScore);
+            }
+            else if (other.gameObject.CompareTag("SpeedIncrease"))
             {
                 walkSpeed += 1;
                 runSpeed += 1;
@@ -231,8 +255,9 @@ namespace Code.Scripts.Player
         {
             score += scoreIncrease;
             // Update the count text with the current count.
-            scoreText.text = "Score: " + score;
+            //scoreText.text = "Score: " + score;
             IncreaseLevel();
+            IncrementProgress();
         }
 
         private void IncreaseLevel()
@@ -270,6 +295,8 @@ namespace Code.Scripts.Player
 
         public void TakeDamage(int i) {
             health += -i;
+            lifeBar.value += -i;
+
 
             if (healthText) healthText.text = "Health: " + health;
             if (health > 0) return;
@@ -298,5 +325,14 @@ namespace Code.Scripts.Player
             if (playButton) playButton.gameObject.SetActive(true);
             if (quitButton) quitButton.gameObject.SetActive(true);
         }
+
+        private void IncrementProgress(){
+            //targetProgress = xpBar.value + ((newProgress)/ (200*(level+1)));
+            float extra = score - Mathf.Pow(((level-1)/levelConstant),2);
+            float difference = Mathf.Pow(((level)/levelConstant),2)-Mathf.Pow(((level-1)/levelConstant),2);
+            Debug.Log("Target Progress is: "+score+", Extra is "+ extra+", difference is: "+difference);
+            xpBar.value = extra/(difference);
+        }
     }
+
 }

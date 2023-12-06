@@ -10,11 +10,14 @@ namespace Code.Scripts.Pickup
         private void Start()
         {
             CompassManager.Instance.AddPosition(transform.position);
+            PickupSpawnManager.Instance.TrackPoint(transform.position);
         }
 
-        public void OnDisable()
+        public void OnDestroy()
         {
-            CompassManager.Instance.RemovePosition(transform.position);
+            var position = transform.position;
+            CompassManager.Instance.RemovePosition(position);
+            PickupSpawnManager.Instance.UntrackPoint(position);
         }
     }
 }
