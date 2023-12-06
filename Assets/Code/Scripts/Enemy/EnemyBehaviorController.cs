@@ -134,7 +134,7 @@ namespace Code.Scripts.Enemy
             UpdateState();
             if (transform.position.y < -2)
             {
-                TakeDamage(10000);
+                Destroy(gameObject);
             }
         }
 
