@@ -8,7 +8,8 @@ public static class Loader
     public enum Scene { 
         MainMenuScene,
         GameScene,
-        LoadingScene
+        LoadingScene,
+        CreditsScene
     }
 
     public static void Load(Scene target) {
@@ -17,8 +18,15 @@ public static class Loader
         SceneManager.LoadScene(Scene.LoadingScene.ToString());
         PostManager.Instance.Reset();
     }
+    
+    public static void LoadInstant(Scene target) {
+        targetScene = target;
 
-
+        SceneManager.LoadScene(targetScene.ToString());
+        //PostManager.Instance.Reset();
+    }
+    
+    
     public static void LoaderCallback() {
         SceneManager.LoadScene(targetScene.ToString());
     }

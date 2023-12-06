@@ -12,6 +12,7 @@ TagManager:
   - xpBar
   - PickupSpawner
   - Ground
+  - lifeBar
   layers:
   - Default
   - TransparentFX
