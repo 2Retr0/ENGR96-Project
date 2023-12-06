@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using Code.Scripts.Enemy;
 using Code.Scripts.Pickup;
 using TMPro;
 using UnityEngine.Events;
@@ -89,7 +90,7 @@ namespace Code.Scripts.Player
 
             isGamePaused = false;
             contactEnableCounter = 0;
-            pickupScore = 400; //how much point awarded to each pick up
+            pickupScore = 900; //how much point awarded to each pick up
 
             targetProgress = 0;
 
@@ -270,6 +271,7 @@ namespace Code.Scripts.Player
                 onLevelUp?.Invoke();
                 level = checkLevel;
                 mainAudioSource.levelUpSource.Play();
+                EnemySpawnManager.Instance.maxActiveEnemies += level;
             }
         }
 

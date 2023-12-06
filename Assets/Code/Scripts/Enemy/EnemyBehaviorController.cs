@@ -122,7 +122,7 @@ namespace Code.Scripts.Enemy
             if (!other.gameObject.CompareTag("Ground"))
             {
                 state = State.Rest;
-                transform.Rotate(Vector3.up, 180f);
+                transform.Rotate(Vector3.up, 60f);
             }
         }
 
@@ -523,7 +523,7 @@ namespace Code.Scripts.Enemy
         private void OnKill()
         {
             try {
-                playerController.IncreaseScore(100);
+                playerController.IncreaseScore(250);
             } catch { /* ignored */ }
 
             if (state == State.Dead) return;
