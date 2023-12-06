@@ -12,7 +12,8 @@ namespace Code.Scripts
 
         private void Awake() {
             restartButton.onClick.AddListener(() => {
-                Loader.Load(Loader.Scene.LoadingScene);
+                //Loader.Load(Loader.Scene.MainMenuScene);
+                Loader.Load(Loader.Scene.GameScene);
                 // SceneManager.LoadScene(SceneManager.GetActiveScene().handle) ;
 
 
