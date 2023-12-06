@@ -1,18 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
+//using Code.Scripts.Player;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GameOverUI : MonoBehaviour
+namespace Code.Scripts
 {
-    // Start is called before the first frame update
-    void Start()
+    public class GameOverUI : Singleton
     {
-        
-    }
+        [SerializeField] private Button restartButton;
+        [SerializeField] private Button quitButton;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void Awake() {
+            restartButton.onClick.AddListener(() => {
+                Loader.Load(Loader.Scene.MainMenuScene);
+
+
+                //var player = FindObjectOfType<PlayerController>();
+                //player.animator.Rebind();
+                //player.animator.Update(0f);
+                //player.animator.speed = 1f;
+            });
+            
+            quitButton.onClick.AddListener(() =>
+            {
+                Application.Quit();
+            });
+        }
     }
 }
