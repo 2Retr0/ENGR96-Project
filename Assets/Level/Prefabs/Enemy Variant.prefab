@@ -26,15 +26,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: accb48cee969e6548a44a1d25741a788, type: 2}
     - target: {fileID: 7049138748959443639, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.040016
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7049138748959443639, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.034290314
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7049138748959443639, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.6236324
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7049138748959443639, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -72,6 +72,10 @@ PrefabInstance:
       propertyPath: deathSound
       value: 
       objectReference: {fileID: 8300000, guid: d48307dddc01abe458efa79ad44cc52f, type: 3}
+    - target: {fileID: 9203804185481353617, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
+      propertyPath: m_Mass
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
