@@ -240,6 +240,7 @@ namespace Code.Scripts.Player
             if (other.gameObject.CompareTag("PickUp"))
             {
                 Destroy(other.gameObject);
+                mainAudioSource.pickupSource.Play();
                 IncreaseScore(pickupScore);
             }
             else if (other.gameObject.CompareTag("SpeedIncrease"))
@@ -267,6 +268,7 @@ namespace Code.Scripts.Player
                 levelText.text = "Level: " + checkLevel;
                 onLevelUp?.Invoke();
                 level = checkLevel;
+                mainAudioSource.levelUpSource.Play();
             }
         }
 
@@ -320,6 +322,7 @@ namespace Code.Scripts.Player
             mainAudioSource.deathSource.Play();
 
             animator.SetTrigger(Death);
+            PickupSpawnManager.Instance.Reset();
 
             if (gameOverText) gameOverText.text = "GAME OVER";
             if (playButton) playButton.gameObject.SetActive(true);

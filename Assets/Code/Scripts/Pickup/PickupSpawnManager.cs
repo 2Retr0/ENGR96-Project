@@ -13,7 +13,7 @@ namespace Code.Scripts.Pickup
         [SerializeField] private int maxActivePickups = 2;
 
         private readonly HashSet<Vector3> activePoints = new();
-        private int pickupsSpawned = 0;
+        private int pickupsSpawned;
         private Vector3 lastPickupPosition = Vector3.positiveInfinity;
         private readonly HashSet<Vector3> spawnPoints = new();
 
@@ -27,6 +27,14 @@ namespace Code.Scripts.Pickup
                 Debug.Log("Spawned Speed Pickup!");
                 SpawnNewPickup(true);
             }
+        }
+
+        public void Reset()
+        {
+            spawnPoints.Clear();
+            activePoints.Clear();
+            lastPickupPosition = Vector3.positiveInfinity;
+            pickupsSpawned = 0;
         }
 
         public void TrackPoint(Vector3 position)
