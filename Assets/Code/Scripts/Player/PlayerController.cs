@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+
 namespace Code.Scripts.Player
 {
     public class PlayerController : MonoBehaviour
@@ -254,7 +255,7 @@ namespace Code.Scripts.Player
             // Update the count text with the current count.
             scoreText.text = "Score: " + score;
             IncreaseLevel();
-            IncrementProgress(score);
+            IncrementProgress();
         }
 
         private void IncreaseLevel()
@@ -321,16 +322,13 @@ namespace Code.Scripts.Player
             if (quitButton) quitButton.gameObject.SetActive(true);
         }
 
-        private void IncrementProgress(float newProgress){
+        private void IncrementProgress(){
             //targetProgress = xpBar.value + ((newProgress)/ (200*(level+1)));
-            float multiple = 1/levelConstant;
-            targetProgress += newProgress;
-            float extra = targetProgress%((multiple*(level-1))*(multiple*(level-1)));
-            float difference = ((multiple*(level-1))*(multiple*(level-1)));
-            Debug.Log("Target Progress is: "+targetProgress+", Extra is "+ extra+", difference is: "+multiple+", value should be: "+extra/difference);
+            float extra = score - Mathf.Pow(((level-1)/levelConstant),2);
+            float difference = Mathf.Pow(((level)/levelConstant),2)-Mathf.Pow(((level-1)/levelConstant),2);
+            Debug.Log("Target Progress is: "+score+", Extra is "+ extra+", difference is: "+difference);
             xpBar.value = extra/(difference);
         }
     }
 
-    
 }
