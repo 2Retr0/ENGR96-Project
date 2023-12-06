@@ -16,8 +16,10 @@ namespace Code.Scripts.Pickup
         public void OnDestroy()
         {
             var position = transform.position;
-            CompassManager.Instance.RemovePosition(position);
-            PickupSpawnManager.Instance.UntrackPoint(position);
+            if (CompassManager.Instance)
+                CompassManager.Instance.RemovePosition(position);
+            if (PickupSpawnManager.Instance)
+                PickupSpawnManager.Instance.UntrackPoint(position);
         }
     }
 }

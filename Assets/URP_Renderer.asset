@@ -153,6 +153,33 @@ MonoBehaviour:
       restoreCamera: 1
       offset: {x: 0, y: 0, z: 0, w: 0}
       cameraFieldOfView: 60
+--- !u!114 &-2329291474969684473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b654b43c1d14553847ac136e6a35bf, type: 3}
+  m_Name: Blit
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    Event: 300
+    blitMaterial: {fileID: 2100000, guid: a46abd5044e6f49b1835531c36d4a352, type: 2}
+    blitMaterialPassIndex: 0
+    setInverseViewMatrix: 0
+    requireDepthNormals: 0
+    srcType: 0
+    srcTextureId: _CameraColorTexture
+    srcTextureObject: {fileID: 0}
+    dstType: 0
+    dstTextureId: _BlitPassTexture
+    dstTextureObject: {fileID: 0}
+    overrideGraphicsFormat: 0
+    graphicsFormat: 59
 --- !u!114 &-1887804534891684571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,9 +192,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b236fd95e34c2143986df3a1f3cc120, type: 3}
   m_Name: PixelizeFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
-    renderPassEvent: 600
+    renderPassEvent: 550
     screenHeight: 360
 --- !u!114 &-284646865939745333
 MonoBehaviour:
@@ -236,7 +263,8 @@ MonoBehaviour:
   - {fileID: -284646865939745333}
   - {fileID: 4857588011993741861}
   - {fileID: -4452911361716286747}
-  m_RendererFeatureMap: 9d6446bc589c782a34fbc86262d5e23a25dd680cc72bcde55e48404ed7058fa5551c46708484c1b9eb09ebceeedd9f87cbb53bfd2ebb0cfc253a15708f9e6943e58a9984b51434c2
+  - {fileID: -2329291474969684473}
+  m_RendererFeatureMap: 9d6446bc589c782a34fbc86262d5e23a25dd680cc72bcde55e48404ed7058fa5551c46708484c1b9eb09ebceeedd9f87cbb53bfd2ebb0cfc253a15708f9e6943e58a9984b51434c2071616a0beb1acdf
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}

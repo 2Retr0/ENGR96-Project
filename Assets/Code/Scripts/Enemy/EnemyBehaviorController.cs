@@ -114,7 +114,7 @@ namespace Code.Scripts.Enemy
 
         private void OnCollisionEnter(Collision other)
         {
-            if(other.transform.CompareTag(player.tag))
+            if(player && other.transform.CompareTag(player.tag))
                 isTouchingPlayer = true;
 
             if (isTouchingPlayer || state != State.Patrol) return;
