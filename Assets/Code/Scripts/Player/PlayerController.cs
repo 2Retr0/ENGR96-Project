@@ -33,7 +33,7 @@ namespace Code.Scripts.Player
         private CameraController cameraController;
 
         public TextMeshProUGUI healthText;
-        public TextMeshProUGUI scoreText;
+        //public TextMeshProUGUI scoreText;
         public TextMeshProUGUI levelText;
         public TextMeshProUGUI pausedText;
         public TextMeshProUGUI gameOverText;
@@ -57,9 +57,10 @@ namespace Code.Scripts.Player
 
         //slider bars
         public Slider xpBar;
-        public float fillSpeed = 0.5f;
+        //public float fillSpeed = 0.5f;
         private float targetProgress;
-        private float percentageProgress = 0;
+
+        public Slider lifeBar;
 
 
         // Start is called before the first frame update
@@ -79,7 +80,8 @@ namespace Code.Scripts.Player
             levelConstant = 0.05f;
 
             healthText.text = "Health: " + health;
-            scoreText.text = "Score: " + score;
+            lifeBar.value = health;
+            //scoreText.text = "Score: " + score;
             xpBar.value = 0;
             levelText.text = "Level: " + level;
             pausedText.text = " ";
@@ -253,7 +255,7 @@ namespace Code.Scripts.Player
         {
             score += scoreIncrease;
             // Update the count text with the current count.
-            scoreText.text = "Score: " + score;
+            //scoreText.text = "Score: " + score;
             IncreaseLevel();
             IncrementProgress();
         }
@@ -293,6 +295,8 @@ namespace Code.Scripts.Player
 
         public void TakeDamage(int i) {
             health += -i;
+            lifeBar.value += -i;
+
 
             if (healthText) healthText.text = "Health: " + health;
             if (health > 0) return;
