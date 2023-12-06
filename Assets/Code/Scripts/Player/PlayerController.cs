@@ -247,6 +247,7 @@ namespace Code.Scripts.Player
             {
                 walkSpeed += 1;
                 runSpeed += 1;
+                mainAudioSource.pickupSource.Play();
                 other.gameObject.SetActive(false);
             }
             
@@ -323,6 +324,7 @@ namespace Code.Scripts.Player
 
             animator.SetTrigger(Death);
             PickupSpawnManager.Instance.Reset();
+            CompassManager.Instance.Reset();
 
             if (gameOverText) gameOverText.text = "GAME OVER";
             if (playButton) playButton.gameObject.SetActive(true);

@@ -96,11 +96,6 @@ namespace Code.Scripts.Enemy
             lastSeenPlayerPosition = transform.position;
         }
 
-        private void OnDestroy()
-        {
-            EnemySpawnManager.Instance.UntrackEnemy();
-        }
-
         private void SetText(string text, float lifetime = 3)
         {
             if (stateText) Destroy(stateText);
@@ -127,9 +122,7 @@ namespace Code.Scripts.Enemy
             if (!other.gameObject.CompareTag("Ground"))
             {
                 state = State.Rest;
-                var oldAngle = lookAngle;
-                OnStateChanged(State.Patrol);
-                lookAngle = oldAngle + 180f;
+                transform.Rotate(Vector3.up, 180f);
             }
         }
 
@@ -534,6 +527,8 @@ namespace Code.Scripts.Enemy
             } catch { /* ignored */ }
 
             if (state == State.Dead) return;
+
+            EnemySpawnManager.Instance.UntrackEnemy();
 
             AudioSource.PlayClipAtPoint(deathSound, transform.position, 1.0f);
 

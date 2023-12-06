@@ -30,11 +30,13 @@ namespace Code.Scripts.Enemy
 
         public void TrackEnemy()
         {
+            print("Spawned Enemy!");
             numEnemies++;
         }
 
         public void UntrackEnemy()
         {
+            print(numEnemies);
             numEnemies--;
         }
 

@@ -14,7 +14,7 @@ namespace Code.Scripts
         // ReSharper disable once StaticMemberInGenericType
         private static readonly object Lock = new object();
 
-        [FormerlySerializedAs("_persistent")] [SerializeField]
+        [SerializeField]
         private bool persistent = true;
         #endregion
 
@@ -53,8 +53,8 @@ namespace Code.Scripts
 
         #region  Methods
         private void Awake() {
-            if (persistent)
-                DontDestroyOnLoad(gameObject);
+            // if (persistent)
+            //     DontDestroyOnLoad(gameObject);
             OnAwake();
         }
 

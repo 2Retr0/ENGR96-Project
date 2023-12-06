@@ -17,17 +17,26 @@ namespace Code.Scripts
         [SerializeField] private float borderThickness;
 
 
-        private readonly Dictionary<Vector3, GameObject> pickups = new();
+        private Dictionary<Vector3, GameObject> pickups = new();
+        private PlayerController playerController;
         
         private void Start()
         {
             if (!player) player = FindObjectOfType<PlayerController>().gameObject;
+            if (!playerController) playerController = FindObjectOfType<PlayerController>();
             if (!playerCamera) playerCamera = Camera.main;
             if (!canvas) canvas = FindObjectOfType<Canvas>().gameObject;
         }
 
-        private void FixedUpdate()
+        public void Reset()
         {
+            // pickups.Clear();
+        }
+
+        public void FixedUpdate()
+        {
+            if (pickups == null || pickups.Count == 0) return;
+
             // Constrain viewport to the border thickness
             var thickness = new Vector2(borderThickness * (1f / playerCamera.aspect), borderThickness);
             var viewport = new Rect(thickness, new Vector2(1f, 1f) - 2 * thickness);
@@ -57,6 +66,16 @@ namespace Code.Scripts
             }
 
             closestPickup!.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+
+            if (playerController.isDead && pickups.Count != 0)
+            {
+                foreach (var (position, sprite) in pickups)
+                {
+                    sprite.transform.position = new Vector3(99999f, 99999f, 99999f);
+                    Destroy(sprite);
+                }
+                pickups.Clear();
+            }
         }
 
         public void AddPosition(Vector3 position)
@@ -68,10 +87,7 @@ namespace Code.Scripts
 
         public void RemovePosition(Vector3 position)
         {
-            //pickups.Remove(position);
-            //GameObject.Destroy(pickups[position]);
-            pickups[position].gameObject.SetActive(false);
-            GameObject.Destroy(pickups[position]);
+            Destroy(pickups[position]);
             pickups.Remove(position);
         }
         

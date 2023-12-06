@@ -1,5 +1,6 @@
 //using Code.Scripts.Player;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Code.Scripts
@@ -12,6 +13,7 @@ namespace Code.Scripts
         private void Awake() {
             restartButton.onClick.AddListener(() => {
                 Loader.Load(Loader.Scene.MainMenuScene);
+                // SceneManager.LoadScene(SceneManager.GetActiveScene().handle) ;
 
 
                 //var player = FindObjectOfType<PlayerController>();
