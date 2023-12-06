@@ -301,7 +301,7 @@ namespace Code.Scripts.Player
             lifeBar.value += -i;
 
 
-            if (healthText) healthText.text = "Health: " + health;
+            healthText.text = "Health: " + health;
             if (health > 0) return;
             OnDeath();
         }
