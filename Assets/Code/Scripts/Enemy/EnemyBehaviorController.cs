@@ -82,6 +82,7 @@ namespace Code.Scripts.Enemy
         private void Start()
         {
             bulletTime = 1.5f;
+            EnemySpawnManager.Instance.TrackEnemy();
 
             controller = GetComponentInChildren<VisionConeController>();
             collider = GetComponentInChildren<CapsuleCollider>();
@@ -92,6 +93,11 @@ namespace Code.Scripts.Enemy
             playerController = player.GetComponent<PlayerController>();
 
             lastSeenPlayerPosition = transform.position;
+        }
+
+        private void OnDestroy()
+        {
+            EnemySpawnManager.Instance.UntrackEnemy();
         }
 
         private void SetText(string text, float lifetime = 3)

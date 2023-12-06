@@ -9,31 +9,47 @@ namespace Code.Scripts.Enemy
     public class EnemySpawnManager : Singleton<EnemySpawnManager>
     {
         [SerializeField] private GameObject enemyPrefab;
-        [SerializeField] private int maxActiveEnemies = 2;
+        [SerializeField] public int maxActiveEnemies = 2;
+        [SerializeField] private Camera playerCamera;
 
-        private readonly HashSet<Vector3> activePoints = new();
-        private Vector3 lastPickupPosition = Vector3.positiveInfinity;
+        private int numEnemies = 0;
+        private Vector3 lastSpawnPoint = Vector3.positiveInfinity;
         private readonly HashSet<Vector3> spawnPoints = new();
+
+        private void Start()
+        {
+            if (!playerCamera) playerCamera = Camera.main;
+        }
 
         private void FixedUpdate()
         {
-            if (activePoints.Count >= Math.Min(spawnPoints.Count, maxActiveEnemies))
+            if (numEnemies > maxActiveEnemies)
                 return;
 
-            SpawnNewPickup();
+            SpawnNewEnemy();
         }
 
-        private void SpawnNewPickup()
+        public void TrackEnemy()
         {
-            var remaining = new HashSet<Vector3>(spawnPoints);
-            remaining.ExceptWith(activePoints);
-            remaining.Remove(lastPickupPosition);
+            numEnemies++;
+        }
 
-            var point0 = remaining.ElementAt(Random.Range(0, remaining.Count));
-            var point1 = remaining.ElementAt(Random.Range(0, remaining.Count)); // Chance of same element but idc
-            var spawnPoint = Vector3.Distance(lastPickupPosition, point0) > Vector3.Distance(lastPickupPosition, point1) ? point0 : point1;
+        public void UntrackEnemy()
+        {
+            numEnemies--;
+        }
+
+        private void SpawnNewEnemy()
+        {
+            var spawnPoint = spawnPoints.ElementAt(Random.Range(0, spawnPoints.Count));
+            var viewportPos = playerCamera.WorldToViewportPoint(spawnPoint);
+
+            print(viewportPos + ", " + spawnPoint);
+            if (((viewportPos.x is > 0f and < 1.0f) && (viewportPos.y is > 0f and < 1.0f)) || spawnPoint == lastSpawnPoint)
+                return;
 
             Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
+            lastSpawnPoint = spawnPoint;
         }
 
         public void AddSpawnPoint(Vector3 position)
