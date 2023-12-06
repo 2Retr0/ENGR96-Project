@@ -474,6 +474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   persistent: 1
   pickupPrefab: {fileID: 6822266697862541576, guid: 8932604a685ef4723a46d6ddd9a78985, type: 3}
+  speedPrefab: {fileID: 6822266697862541576, guid: 4e2dc07e37e6f9f418023176c5432ef6, type: 3}
   maxActivePickups: 5
 --- !u!114 &338156962155655262
 MonoBehaviour:
