@@ -218,6 +218,11 @@ namespace Code.Scripts.Player
                 other.gameObject.SetActive(false);
 
                 IncreaseScore(pickup_point);
+            }else if (other.gameObject.CompareTag("SpeedIncrease"))
+            {
+                walkSpeed += 1;
+                runSpeed += 1;
+                other.gameObject.SetActive(false);
             }
             
         }

@@ -124,6 +124,10 @@ namespace Code.Scripts.Enemy
         private void FixedUpdate()
         {
             UpdateState();
+            if (transform.position.y < -2)
+            {
+                TakeDamage(10000);
+            }
         }
 
         private void Update()

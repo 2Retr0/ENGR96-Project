@@ -13,12 +13,12 @@ namespace Code.Scripts
         [SerializeField] private GameObject player;
         [SerializeField] private GameObject canvas;
         [SerializeField] private GameObject uiSprite;
+        [SerializeField] private GameObject uiSpriteSpeed;
         [SerializeField] private float borderThickness;
 
 
         private readonly Dictionary<Vector3, GameObject> pickups = new();
-
-
+        
         private void Start()
         {
             if (!player) player = FindObjectOfType<PlayerController>().gameObject;
@@ -59,6 +59,15 @@ namespace Code.Scripts
             GameObject.Destroy(pickups[position]);
             pickups.Remove(position);
         }
+        
+        public void AddPositionSpeed(Vector3 position)
+        {
+            var sprite = Instantiate(uiSpriteSpeed, canvas.transform);
+
+            pickups.Add(position, sprite);
+        }
+        
+        
 
         /**
          * Line-Rectangle Intersection Test
