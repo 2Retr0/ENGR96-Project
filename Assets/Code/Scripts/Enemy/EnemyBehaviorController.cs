@@ -114,6 +114,14 @@ namespace Code.Scripts.Enemy
         {
             if(other.transform.CompareTag(player.tag))
                 isTouchingPlayer = true;
+
+            if (isTouchingPlayer || state != State.Patrol) return;
+
+            var pos = new Vector3(self.position.x, 0.2f, self.position.y);
+            if (!other.gameObject.CompareTag("Ground"))
+            {
+                transform.Rotate(new Vector3(0, -180, 0));
+            }
         }
 
         private void OnCollisionExit()

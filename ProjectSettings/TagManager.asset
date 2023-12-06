@@ -10,6 +10,8 @@ TagManager:
   - PickUp
   - SpeedIncrease
   - xpBar
+  - PickupSpawner
+  - Ground
   layers:
   - Default
   - TransparentFX
