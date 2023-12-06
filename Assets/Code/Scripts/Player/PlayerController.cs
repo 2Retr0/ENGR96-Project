@@ -322,9 +322,9 @@ namespace Code.Scripts.Player
             //targetProgress = xpBar.value + ((newProgress)/ (200*(level+1)));
             float multiple = 1/levelConstant;
             targetProgress += newProgress;
-            float extra = targetProgress%(multiple*(level+1));
+            float extra = targetProgress%((multiple*level)*(multiple*level));
             Debug.Log("Extra is "+ extra+", multiple is: "+multiple+", value should be: "+extra/multiple);
-            xpBar.value = extra/multiple;
+            xpBar.value = extra/(multiple*multiple);
         }
     }
 
