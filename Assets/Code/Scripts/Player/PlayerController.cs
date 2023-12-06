@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+
 namespace Code.Scripts.Player
 {
     public class PlayerController : MonoBehaviour
@@ -32,7 +33,7 @@ namespace Code.Scripts.Player
         private CameraController cameraController;
 
         public TextMeshProUGUI healthText;
-        public TextMeshProUGUI scoreText;
+        //public TextMeshProUGUI scoreText;
         public TextMeshProUGUI levelText;
         public TextMeshProUGUI pausedText;
         public TextMeshProUGUI gameOverText;
@@ -56,9 +57,10 @@ namespace Code.Scripts.Player
 
         //slider bars
         public Slider xpBar;
-        public float fillSpeed = 0.5f;
-        private float targetProgress = 0;
-        private float percentageProgress = 0;
+        //public float fillSpeed = 0.5f;
+        private float targetProgress;
+
+        public Slider lifeBar;
 
 
         // Start is called before the first frame update
@@ -78,7 +80,8 @@ namespace Code.Scripts.Player
             levelConstant = 0.05f;
 
             healthText.text = "Health: " + health;
-            scoreText.text = "Score: " + score;
+            lifeBar.value = health;
+            //scoreText.text = "Score: " + score;
             xpBar.value = 0;
             levelText.text = "Level: " + level;
             pausedText.text = " ";
@@ -87,6 +90,8 @@ namespace Code.Scripts.Player
             isGamePaused = false;
             contactEnableCounter = 0;
             pickupScore = 25; //how much point awarded to each pick up
+
+            targetProgress = 0;
 
             playButton.gameObject.SetActive(false);
             quitButton.gameObject.SetActive(false);
@@ -250,9 +255,9 @@ namespace Code.Scripts.Player
         {
             score += scoreIncrease;
             // Update the count text with the current count.
-            scoreText.text = "Score: " + score;
+            //scoreText.text = "Score: " + score;
             IncreaseLevel();
-            IncrementProgress(score);
+            IncrementProgress();
         }
 
         private void IncreaseLevel()
@@ -290,6 +295,8 @@ namespace Code.Scripts.Player
 
         public void TakeDamage(int i) {
             health += -i;
+            lifeBar.value += -i;
+
 
             if (healthText) healthText.text = "Health: " + health;
             if (health > 0) return;
@@ -319,15 +326,13 @@ namespace Code.Scripts.Player
             if (quitButton) quitButton.gameObject.SetActive(true);
         }
 
-        private void IncrementProgress(float newProgress){
+        private void IncrementProgress(){
             //targetProgress = xpBar.value + ((newProgress)/ (200*(level+1)));
-            float multiple = 1/levelConstant;
-            targetProgress += newProgress;
-            float extra = targetProgress%((multiple*level)*(multiple*level));
-            Debug.Log("Extra is "+ extra+", multiple is: "+multiple+", value should be: "+extra/multiple);
-            xpBar.value = extra/(multiple*multiple);
+            float extra = score - Mathf.Pow(((level-1)/levelConstant),2);
+            float difference = Mathf.Pow(((level)/levelConstant),2)-Mathf.Pow(((level-1)/levelConstant),2);
+            Debug.Log("Target Progress is: "+score+", Extra is "+ extra+", difference is: "+difference);
+            xpBar.value = extra/(difference);
         }
     }
 
-    
 }

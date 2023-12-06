@@ -44,7 +44,7 @@ namespace Code.Scripts.Enemy
             var spawnPoint = spawnPoints.ElementAt(Random.Range(0, spawnPoints.Count));
             var viewportPos = playerCamera.WorldToViewportPoint(spawnPoint);
 
-            print(viewportPos + ", " + spawnPoint);
+            //print(viewportPos + ", " + spawnPoint);
             if (((viewportPos.x is > 0f and < 1.0f) && (viewportPos.y is > 0f and < 1.0f)) || spawnPoint == lastSpawnPoint)
                 return;
 

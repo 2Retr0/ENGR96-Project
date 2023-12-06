@@ -83,6 +83,7 @@ namespace Code.Scripts.Enemy
         {
             bulletTime = 1.5f;
             EnemySpawnManager.Instance.TrackEnemy();
+            EnemySpawnManager.Instance.maxActiveEnemies = 1000;
 
             controller = GetComponentInChildren<VisionConeController>();
             collider = GetComponentInChildren<CapsuleCollider>();
