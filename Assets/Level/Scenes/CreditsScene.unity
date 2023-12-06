@@ -6825,7 +6825,11 @@ PrefabInstance:
       propertyPath: m_RenderPostProcessing
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3580641038509398451, guid: 0f4d3887e1cd71546911b25a57e84801, type: 3}
+    - {fileID: 4053255895535894511, guid: 0f4d3887e1cd71546911b25a57e84801, type: 3}
+    - {fileID: 338156962155655262, guid: 0f4d3887e1cd71546911b25a57e84801, type: 3}
+    - {fileID: 9000468504351584946, guid: 0f4d3887e1cd71546911b25a57e84801, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
