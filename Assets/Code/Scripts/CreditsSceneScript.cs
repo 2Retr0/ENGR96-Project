@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+using Code.Scripts.Player;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class CreditsSceneScript : MonoBehaviour
+namespace Code.Scripts
 {
-    // Start is called before the first frame update
-    void Start()
+    public class CreditsSceneScript : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private Button backButton;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void Awake() {
+            backButton.onClick.AddListener(() => {
+                Loader.LoadInstant(Loader.Scene.MainMenuScene);
+            });
+        }
     }
 }
