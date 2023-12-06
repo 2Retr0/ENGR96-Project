@@ -9,6 +9,8 @@ TagManager:
   - Destroyable
   - PickUp
   - SpeedIncrease
+  - PickupSpawner
+  - Ground
   layers:
   - Default
   - TransparentFX

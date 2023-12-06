@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using Code.Scripts.Pickup;
 using TMPro;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -45,7 +46,7 @@ namespace Code.Scripts.Player
 
         private bool isGamePaused;
         private int contactEnableCounter;
-        private int pickup_point;
+        private int pickupScore;
         private static readonly int Speed = Animator.StringToHash("Speed");
         private static readonly int Aim = Animator.StringToHash("Aim");
         private static readonly int Fire = Animator.StringToHash("Fire");
@@ -78,7 +79,7 @@ namespace Code.Scripts.Player
 
             isGamePaused = false;
             contactEnableCounter = 0;
-            pickup_point = 25; //how much point awarded to each pick up
+            pickupScore = 25; //how much point awarded to each pick up
 
             playButton.gameObject.SetActive(false);
             quitButton.gameObject.SetActive(false);
@@ -210,15 +211,15 @@ namespace Code.Scripts.Player
             transform.LookAt(lookAt);
         }
 
-        void OnTriggerEnter(Collider other) //code for pick up
+        private void OnTriggerEnter(Collider other) //code for pick up
         {
             
-            if (other.gameObject.CompareTag("PickUp")) 
+            if (other.gameObject.CompareTag("PickUp"))
             {
-                other.gameObject.SetActive(false);
-
-                IncreaseScore(pickup_point);
-            }else if (other.gameObject.CompareTag("SpeedIncrease"))
+                Destroy(other.gameObject);
+                IncreaseScore(pickupScore);
+            }
+            else if (other.gameObject.CompareTag("SpeedIncrease"))
             {
                 walkSpeed += 1;
                 runSpeed += 1;

@@ -76,6 +76,14 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 9203804185481353617, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
+      propertyPath: m_AngularDrag
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9203804185481353617, guid: db730957608af483fa65c9bb7817b1e5, type: 3}
+      propertyPath: m_Constraints
+      value: 80
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

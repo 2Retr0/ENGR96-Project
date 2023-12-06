@@ -33,15 +33,30 @@ namespace Code.Scripts
             var viewport = new Rect(thickness, new Vector2(1f, 1f) - 2 * thickness);
             var viewportCenter = new Vector2(0.5f, 0.5f);
 
+            var closestDistance = float.PositiveInfinity;
+            GameObject closestPickup = null;
             foreach (var (position, sprite) in pickups)
             {
                 var viewportPos = playerCamera.WorldToViewportPoint(position);
                 var viewportIntersection = LiangBarskyIntersection(viewportCenter, viewportPos, viewport);
 
+                if ((viewportPos.x is > 0f and < 1.0f) && (viewportPos.y is > 0f and < 1.0f))
+                    sprite.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+                else
+                    sprite.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
+
                 var newX = viewportIntersection.x * Screen.width;
                 var newY = viewportIntersection.y * Screen.height;
                 sprite.transform.position = new Vector3(newX, newY, sprite.transform.position.z);
+
+                var distance = Vector3.Distance(player.transform.position, position);
+                if (!(distance < closestDistance)) continue;
+
+                closestDistance = distance;
+                closestPickup = sprite;
             }
+
+            closestPickup!.transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
         }
 
         public void AddPosition(Vector3 position)
