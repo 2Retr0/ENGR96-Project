@@ -38705,6 +38705,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 783626907}
     - target: {fileID: 7841965599012981836, guid: a8b1d8af14bd809439790dbf9ca29b13, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1735263830}
+    - target: {fileID: 7841965599012981836, guid: a8b1d8af14bd809439790dbf9ca29b13, type: 3}
       propertyPath: onLevelUp.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}

@@ -19,6 +19,14 @@ public static class Loader
         PostManager.Instance.Reset();
     }
     
+    public static void LoadInstant(Scene target) {
+        targetScene = target;
+
+        SceneManager.LoadScene(targetScene.ToString());
+        //PostManager.Instance.Reset();
+    }
+    
+    
     public static void LoaderCallback() {
         SceneManager.LoadScene(targetScene.ToString());
     }
