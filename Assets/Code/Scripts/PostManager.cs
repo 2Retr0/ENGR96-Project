@@ -29,6 +29,25 @@ namespace Code.Scripts
         private static readonly int Thickness = Shader.PropertyToID("_Thickness");
         private static readonly int Color1 = Shader.PropertyToID("_Color");
 
+        private void ResetImpactStrength()
+        {
+            impactLineMaterial!.SetFloat(Strength, 0.0f);
+            currentStrength = 0f;
+        }
+
+        private void ResetOutlineThickness()
+        {
+            playerOutlineMaterial!.SetFloat(Thickness, 0.04f);
+            enemyOutlineMaterial!.SetFloat(Thickness, 0.04f);
+            currentThickness = 0.04f;
+        }
+
+        private void ResetOutlineColors()
+        {
+            playerOutlineMaterial!.SetColor(Color1, new Color(180, 192, 204));
+            enemyOutlineMaterial!.SetColor(Color1, new Color(181, 51, 59));
+        }
+
         private void Start()
         {
             // --- Get impact line material ---
@@ -50,16 +69,16 @@ namespace Code.Scripts
                 {
                     case "Occluded Outline Player":
                         playerOutlineMaterial = (feature as RenderObjects).settings.overrideMaterial;
-                        playerOutlineMaterial!.SetFloat(Thickness, 0.04f);
-                        currentThickness = 0.04f;
                         break;
                     case "Occluded Outline":
                         enemyOutlineMaterial = (feature as RenderObjects).settings.overrideMaterial;
-                        enemyOutlineMaterial!.SetFloat(Thickness, 0.04f);
-                        enemyOutlineMaterial!.SetColor(Color1, new Color(181, 51, 59));
                         break;
                 }
             }
+
+            ResetImpactStrength();
+            ResetOutlineThickness();
+            ResetOutlineColors();
 
             player = FindObjectOfType<PlayerController>();
         }
@@ -97,6 +116,13 @@ namespace Code.Scripts
                 impactLineMaterial.SetFloat(Strength, currentStrength);
 
             }
+        }
+
+        private void OnDestroy()
+        {
+            ResetImpactStrength();
+            ResetOutlineThickness();
+            ResetOutlineColors();
         }
     }
 }
