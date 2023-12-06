@@ -22,7 +22,7 @@ namespace Code.Scripts
             });
 
             settingsButton.onClick.AddListener(() => {
-                Loader.LoadInstant(Loader.Scene.SettingsScene);
+                Loader.Load(Loader.Scene.SettingsScene);
             });
 
             quitButton.onClick.AddListener(() =>
