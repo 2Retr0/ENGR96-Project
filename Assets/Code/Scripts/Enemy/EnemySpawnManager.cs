@@ -24,19 +24,17 @@ namespace Code.Scripts.Enemy
         private void FixedUpdate()
         {
             // print(numEnemies);
-            if (numEnemies < maxActiveEnemies)
+            if (numEnemies <= maxActiveEnemies)
                 SpawnNewEnemy();
         }
 
         public void TrackEnemy()
         {
-            print("Spawned Enemy!");
             numEnemies++;
         }
 
         public void UntrackEnemy()
         {
-            print(numEnemies);
             numEnemies--;
         }
 
