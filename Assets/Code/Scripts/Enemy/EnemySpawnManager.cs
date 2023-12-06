@@ -23,7 +23,7 @@ namespace Code.Scripts.Enemy
 
         private void FixedUpdate()
         {
-            print(numEnemies);
+            // print(numEnemies);
             if (numEnemies < maxActiveEnemies)
                 SpawnNewEnemy();
         }
