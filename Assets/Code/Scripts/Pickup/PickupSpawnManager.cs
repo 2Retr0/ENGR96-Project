@@ -17,7 +17,7 @@ namespace Code.Scripts.Pickup
 
         private void FixedUpdate()
         {
-            if (activePoints.Count >= Math.Min(spawnPoints.Count, maxActivePickups))
+            if (activePoints.Count > Math.Min(spawnPoints.Count, maxActivePickups))
                 return;
 
             SpawnNewPickup();
