@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Code.Scripts
 {
-    public class GameOverUI : Singleton
+    public class GameOverUI : MonoBehaviour
     {
         [SerializeField] private Button restartButton;
         [SerializeField] private Button quitButton;
