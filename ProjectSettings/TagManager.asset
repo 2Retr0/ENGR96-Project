@@ -9,6 +9,7 @@ TagManager:
   - Destroyable
   - PickUp
   - SpeedIncrease
+  - xpBar
   layers:
   - Default
   - TransparentFX

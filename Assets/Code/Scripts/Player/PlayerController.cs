@@ -53,6 +53,12 @@ namespace Code.Scripts.Player
         public bool isDead;
         private MainAudioSource mainAudioSource;
 
+        //slider bars
+        public Slider xpBar;
+        public float fillSpeed = 0.5f;
+        private float targetProgress = 0;
+        private float percentageProgress = 0;
+
 
         // Start is called before the first frame update
         private void Start()
@@ -72,6 +78,7 @@ namespace Code.Scripts.Player
 
             healthText.text = "Health: " + health;
             scoreText.text = "Score: " + score;
+            xpBar.value = 0;
             levelText.text = "Level: " + level;
             pausedText.text = " ";
             gameOverText.text = " ";
@@ -149,6 +156,17 @@ namespace Code.Scripts.Player
                     FireGun(self);
                     break;
             }
+
+            //update xpBar
+            /*
+            if(xpBar.value < percentageProgress){
+                xpBar.value += fillSpeed * Time.deltaTime;
+            }
+
+            if (xpBar.value == 1){xpBar.value = 0;}
+            */
+            
+
         }
 
         private void FireGun(Transform t)
@@ -233,6 +251,7 @@ namespace Code.Scripts.Player
             // Update the count text with the current count.
             scoreText.text = "Score: " + score;
             IncreaseLevel();
+            IncrementProgress(score);
         }
 
         private void IncreaseLevel()
@@ -298,5 +317,16 @@ namespace Code.Scripts.Player
             if (playButton) playButton.gameObject.SetActive(true);
             if (quitButton) quitButton.gameObject.SetActive(true);
         }
+
+        private void IncrementProgress(float newProgress){
+            //targetProgress = xpBar.value + ((newProgress)/ (200*(level+1)));
+            float multiple = 1/levelConstant;
+            targetProgress += newProgress;
+            float extra = targetProgress%(multiple*(level+1));
+            Debug.Log("Extra is "+ extra+", multiple is: "+multiple+", value should be: "+extra/multiple);
+            xpBar.value = extra/multiple;
+        }
     }
+
+    
 }
