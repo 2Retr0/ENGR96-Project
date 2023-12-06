@@ -7,6 +7,7 @@ namespace Code.Scripts
     public class MainMenuUI : Singleton
     {
         [SerializeField] private Button playButton;
+        [SerializeField] private Button settingsButton;
         [SerializeField] private Button quitButton;
 
         private void Awake() {
@@ -17,6 +18,10 @@ namespace Code.Scripts
                 player.animator.Rebind();
                 player.animator.Update(0f);
                 player.animator.speed = 1f;
+            });
+
+            settingsButton.onClick.AddListener(() => {
+                Loader.Load(Loader.Scene.SettingsScene);
             });
 
             quitButton.onClick.AddListener(() =>
