@@ -10,7 +10,7 @@ namespace Code.Scripts.Pickup
     {
         [SerializeField] private GameObject pickupPrefab;
         [SerializeField] private GameObject speedPrefab;
-        [SerializeField] private int maxActivePickups = 2;
+        [SerializeField] private int maxActivePickups = 5;
 
         private readonly HashSet<Vector3> activePoints = new();
         private int pickupsSpawned;
@@ -35,6 +35,7 @@ namespace Code.Scripts.Pickup
             activePoints.Clear();
             lastPickupPosition = Vector3.positiveInfinity;
             pickupsSpawned = 0;
+            maxActivePickups = 5;
         }
 
         public void TrackPoint(Vector3 position)

@@ -1,17 +1,19 @@
 //using Code.Scripts.Player;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Code.Scripts
 {
-    public class GameOverUI : MonoBehaviour
+    public class GameOverUI : Singleton
     {
         [SerializeField] private Button restartButton;
         [SerializeField] private Button quitButton;
 
         private void Awake() {
             restartButton.onClick.AddListener(() => {
-                Loader.Load(Loader.Scene.GameScene);
+                Loader.Load(Loader.Scene.MainMenuScene);
+                // SceneManager.LoadScene(SceneManager.GetActiveScene().handle) ;
 
 
                 //var player = FindObjectOfType<PlayerController>();

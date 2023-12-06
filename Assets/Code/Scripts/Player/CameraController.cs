@@ -46,6 +46,8 @@ namespace Code.Scripts.Player
 
         private void MoveCamera()
         {
+            if (!target) target = FindObjectOfType<PlayerController>().gameObject.transform;
+
             var _ = Vector3.zero;
             transform.position = Vector3.SmoothDamp(transform.position, target.position + targetOffset, ref _, smoothTime);
         }
