@@ -9,6 +9,7 @@ TagManager:
   - Destroyable
   - PickUp
   - SpeedIncrease
+  - xpBar
   - PickupSpawner
   - Ground
   layers:
