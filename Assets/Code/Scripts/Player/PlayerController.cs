@@ -89,7 +89,7 @@ namespace Code.Scripts.Player
 
             isGamePaused = false;
             contactEnableCounter = 0;
-            pickupScore = 25; //how much point awarded to each pick up
+            pickupScore = 400; //how much point awarded to each pick up
 
             targetProgress = 0;
 

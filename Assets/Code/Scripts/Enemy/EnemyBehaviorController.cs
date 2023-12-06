@@ -72,6 +72,7 @@ namespace Code.Scripts.Enemy
         private CapsuleCollider collider;
         private Rigidbody rb;
         private Renderer renderer;
+        private bool wasJustMoving;
 
         private enum State
         {
@@ -83,7 +84,6 @@ namespace Code.Scripts.Enemy
         {
             bulletTime = 1.5f;
             EnemySpawnManager.Instance.TrackEnemy();
-            EnemySpawnManager.Instance.maxActiveEnemies = 1000;
 
             controller = GetComponentInChildren<VisionConeController>();
             collider = GetComponentInChildren<CapsuleCollider>();
@@ -124,12 +124,24 @@ namespace Code.Scripts.Enemy
 
             if (isTouchingPlayer || state != State.Patrol) return;
 
-            var pos = new Vector3(self.position.x, 0.2f, self.position.y);
             if (!other.gameObject.CompareTag("Ground"))
             {
-                transform.Rotate(new Vector3(0, -180, 0));
+                state = State.Rest;
+                var oldAngle = lookAngle;
+                OnStateChanged(State.Patrol);
+                lookAngle = oldAngle + 180f;
             }
         }
+
+        // private void OnCollisionStay(Collision other)
+        // {
+        //     if (state == State.Patrol && !other.gameObject.CompareTag("Ground"))
+        //     {
+        //         var oldAngle = lookAngle;
+        //         // OnStateChanged(State.Patrol);
+        //         lookAngle = oldAngle - 60f;
+        //     }
+        // }
 
         private void OnCollisionExit()
         {
@@ -157,7 +169,7 @@ namespace Code.Scripts.Enemy
             var t = transform;
             if (!(state != State.Chase || !(bulletTime < 0)))
             {
-                FireGun(t);
+                // FireGun(t);
                 bulletTime = 1.5f;
             }
 
@@ -210,12 +222,23 @@ namespace Code.Scripts.Enemy
                         // Look around more often right after losing track of a player
                         var spanFactor = Mathf.SmoothStep(0.2f, 1f, t / 6f);
                         nextLookTime += Random.Range(2f, 4f) * spanFactor;
-                        lookAngle += Random.Range(-100f, 100f) * spanFactor;
+                        // if (wasJustMoving)
+                        // {
+                        //     lookAngle += 180f;
+                        //     wasJustMoving = false;
+                        // }
+                        // else
+                        // {
+                        lookAngle += Random.Range(-150f, 100f) * spanFactor;
+                        // }
                     }
 
                     // Only switch to walk state if finished rotating.
                     if (Time.fixedTime >= nextWalkTime)
+                    {
                         state = State.Patrol;
+                        wasJustMoving = true;
+                    }
                     else if (controller.CanSeePlayer && !playerController.isDead)
                         state = State.Sussed;
                     break;
@@ -352,7 +375,7 @@ namespace Code.Scripts.Enemy
                     break;
                 case State.Patrol:
                     // Move in the look direction
-                    MoveTowards(self.position + Vector3.forward, 0.45f);
+                    MoveTowards(self.position + self.forward, 0.45f);
                     animator.SetFloat(Speed, 5);
                     break;
 
@@ -507,7 +530,7 @@ namespace Code.Scripts.Enemy
         private void OnKill()
         {
             try {
-                playerController.IncreaseScore(400);
+                playerController.IncreaseScore(100);
             } catch { /* ignored */ }
 
             if (state == State.Dead) return;

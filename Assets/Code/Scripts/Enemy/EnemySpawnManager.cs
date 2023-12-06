@@ -23,10 +23,9 @@ namespace Code.Scripts.Enemy
 
         private void FixedUpdate()
         {
-            if (numEnemies > maxActiveEnemies)
-                return;
-
-            SpawnNewEnemy();
+            // print(numEnemies);
+            if (numEnemies < maxActiveEnemies)
+                SpawnNewEnemy();
         }
 
         public void TrackEnemy()
@@ -44,8 +43,7 @@ namespace Code.Scripts.Enemy
             var spawnPoint = spawnPoints.ElementAt(Random.Range(0, spawnPoints.Count));
             var viewportPos = playerCamera.WorldToViewportPoint(spawnPoint);
 
-            //print(viewportPos + ", " + spawnPoint);
-            if (((viewportPos.x is > 0f and < 1.0f) && (viewportPos.y is > 0f and < 1.0f)) || spawnPoint == lastSpawnPoint)
+            if (((viewportPos.x is > -1f and < 2f) && (viewportPos.y is > -1f and < 2f)) || (spawnPoints.Count != 1 && spawnPoint == lastSpawnPoint))
                 return;
 
             Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6125907560697364079}
   - component: {fileID: 712260925410392436}
   - component: {fileID: 9219914740025516940}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5701645767945482565}
   - component: {fileID: 4150047909709341979}
   - component: {fileID: 5691108777298347012}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Area Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 7829474036935939749}
   - component: {fileID: 5751607611211244261}
   - component: {fileID: 8849731795714011439}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Pickup
   m_TagString: PickUp
   m_Icon: {fileID: 0}
@@ -341,6 +341,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f7d5691b753f14b6f91eed87b6d53830, type: 3}
       propertyPath: m_Name
       value: icosahedron
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f7d5691b753f14b6f91eed87b6d53830, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: f7d5691b753f14b6f91eed87b6d53830, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
